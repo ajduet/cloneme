@@ -1,0 +1,17 @@
+[{"R_ID": 1,
+"R_NAME": "Room 200",
+"R_STATUS": 1,
+"LOCATION_ID": 1},
+
+{"R_ID": 2,
+"R_NAME": "Room 321",
+"R_STATUS": 1,
+"LOCATION_ID": 1},
+
+{"R_ID": 3,
+"R_NAME": "California 200",
+"R_STATUS": 1,
+"LOCATION_ID": 2}
+
+
+]
