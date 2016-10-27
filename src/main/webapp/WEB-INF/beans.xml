@@ -24,9 +24,9 @@
 	<!-- Define DataSource -->
 	<bean id="mydataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
- 		<property name="url" value="jdbc:oracle:thin:@theateam.cwbfuclnlnhv.us-west-2.rds.amazonaws.com:1521:ORCL"></property>
-		<property name="username" value="ateam_db"></property>
-		<property name="password" value="p4ssw0rd"></property>
+ 		<property name="url" value="jdbc:oracle:thin:@schedule.cy0du1iivwoh.us-east-1.rds.amazonaws.com:1521:REVSCHED"></property>
+		<property name="username" value="revature"></property>
+		<property name="password" value="RevatureScheduler"></property>
 	</bean>
 	
 	<!-- Because Spring Data doesn't natively support Hibernate (But it does 

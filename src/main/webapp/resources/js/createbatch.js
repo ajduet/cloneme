@@ -109,7 +109,6 @@ app.controller('batchCtrl', function($scope, batchService, trainerService, locat
 		);
 	
 	$scope.saveBatch = function(batchName, topic, curr, trainer, room, date, date2, batchID){
-		console.log('Trying to save...')
 		$scope.updateTask = 
 			batchService.saveBatch(batchName, topic, curr, trainer, room, date, date2, batchID);
 	}
