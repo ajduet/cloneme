@@ -22,7 +22,7 @@ app.controller('batchCtrl', function($scope, batchService, trainerService, locat
 			}, 
 			transferService.get()
 	);
-	
+
 	function initViewData(response){
 		//Initializing data
 		$scope.batchID = response.data.batchID;
@@ -163,6 +163,10 @@ app.controller('batchCtrl', function($scope, batchService, trainerService, locat
 	
 	$scope.setDate = function(year, month, day){
 		$scope.dt = new Date(year, month, day);
+	};
+
+	$scope.setENdDate = function(year, month, day) {
+		$scope.date2 = new Date(year, month, day + 74);
 	};
 	
 	$scope.format = 'dd-MMM-yy';
