@@ -165,8 +165,9 @@ app.controller('batchCtrl', function($scope, batchService, trainerService, locat
 		$scope.dt = new Date(year, month, day);
 	};
 
-	$scope.setENdDate = function(year, month, day) {
-		$scope.date2 = new Date(year, month, day + 74);
+	  // temporarily set end date 10 weeks ahead of selected start date
+	$scope.setEndDate = function() {
+		$scope.date2 = new Date( $scope.date.getFullYear(), $scope.date.getMonth(), $scope.date.getDate() + 74);
 	};
 	
 	$scope.format = 'dd-MMM-yy';
