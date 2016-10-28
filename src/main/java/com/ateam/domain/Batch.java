@@ -94,13 +94,12 @@ public class Batch {
 	}
 	
 	
-	public Batch(String bName, Timestamp batchStartDate, Timestamp batchEndDate, Topic batchTopicID,
+	public Batch(String bName, Timestamp batchStartDate, Timestamp batchEndDate,
 			Curriculum batchCurriculumID, Room batchRoomID, B_Status batchStatusID, Trainer batchTrainerID) {
 		super();
 		this.bName = bName;
 		this.batchStartDate = batchStartDate;
 		this.batchEndDate = batchEndDate;
-		this.batchTopicID = batchTopicID;
 		this.batchCurriculumID = batchCurriculumID;
 		this.batchRoomID = batchRoomID;
 		this.batchStatusID = batchStatusID;
