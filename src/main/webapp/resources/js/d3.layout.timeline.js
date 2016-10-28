@@ -50,6 +50,12 @@ d3.layout.timeline = function() {
     }
 
     function fitsIn(lane, band) {
+    	if (lane[0].batchTrainerID.trainerFirstName === band.batchTrainerID.trainerFirstName){
+    		return true;
+    	} 
+    	else {
+    		return false;
+    	}
     	// if (lane.end < band.start || lane.start > band.end) {
     	// 	return true;
     	// }
@@ -57,7 +63,6 @@ d3.layout.timeline = function() {
     	// if (filteredLane.length === 0) {
     	// 	return true;
     	// }
-    	return false;
     }
 
     function findlane(band) {

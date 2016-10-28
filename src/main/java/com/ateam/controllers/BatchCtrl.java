@@ -99,11 +99,11 @@ System.out.println(re);
 			System.out.println(room);
 			Curriculum c = bServ.getCurriculumByName(batchObj.getCurr());
 			System.out.println(c);
-			Topic topic = bServ.getTopicByName(batchObj.getTopic());
-			System.out.println(topic);
+//			Topic topic = bServ.getTopicByName(batchObj.getTopic());
+//			System.out.println(topic);
 			
 			Batch b = new Batch(batchObj.getBatchName(), new Timestamp(batchObj.getDate().getTime()), 
-					new Timestamp(batchObj.getDate2().getTime()), topic,
+					new Timestamp(batchObj.getDate2().getTime()),
 					c, room, 
 					new B_Status(1), t);
 			b.setBatchID(batchObj.getBatchId());
