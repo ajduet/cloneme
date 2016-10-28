@@ -5,14 +5,14 @@ var app = angular.module('batchApp');
 app.controller("TimelineCtrl", function($scope, allBatchService){
 	
 	//Timeline size variables
-	var width = 1250,
+	var width = 1900,
 		height = 50,
 		padding = 25,
 		barHeight = 30;
 
 	//Timeline x axis range variables
-	var minDate = new Date(2016,0,1),
-		maxDate = new Date(2016,11,31);
+	var minDate = new Date(2016,9,20),
+		maxDate = new Date(2017,11,31);
 
 	//Pull batch data from service
 	allBatchService.getAllBatches(function(response){
@@ -23,19 +23,19 @@ app.controller("TimelineCtrl", function($scope, allBatchService){
 				element.end = new Date(element.batchEndDate);
 			});
 			console.log(data);
-			height = height + (data.length * 50);
-			projectTimeline(width, height, padding, barHeight, minDate, maxDate, response.data);
+			height = height + (data.length * 50); //Dynamically size the height of chart based on number of data
+			projectTimeline(width, height, padding, barHeight, minDate, maxDate, data);
 		}
 	});
-	//Dynamically size the height of chart based on number of data
+	
 	
 
 });
 
 function projectTimeline(width, height, padding, barHeight, minDate, maxDate, data){
 	var colorScale = d3.scale.ordinal()
-		.domain(["JAVA","SDET",".NET"])
-		.range(['#fff42b','f20020','#5eff5e']);
+		.domain(['August','Fred','Joe','Brian','Taylor','Patrick','Yuvi','Steven','Ryan','Richard','Nicholas','Ankit','Genesis','Emily'])
+		.range(['#ff0000','#ff8000','#a0a0a0','#000000','#ff007f','#0000ff','#00ff00','#ffff00','#000080','#7b68ee','#00fa9a','c71585','#ff6347','#d2b48c']);
 
 	//Create x Axis
 	var xScale = d3.time.scale()
@@ -82,7 +82,7 @@ function projectTimeline(width, height, padding, barHeight, minDate, maxDate, da
 			.attr('y', function(d) {return d.y+padding;})
 			.attr('height', barHeight)
 			.attr('width', function(d) {return d.end - d.start;})
-			.style('fill', function(d) {return colorScale(d.name);});
+			.style('fill', function(d) {return colorScale(d.batchTrainerID.trainerFirstName);});
 	d3.selectAll('.rect')
 		.append('text')
 			.attr('x', function(d) {return d.start+30;})
