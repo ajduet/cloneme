@@ -75,13 +75,13 @@ public class Batch {
 		super();
 	}
 
-	public Batch(int batchID, Timestamp batchStartDate, Timestamp batchEndDate, Topic batchTopicID, Curriculum batchCurriculumID,
+	public Batch(int batchID, Timestamp batchStartDate, Timestamp batchEndDate, Curriculum batchCurriculumID,
 			Room batchRoomID, B_Status batchStatusID, Trainer batchTrainerID) {
 		super();
 		this.batchID = batchID;
 		this.batchStartDate = batchStartDate;
 		this.batchEndDate = batchEndDate;
-		this.batchTopicID = batchTopicID;
+//		this.batchTopicID = batchTopicID;
 		this.batchCurriculumID = batchCurriculumID;
 		this.batchRoomID = batchRoomID;
 		this.batchStatusID = batchStatusID;
