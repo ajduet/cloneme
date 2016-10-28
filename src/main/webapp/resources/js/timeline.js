@@ -5,14 +5,14 @@ var app = angular.module('batchApp');
 app.controller("TimelineCtrl", function($scope, allBatchService){
 	
 	//Timeline size variables
-	var width = 1250,
+	var width = 1900,
 		height = 50,
 		padding = 25,
 		barHeight = 30;
 
 	//Timeline x axis range variables
-	var minDate = new Date(2016,0,1),
-		maxDate = new Date(2016,11,31);
+	var minDate = new Date(2016,9,20),
+		maxDate = new Date(2017,11,31);
 
 	//Pull batch data from service
 	allBatchService.getAllBatches(function(response){
@@ -22,20 +22,19 @@ app.controller("TimelineCtrl", function($scope, allBatchService){
 				element.start = new Date(element.batchStartDate);
 				element.end = new Date(element.batchEndDate);
 			});
-			console.log(data);
-			height = height + (data.length * 50);
-			projectTimeline(width, height, padding, barHeight, minDate, maxDate, response.data);
+			height = height + (data.length * 50); //Dynamically size the height of chart based on number of data
+			projectTimeline(width, height, padding, barHeight, minDate, maxDate, data);
 		}
 	});
-	//Dynamically size the height of chart based on number of data
+	
 	
 
 });
 
 function projectTimeline(width, height, padding, barHeight, minDate, maxDate, data){
 	var colorScale = d3.scale.ordinal()
-		.domain(["JAVA","SDET",".NET"])
-		.range(['#fff42b','f20020','#5eff5e']);
+		.domain(['August','Fred','Joe','Brian','Taylor','Patrick','Yuvi','Steven','Ryan','Richard','Nicholas','Ankit','Genesis','Emily'])
+		.range(['#ff0000','#ff8000','#a0a0a0','#000000','#ff007f','#0000ff','#00ff00','#ffff00','#000080','#7b68ee','#00fa9a','c71585','#ff6347','#d2b48c']);
 
 	//Create x Axis
 	var xScale = d3.time.scale()
@@ -45,7 +44,7 @@ function projectTimeline(width, height, padding, barHeight, minDate, maxDate, da
 	var xAxis = d3.svg.axis()
 						.scale(xScale)
 						.orient("bottom")
-						.outerTickSize(2);
+						.tickSize(2);
 
 	//Initialize timeline
 	var timeline = d3.layout.timeline()
@@ -68,8 +67,6 @@ function projectTimeline(width, height, padding, barHeight, minDate, maxDate, da
 
 	//Add bars to chart
 	var timelineBands = timeline(data);
-	
-	console.log(timelineBands);
 
 	d3.select('.rectangles')
 		.selectAll('g')
@@ -82,10 +79,46 @@ function projectTimeline(width, height, padding, barHeight, minDate, maxDate, da
 			.attr('y', function(d) {return d.y+padding;})
 			.attr('height', barHeight)
 			.attr('width', function(d) {return d.end - d.start;})
-			.style('fill', function(d) {return colorScale(d.name);});
+			.style('fill', function(d) {return colorScale(d.batchTrainerID.trainerFirstName);});
 	d3.selectAll('.rect')
 		.append('text')
 			.attr('x', function(d) {return d.start+30;})
 			.attr('y', function(d) {return d.y+45;})
-			.text(function(d) {return 'Batch: '+d.batchCurriculumID.curriculumName+', Trainer: '+d.batchTrainerID.trainerFirstName+" "+d.batchTrainerID.trainerLastName;});
+			.text(function(d) {return 'Batch: '+d.batchCurriculumID.curriculumName+', Trainer: '+d.batchTrainerID.trainerFirstName+" "+d.batchTrainerID.trainerLastName+", Weeks: "+numWeeks(d.batchStartDate,d.batchEndDate);});
 };
+
+function numWeeks(date1, date2) {
+    var week = 1000 * 60 * 60 * 24 * 7;
+
+    var date1ms = new Date(date1).getTime();
+    var date2ms = new Date(date2).getTime();
+
+    var diff = Math.abs(date2ms - date1ms);
+
+    return Math.floor(diff / week);
+}
+
+function projectTimeline2(minDate, maxDate){
+	var padding = {top: 20, right: 100, bottom: 30, left:100},
+		width = 1900 - padding.left - padding.right,
+		height = 800 - padding.top - padding.bottom;
+	
+	var xScale = d3.scale.time()
+		.domain([minDate, maxDate])
+		.range([0,width]);
+	
+	var yScale = d3.scale.ordinal()
+		.domain(['August','Fred','Joe','Brian','Taylor','Patrick','Yuvi','Steven','Ryan','Richard','Nicholas','Ankit','Genesis','Emily'])
+		.rangePoints([0,height]);
+	
+	var xAxis = d3.svg.axis()
+		.scale(xScale)
+		.orient('bottom')
+		.innerTickSize(-height)
+		.outerTicksize(0)
+		.tickPadding(10);
+	
+	var yAxis = d3.svg.axis()
+		.scale(yScale)
+		.orient('left');
+}
