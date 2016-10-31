@@ -22,8 +22,8 @@
 	<tx:annotation-driven />
 	<!-- Define DataSource -->
 	<bean id="mydataSource" class="org.apache.commons.dbcp.BasicDataSource">
-		<!-- <property name="ignoreResourceNotFound" value="false" />
         <property name="searchSystemEnvironment" value="true" />
+		<!-- <property name="ignoreResourceNotFound" value="false" />
         <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" /> -->
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
  		<!--<property name="url" value="jdbc:oracle:thin:@revschedtest.cy0du1iivwoh.us-east-1.rds.amazonaws.com:1521:DEVREV"></property>--> 
