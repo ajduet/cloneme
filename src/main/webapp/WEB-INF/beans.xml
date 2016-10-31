@@ -11,9 +11,12 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
 		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.8.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
-
-	<context:property-placeholder system-properties-mode="OVERRIDE"/>
-
+		
+	<bean id="propertyPlaceholderConfigurer"   
+    class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
+    <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+    <property name="searchSystemEnvironment" value="true" />
+</bean>
 
 	<!-- Find Spring Beans -->
 	<context:component-scan base-package="com.ateam" />
@@ -24,7 +27,7 @@
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
  		<!--<property name="url" value="jdbc:oracle:thin:@revschedtest.cy0du1iivwoh.us-east-1.rds.amazonaws.com:1521:DEVREV"></property>--> 
  		<!--<property name="url" value="jdbc:oracle:thin:@schedule.cy0du1iivwoh.us-east-1.rds.amazonaws.com:1521:REVSCHED"></property> -->
- 		<property name="url" value="#{ T(java.lang.System).getenv().get('DB_CONNECTION') }"></property>
+ 		<property name="url" value="${DB_CONNECTION}"></property>
 		<property name="username" value="revature"></property>
 		<property name="password" value="RevatureScheduler"></property>
 		<!-- <property name="ignoreResourceNotFound" value="true" />
