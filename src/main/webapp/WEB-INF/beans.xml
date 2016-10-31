@@ -12,7 +12,7 @@
 		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.8.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
 
-	<context:property-placeholder ignore-unresolvable="false" system-properties-mode="OVERRIDE"/>
+	<context:property-placeholder system-properties-mode="OVERRIDE"/>
 
 
 	<!-- Find Spring Beans -->
