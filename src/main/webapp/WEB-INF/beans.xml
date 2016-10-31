@@ -28,9 +28,9 @@
  		<!-- <property name="url" value="${DB_CONNECTION}"></property> -->
 		<property name="username" value="revature"></property>
 		<property name="password" value="RevatureScheduler"></property>
-		<property name="ignoreResourceNotFound" value="false" />
+		<!-- <property name="ignoreResourceNotFound" value="false" />
         <property name="searchSystemEnvironment" value="true" />
-        <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+        <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" /> -->
 	</bean>
 	
 	<!-- Because Spring Data doesn't natively support Hibernate (But it does 
