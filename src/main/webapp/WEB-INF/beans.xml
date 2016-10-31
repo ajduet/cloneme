@@ -13,7 +13,6 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
 
 
-<context:property-placeholder />
 
 
 	<!-- Find Spring Beans -->
@@ -30,7 +29,7 @@
 		<property name="password" value="RevatureScheduler"></property>
 		<property name="ignoreResourceNotFound" value="true" />
  		<property name="searchSystemEnvironment" value="true" />
-	<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
 	</bean>
 	
 	<!-- Because Spring Data doesn't natively support Hibernate (But it does 
