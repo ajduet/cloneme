@@ -24,8 +24,8 @@
 	<bean id="mydataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
  		<!--  <property name="url" value="jdbc:oracle:thin:@revschedtest.cy0du1iivwoh.us-east-1.rds.amazonaws.com:1521:DEVREV"></property> --> 
- 		<!--<property name="url" value="jdbc:oracle:thin:@schedule.cy0du1iivwoh.us-east-1.rds.amazonaws.com:1521:REVSCHED"></property> -->
- 		<property name="url" value="${DB_CONNECTION}"></property>
+ 		<property name="url" value="jdbc:oracle:thin:@schedule.cy0du1iivwoh.us-east-1.rds.amazonaws.com:1521:REVSCHED"></property>
+ 		<!-- <property name="url" value="${DB_CONNECTION}"></property> -->
 		<property name="username" value="revature"></property>
 		<property name="password" value="RevatureScheduler"></property>
 		<property name="ignoreResourceNotFound" value="false" />
