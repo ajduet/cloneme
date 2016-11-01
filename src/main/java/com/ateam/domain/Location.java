@@ -21,14 +21,36 @@ public class Location {
 	@Column(name = "L_NAME", unique=true, nullable=false)
 	private String locationName;
 
+	@Column(name = "L_CITY")
+	private String locationCity;
+	
+	@Column(name = "L_STATE")
+	private String locationState;
+
 	public Location() {
 		super();
 	}
-
+	
 	public Location(int locationID, String locationName) {
 		super();
 		this.locationID = locationID;
 		this.locationName = locationName;
+	}
+	
+	public String getLocationCity() {
+		return locationCity;
+	}
+
+	public void setLocationCity(String locationCity) {
+		this.locationCity = locationCity;
+	}
+
+	public String getLocationState() {
+		return locationState;
+	}
+
+	public void setLocationState(String locationState) {
+		this.locationState = locationState;
 	}
 
 	public Location(String locationName) {
@@ -54,7 +76,10 @@ public class Location {
 
 	@Override
 	public String toString() {
-		return "Location [locationID=" + locationID + ", locationName=" + locationName + "]";
+		return "Location [locationID=" + locationID + ", locationName=" + locationName + ", locationCity="
+				+ locationCity + ", locationState=" + locationState + "]";
 	}
+
+	
 	
 }
