@@ -1,13 +1,14 @@
 <div>
 	<div class="batchView">
 		<h3>View All-Batches</h1>
-		<table style="width: 100%">
+		<table class="table table-sm" style="width: 100%">
 			<tr class="tableHeader" id="tableHeader">
 				<th>Batch Name</th>
 				<th>Curriculum</th>
 				<th>Trainer</th>
 				<th>Start Date</th>
 				<th>End Date</th>
+				<!-- <th></th> -->
 			</tr>
 			<tr class="tableRow" ng-repeat="batch in Batches">
 				<td>{{ batch.bName }}</td>
@@ -15,6 +16,7 @@
 				<td>{{ batch.batchTrainerID.trainerFirstName }} {{ batch.batchTrainerID.trainerLastName }}</td>
 				<td>{{ createDate(batch.batchStartDate) }}</td>
 				<td>{{ createDate(batch.batchEndDate) }}</td>
+				<!-- <td><div class="btn-group"><button class="btn btn-primary btn-xs">Edit</button><button class="btn btn-warning btn-xs">Clone</button></div></td> -->
 			</tr>
 		</table>
 	</div>
