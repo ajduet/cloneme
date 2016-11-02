@@ -16,12 +16,17 @@ app.controller("TimelineCtrl", function($scope, allBatchService){
 	
 	//Pull batch data from service
 	$scope.data;
-	allBatchService.getAllBatches(function(response){
-		if (response !== undefined){
-			$scope.data = response.data;
-			projectTimeline($scope.minDate, $scope.maxDate, $scope.data);
+	allBatchService.getAllBatches(
+		function(response){
+			if (response !== undefined){
+				$scope.data = response.data;
+				projectTimeline($scope.minDate, $scope.maxDate, $scope.data);
+			}
+		},
+		function(){
+			alert('No response from server');
 		}
-	});
+	);
 	
 	//Project new timeline when min or max date changes
 	$scope.$watch( 'minDate', function(){
@@ -51,6 +56,8 @@ function numWeeks(date1, date2) {
 
 function projectTimeline(minDate, maxDate, timelineData){
 	
+	var trainers = ['August(Java)','Fred(.NET)','Joe(.NET)','Brian(Java)','Taylor(Java)','Patrick(Java)','Yuvi(SDET)','Steven(Java)','Ryan(SDET)','Richard(Java)','Nicholas(Java)','Ankit(Java)','Genesis(Java)','Emily(.NET)'];
+	
 	//Timeline variables
 	var margin = {top: 30, right: 10, bottom: 30, left:75},
 	width = 1700 - margin.left - margin.right,
@@ -65,8 +72,12 @@ function projectTimeline(minDate, maxDate, timelineData){
 		.range([0,height]);
 	
 	var xScale = d3.scale.ordinal()
-		.domain(['August(Java)','Fred(.NET)','Joe(.NET)','Brian(Java)','Taylor(Java)','Patrick(Java)','Yuvi(SDET)','Steven(Java)','Ryan(SDET)','Richard(Java)','Nicholas(Java)','Ankit(Java)','Genesis(Java)','Emily(.NET)'])
+		.domain(trainers)
 		.rangePoints([xPadding,width-xPadding]);
+	
+	console.log(xScale.range());
+	console.log(xScale.range()[1]-xScale.range()[0])
+	console.log(xScale.rangeBand())
 	
 	//Define axis
 	var yAxis = d3.svg.axis()
@@ -79,11 +90,15 @@ function projectTimeline(minDate, maxDate, timelineData){
 		.orient('top')
 		.tickSize(6,0);
 	
+	//Filter data for that in range of Timeline
+	timelineData = timelineData.filter(function(batch){
+		return ((new Date(batch.batchStartDate) <= maxDate)&&(new Date(batch.batchEndDate) >= minDate));
+	});
+	
+	var lanePadding = (xScale.range()[1]-xScale.range()[0])/2;
+	
 	//Create timeline
 	d3.select('svg').remove();
-	
-	console.log('height:'+height);
-	timelineData.forEach(function(d){console.log(yScale(new Date(d.batchEndDate)));});
 	
 	var svg = d3.select('#timeline')
 		.append('svg')
@@ -100,8 +115,20 @@ function projectTimeline(minDate, maxDate, timelineData){
 		.attr('class','y axis')
 		.call(yAxis);
 	
-//	svg.append('g')
-//		.attr('class','swimlanes');
+	svg.append('g')
+		.attr('class','swimlanes')
+		
+		
+	d3.select('.swimlanes')
+		.selectAll('line')
+		.data(trainers)
+		.enter()
+		.append('line')
+			.attr('x1', function(d){return xScale(d)+lanePadding;})
+			.attr('y1', 0)
+			.attr('x2', function(d){return xScale(d)+lanePadding;})
+			.attr('y2', height)
+			.attr('stroke','lightgray');
 	
 	svg.append('g')
 		.attr('class','rectangles');
@@ -120,7 +147,7 @@ function projectTimeline(minDate, maxDate, timelineData){
 				}
 				return y;
 			})
-			.attr('x', function(d) {return xScale(d.batchTrainerID.trainerFirstName+"("+d.batchCurriculumID.curriculumName+")")-10;})
+			.attr('x', function(d) {return xScale(d.batchTrainerID.trainerFirstName+"("+d.batchCurriculumID.curriculumName+")")-15;})
 			.attr('width', 30)
 			.attr('height', function(d) {
 				var start = yScale(new Date(d.batchStartDate));
@@ -143,6 +170,6 @@ function projectTimeline(minDate, maxDate, timelineData){
 				}
 				return (y+25);
 			})
-			.attr('x', function(d) {return xScale(d.batchTrainerID.trainerFirstName+"("+d.batchCurriculumID.curriculumName+")")-2;})
+			.attr('x', function(d) {return xScale(d.batchTrainerID.trainerFirstName+"("+d.batchCurriculumID.curriculumName+")")-7;})
 			.text(function(d) {return numWeeks(d.batchStartDate,d.batchEndDate);});
 };
