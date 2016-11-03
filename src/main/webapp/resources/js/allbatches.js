@@ -26,8 +26,8 @@ app.controller("allBatchCtrl", function($scope, $location, allBatchService, tran
 });// end app.controller("allBatchCtrl")
 
 app.service("allBatchService", function($http, $q) {
-	this.getAllBatches = function(callback) {
-		$http.get("rest/batches").then(callback);
+	this.getAllBatches = function(success,failure) {
+		$http.get("rest/batches").then(success,failure);
 	}
 	
 	this.createDate = function(ms){
