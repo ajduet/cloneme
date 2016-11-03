@@ -1,10 +1,13 @@
 package com.ateam.domain;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -26,6 +29,9 @@ public class Location {
 	
 	@Column(name = "L_STATE")
 	private String locationState;
+
+	@OneToMany(mappedBy="roomLocationID")
+	private List<Room> rooms;
 
 	public Location() {
 		super();
@@ -78,6 +84,14 @@ public class Location {
 	public String toString() {
 		return "Location [locationID=" + locationID + ", locationName=" + locationName + ", locationCity="
 				+ locationCity + ", locationState=" + locationState + "]";
+	}
+
+	public List<Room> getRooms() {
+		return rooms;
+	}
+
+	public void setRooms(List<Room> rooms) {
+		this.rooms = rooms;
 	}
 
 	
