@@ -1,76 +1,70 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Batch Creation Page</title>
-<script src="resources/js/ui-bootstrap-custom-tpls-2.2.0.js"></script>
-<style>
-	form .ng-invalid, .ng-empty{
-		border-left: solid 3px rgba(255,0,0,1.0);
-	}
 	
-	form .ng-valid{
-		border-left: solid 3px rgba(0, 255, 0, 1.0);
-	}
-</style>
-</head>
-<body>
-	<h1 id="createBatchHeader">Create batch here:</h1>
-	<article class="dataContainer">
-		<form name="batchForm" novalidate>
-			<div ng-controller="batchCtrl">
-				<div class="form-group">
-					<label for="name">Name:</label> <input name="batchName"type="text"
-						class="form-control" ng-model="batchName" ng-required="true" />
-				</div>
-				<div class="form-group">
-					<label for="curriculum">Curriculum:</label> <select name="batchCurr"
-						id="curriculumSelect" ng-model="curr"
-						ng-options="curr.curriculumName for curr in currs" ng-required="true" >
-					</select>
-				</div>
-				<div class="form-group">
-					<label for="trainer">Trainer:</label> <select name="batchTrainer" id="trainerSelect"
-						ng-model="trainer"
-						ng-options="trainer.trainerFirstName for trainer in trainers" >
-					</select>
-				</div>
-				<div class="form-group">
-					<label for="location">Room:</label> <select name="batchRoom" id="roomSelect"
-						ng-model="room" ng-options="room.roomName for room in rooms" ng-required="true">
-					</select>
-				</div>
-				<pre>Today's Date is:<em> {{dt | date:'fullDate'}} </em>
-				</pre>
-				<div class="row">
-					<div class="col-md-6">
-						<p class="input-group">
-						<h5>Start Date</h5>
-						<div style="display: inline-block; min-height: 290px;">
-							<div name="batchStart" uib-datepicker ng-model="date" class="well well-sm"
-								datepicker-options="options" ng-required="true" ng-click="setEndDate()" ></div>
-						</div>
-						</p>
-					</div>
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Batch Creation Page</title>
+		
+		<link href="resources/css/createNewBatchCSS.css">
+	</head>
 
-					<div class="col-md-6">
-						<p class="input-group">
-						<h5>End Date</h5>
-						<div style="display: inline-block; min-height: 290px;">
-							<div name="batchEnd" uib-datepicker ng-model="date2" class="well well-sm"
-								datepicker-options="options" ng-required="true"></div>
-						</p>
-					</div>
-				</div>
-				<div class="form-group">
+	<body>
+		<div class="dataContainer newBatch" ng-cloak>
+			<h1 id="createBatchHeader"> {{stateChanges[state].header}} </h1>
+
+			<form name="batchForm" novalidate>
+
+				  <!-- Name -->
+				<input ng-model="batchName" type="text" placeholder="Name*" value="Why"/>
+
+				  <!-- Curriculum -->
+				<select id="curr" ng-model="curr" ng-options="curr.curriculumName for curr in currs" ng-change="noPlaceholder()"> 
+					<!--<option id="currPlace" disabled value=""> Curriculum </option>-->
+				</select>
+
+				  <!-- Trainer -->
+				<select id="trainer" ng-model="trainer" ng-options="trainer.trainerFirstName for trainer in trainers" ng-init="trainer='Trainer'" ng-change="noPlaceholder()">
+					<option id="trainPlace" selected disabled value=""> Trainer </option>
+				</select>
+
+				  <!-- Cotrainer -->
+				<select id="cotrainer" ng-model="cotrainer" ng-options="trainer.trainerFirstName for trainer in trainers" ng-init="cotrainer='Co-trainer'" ng-change="noPlaceholder()">
+					<option id="cotrainPlace" selected disabled value=""> Co-trainer </option>
+				</select>
+
+				  <!-- Location -->
+				<select id="location" ng-model="location" ng-options="loc[0].locationName for loc in roomLoc | orderBy:'loc[0].locationName'" ng-init="location='Location'" ng-change="noPlaceholder()">
+				<!--<select ng-model="location" ng-options="location[0].locationName for location in roomLoc" ng-init="location='Location'" ng-change="noPlaceholder()">-->
+					<option id="locPlace" selected disabled value=""> Location* </option>
+				</select>
+
+				  <!-- Room -->
+				<select id="room" ng-model="room" ng-options="room.roomName for room in location[1] | orderBy:'roomName'" ng-init="room='Room'" ng-change="noPlaceholder()">
+					<option id="roomPlace" selected disabled value=""> Room </option>
+				</select>
+
+				  <!-- Start date -->
+				<datetimepicker ng-model="startDate" date-format="MMMM d, yyyy" date-options="dateOptions" date-disabled="isDisabledDate(date, mode)" hidden-time="true" ng-click="setEndDate(); updateWeeks()"> </datetimepicker>
+				
+				  <!-- End date -->
+				<datetimepicker ng-model="endDate" date-format="MMMM d, yyyy" date-options="dateOptions" date-disabled="isDisabledDate(date, mode)" hidden-time="true" ng-click="updateWeeks()"> </datetimepicker>
+
+				  <!-- Week display -->
+				<div ng-model="weeks"> {{weeks}} weeks </div>
+
+				  <!-- Skill search -->
+				<input type="text" placeholder="Skills" options="options" datasets="{{skills}}" ng-model="skillSet" sfTypeahead />
+
+				  <!-- Submit -->
+				<button id="submitBatch" ng-click="test()"> {{stateChanges[state].submit}} </button>
+
+				<!--<div class="form-group">
 					<input type="submit" value="{{ submitButton }}"
 						class="btn btn-warning btn-large btn-block"
 						ng-click="saveBatch(batchName, topic.topicName, curr.curriculumName, trainer.trainerFirstName, room.roomName, date, date2, batchID)" ng-disabled="batchForm.$invalid">
-				</div>
-			</div>
-		</form>
-	</article>
-	<br>
-	<br>
-</body>
-</html>
+				</div>-->
+
+			</form>
+		</div>
+
+		<script src="resources/js/ui-bootstrap-custom-tpls-2.2.0.js"></script>
+		
+	</body>

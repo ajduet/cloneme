@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Batch Creation Page</title>
+<script src="../js/modules/ui-bootstrap-custom-tpls-2.2.0.js"></script>
+<style>
+	form .ng-invalid, .ng-empty{
+		border-left: solid 3px rgba(255,0,0,1.0);
+	}
+	
+	form .ng-valid{
+		border-left: solid 3px rgba(0, 255, 0, 1.0);
+	}
+</style>
+</head>
+<body>
+	<h1 id="createBatchHeader"> Create new batch </h1>
+	<article class="dataContainer">
+		<form name="batchForm" novalidate>
+			<div ng-controller="batchCtrl">
+				<!--<div class="form-group">
+					<label for="name">Name:</label> <input name="batchName"type="text"
+						class="form-control material-textbox" ng-model="batchName" ng-required="true" />
+				</div>-->
+				<div class="form-group">
+					<label for="curriculum">Curriculum:</label> <select name="batchCurr"
+						id="curriculumSelect" ng-model="curr"
+						ng-options="curr.curriculumName for curr in currs" ng-required="true" >
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="trainer">Trainer:</label> <select name="batchTrainer" id="trainerSelect"
+						ng-model="trainer"
+						ng-options="trainer.trainerFirstName for trainer in trainers" >
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="location">Room:</label> <select name="batchRoom" id="roomSelect"
+						ng-model="room" ng-options="room.roomName for room in rooms" ng-required="true">
+					</select>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<p class="input-group">
+						<h5>Start Date</h5>
+						<div style="display: inline-block; min-height: 290px;">
+							<div name="batchStart" uib-datepicker ng-model="date" class="well well-sm"
+								datepicker-options="options" ng-required="true" ng-click="setEndDate()" ></div>
+						</div>
+						</p>
+					</div>
+
+					<div class="col-md-6">
+						<p class="input-group">
+						<h5>End Date</h5>
+						<div style="display: inline-block; min-height: 290px;">
+							<div name="batchEnd" uib-datepicker ng-model="date2" class="well well-sm"
+								datepicker-options="options" ng-required="true"></div>
+						</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<input type="submit" value="{{ submitButton }}"
+						class="btn btn-warning btn-large btn-block"
+						ng-click="saveBatch(batchName, topic.topicName, curr.curriculumName, trainer.trainerFirstName, room.roomName, date, date2, batchID)" ng-disabled="batchForm.$invalid">
+				</div>
+			</div>
+		</form>
+	</article>
+	<br>
+	<br>
+</body>
+</html>

@@ -2,7 +2,7 @@
  * 
  */
 //Basic routing information
-var app = angular.module("batchApp", ['ngRoute', 'ui.bootstrap']);
+var app = angular.module("batchApp", ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepicker']);
 	app.config(['$routeProvider', function($routeProvider){
 		$routeProvider.
 		when('/home', {
@@ -175,11 +175,18 @@ app.service('trainerService', function($http, $q) {
 
 	this.getAllTrainers = function(callback) {
 		$http.get('rest/trainer').then(callback);
+		// $http.get('http://dev.aduet.tech/AssignForce/rest/trainer').then(callback);
+		// $http.get('http://localhost:8085/AssignForce/rest/trainer').then(callback);
+		// $http.get('http://assignforce.aduet.tech/AssignForce/rest/trainer').then(callback);
 	}
 
 	this.getTrainers = function() {
 		// console.log('and workin overtime');
+
 		var tpromise = $http.get('rest/trainer').then(function(response) {
+		// var tpromise = $http.get('http://dev.aduet.tech/AssignForce/rest/trainer').then(function(response) {
+		// var tpromise = $http.get('http://localhost:8085/AssignForce/rest/trainer').then(function(response) {
+		// var tpromise = $http.get('http://assignforce.aduet.tech/AssignForce/rest/trainer').then(function(response) {
 			// console.log('its alright');
 			console.log(response);
 			// console.log(response + 'I think I got the trainers')
