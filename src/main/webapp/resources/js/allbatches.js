@@ -10,8 +10,21 @@ var app = angular.module("batchApp");
 
 
 app.controller("allBatchCtrl", function($scope, $location, allBatchService, transferService) {
+	
+	$scope.selectedBatch;
+	
+	$scope.highlightBatch = function(batch){
+		if($scope.selectedBatch !== undefined){
+			d3.select('#'+$scope.selectedBatch.batchTrainerID.trainerFirstName+$scope.selectedBatch.batchStartDate)
+				.attr('filter',null);
+		}
+		$scope.selectedBatch = batch;
+		d3.select('#'+batch.batchTrainerID.trainerFirstName+batch.batchStartDate)
+			.attr('filter', 'url(#highlight)');
+	};
+	
 	$scope.getBatches = allBatchService.getAllBatches(function(response) {
-		$scope.Batches = response.data
+		$scope.Batches = response.data;
 	});
 	
 	$scope.createDate = function(ms){

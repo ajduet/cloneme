@@ -56,8 +56,6 @@ function numWeeks(date1, date2) {
 
 function projectTimeline(windowWidth, minDate, maxDate, timelineData){
 	
-	console.log(windowWidth);
-	
 	var trainers = ['August(Java)','Fred(.NET)','Joe(.NET)','Brian(Java)','Taylor(Java)','Patrick(Java)','Yuvi(SDET)','Steven(Java)','Ryan(SDET)','Richard(Java)','Nicholas(Java)','Ankit(Java)','Genesis(Java)','Emily(.NET)'];
 	
 	//Timeline variables
@@ -104,7 +102,7 @@ function projectTimeline(windowWidth, minDate, maxDate, timelineData){
 			return 0;
 		}
 	});
-	
+	console.log(timelineData);
 	//Create lines for between batches
 	var betweenBatches = [];
 	for(var x = 0; x < timelineData.length; x++){
@@ -155,6 +153,35 @@ function projectTimeline(windowWidth, minDate, maxDate, timelineData){
 			.attr('stroke','lightgray');
 	
 	//Add batches to timeline
+	
+	var defs = svg.append("defs");
+
+	  var filter = defs.append("filter")
+	      .attr("id", "highlight")
+
+	  filter.append("feGaussianBlur")
+	      .attr("in", "SourceAlpha")
+	      .attr("stdDeviation", 5)
+	      .attr("result", "blur");
+	  filter.append("feFlood")
+      	.attr("in", "blur")
+      	.attr("flood-color", "#0027c6")
+      	.attr("result", "color");
+	  filter.append("feComposite")
+      	.attr("in", "color")
+      	.attr("in2", "blur")
+      	.attr("operator", "in")
+      	.attr("result", "colorBlur");
+
+	  var feMerge = filter.append("feMerge");
+
+	  feMerge.append("feMergeNode")
+	      .attr("in", "colorBlur")
+	  feMerge.append("feMergeNode")
+	      .attr("in", "SourceGraphic");
+	  
+	//Normal stuff
+	
 	svg.append('g')
 		.attr('class','rectangles');
 
@@ -165,6 +192,7 @@ function projectTimeline(windowWidth, minDate, maxDate, timelineData){
 		.append('g')
 			.attr('class','rect')
 		.append('rect')
+			.attr('id',function(d){return d.batchTrainerID.trainerFirstName+d.batchStartDate;})
 			.attr('y', function(d) {
 				var y = yScale(new Date(d.batchStartDate));
 				if (y < 0){

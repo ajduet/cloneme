@@ -1,23 +1,25 @@
 <div>
 	<div class="batchView">
 		<h3>View All-Batches</h1>
-		<table class="table table-sm" style="width: 100%">
-			<tr class="tableHeader" id="tableHeader">
+		<table class="table table-sm table-hover" style="width: 100%">
+			<thead>
 				<th>Batch Name</th>
 				<th>Curriculum</th>
 				<th>Trainer</th>
 				<th>Start Date</th>
 				<th>End Date</th>
 				<!-- <th></th> -->
-			</tr>
-			<tr class="tableRow" ng-repeat="batch in Batches">
-				<td>{{ batch.bName }}</td>
-				<td>{{ batch.batchCurriculumID.curriculumName }}</td>
-				<td>{{ batch.batchTrainerID.trainerFirstName }} {{ batch.batchTrainerID.trainerLastName }}</td>
-				<td>{{ createDate(batch.batchStartDate) }}</td>
-				<td>{{ createDate(batch.batchEndDate) }}</td>
-				<!-- <td><div class="btn-group"><button class="btn btn-primary btn-xs">Edit</button><button class="btn btn-warning btn-xs">Clone</button></div></td> -->
-			</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="batch in Batches" ng-click="highlightBatch(batch)" ng-class="{'active': selectedBatch.bName === batch.bName}">
+					<td>{{ batch.bName }}</td>
+					<td>{{ batch.batchCurriculumID.curriculumName }}</td>
+					<td>{{ batch.batchTrainerID.trainerFirstName }} {{ batch.batchTrainerID.trainerLastName }}</td>
+					<td>{{ createDate(batch.batchStartDate) }}</td>
+					<td>{{ createDate(batch.batchEndDate) }}</td>
+					<!-- <td><div class="btn-group"><button class="btn btn-primary btn-xs">Edit</button><button class="btn btn-warning btn-xs">Clone</button></div></td> -->
+				</tr>
+			</tbody>
 		</table>
 	</div>
 	<br><br>
