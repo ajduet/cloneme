@@ -1,0 +1,69 @@
+	
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Batch Creation Page</title>
+		
+		<link href="css/createNewBatchCSS.css">
+	</head>
+
+	<body>
+		<div class="dataContainer newBatch" ng-cloak>
+			<h1 id="createBatchHeader"> {{stateChanges[state].header}} </h1>
+
+			<form name="batchForm" novalidate>
+
+				  <!-- Name -->
+				<input ng-model="batchName" type="text" placeholder="Name*"/>
+
+				  <!-- Curriculum -->
+				<select id="curr" ng-model="curr" ng-options="curric.curriculumName as curric.curriculumName for curric in currs" ng-click="changeToNone($event)"> 
+					<option id="currPlace" value=""> Curriculum </option>
+				</select>
+
+				  <!-- Trainer -->
+				<select id="trainer" ng-model="trainer" ng-options="trainer.trainerFirstName as trainer.trainerFirstName for trainer in trainers" ng-click="changeToNone($event)">
+					<option id="trainPlace" value=""> Trainer </option>
+				</select>
+
+				  <!-- Cotrainer -->
+				<select id="cotrainer" ng-model="cotrainer" ng-options="trainer.trainerFirstName as trainer.trainerFirstName for trainer in trainers" ng-click="changeToNone($event)">
+					<option id="cotrainPlace" value=""> Co-trainer </option>
+				</select>
+
+				  <!-- Location -->
+				<select id="location" ng-model="location" ng-options="loc.locationName as loc.locationName for loc in locations | orderBy:'loc.locationName'" ng-click="changeToNone($event)">
+					<option id="locPlace" value=""> Location* </option>
+				</select>
+
+				  <!-- Room -->
+				<select id="room" ng-model="room" ng-options="room.roomName as room.roomName for room in location[1] | orderBy:'roomName'" ng-click="changeToNone($event)">
+					<option id="roomPlace" value=""> Room </option>
+				</select>
+
+				  <!-- Start date -->
+				<datetimepicker ng-model="startDate" date-format="MMMM d, yyyy" date-options="dateOptions" date-disabled="isDisabledDate(date, mode)" hidden-time="true" ng-click="setEndDate(); updateWeeks()"> </datetimepicker>
+				
+				  <!-- End date -->
+				<datetimepicker ng-model="endDate" date-format="MMMM d, yyyy" date-options="dateOptions" date-disabled="isDisabledDate(date, mode)" hidden-time="true" ng-click="updateWeeks()"> </datetimepicker>
+
+				  <!-- Week display -->
+				<div ng-model="weeks"> {{weeks}} weeks </div>
+
+				  <!-- Skill search -->
+				<input type="text" placeholder="Skills" options="options" datasets="{{skills}}" ng-model="skillSet" sfTypeahead />
+
+				  <!-- Submit -->
+				<button id="submitBatch" ng-click="test()"> {{stateChanges[state].submit}} </button>
+
+				<!--<div class="form-group">
+					<input type="submit" value="{{ submitButton }}"
+						class="btn btn-warning btn-large btn-block"
+						ng-click="saveBatch(batchName, topic.topicName, curr.curriculumName, trainer.trainerFirstName, room.roomName, date, date2, batchID)" ng-disabled="batchForm.$invalid">
+				</div>-->
+
+			</form>
+		</div>
+
+		<script src="js/ui-bootstrap-custom-tpls-2.2.0.js"></script>
+		
+	</body>
