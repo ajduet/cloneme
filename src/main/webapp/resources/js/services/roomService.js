@@ -5,6 +5,6 @@
         var rs = this;
 
         rs.getAllRooms = function(callback) {
-            $http.get("rest/getRooms").then(callback);
+            $http.get("../rest/getRooms").then(callback);
         }
     });

@@ -75,14 +75,14 @@
                 console.log(children[i].label, cbc.curr);
                 if (children[i].label == cbc.curr) {
                     console.log("  Match!");
-
-                    console.log($("#curr")[0].selectedIndex);
-                    $("#curr")[0].selectedIndex = i;
-                    console.log($("#curr")[0].selectedIndex);
-                    children[i].selected = true;
-                    // $("#curr")[0].selectedIndex = i;
                 }
             }
+        };
+
+          // change default option to "none"
+        cbc.changeToNone = function() {
+            console.log(event.target.children[2].value);
+            event.target.children[0].label = "No" + event.target.children[0].innerText.toLowerCase().replace("*", "") + "selected";
         };
 
           // initialize fields
@@ -111,7 +111,7 @@
                     cbc.startDate = incomingBatch.batchStartDate;
                     cbc.endDate   = incomingBatch.batchEndDate;
 
-                    cbc.autofill();
+                    // cbc.autofill();
 
                     break;
             }
@@ -156,11 +156,11 @@
 
         cbc.test = function() {
             console.log("Name       :", cbc.batchName,
-                      "\nCurriculum :", cbc.curr.curriculumName,
-                      "\nTrainer    :", cbc.trainer.trainerFirstName,
-                      "\nCotrainer  :", cbc.cotrainer.trainerFirstName,
-                      "\nLocation   :", cbc.location[0].locationName,
-                      "\nRoom       :", cbc.room.roomName,
+                      "\nCurriculum :", cbc.curr,
+                      "\nTrainer    :", cbc.trainer,
+                      "\nCotrainer  :", cbc.cotrainer,
+                      "\nLocation   :", cbc.location,
+                      "\nRoom       :", cbc.room,
                       "\nStart date :", cbc.startDate,
                       "\nEnd date   :", cbc.endDate );
         };

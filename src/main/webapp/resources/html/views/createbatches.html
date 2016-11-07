@@ -3,7 +3,7 @@
 		<meta charset="ISO-8859-1">
 		<title>Batch Creation Page</title>
 		
-		<link href="resources/css/createNewBatchCSS.css">
+		<link href="css/createNewBatchCSS.css">
 	</head>
 
 	<body>
@@ -13,32 +13,31 @@
 			<form name="batchForm" novalidate>
 
 				  <!-- Name -->
-				<input ng-model="batchName" type="text" placeholder="Name*" value="Why"/>
+				<input ng-model="batchName" type="text" placeholder="Name*"/>
 
 				  <!-- Curriculum -->
-				<select id="curr" ng-model="curr" ng-options="curr.curriculumName for curr in currs" ng-change="noPlaceholder()"> 
-					<!--<option id="currPlace" disabled value=""> Curriculum </option>-->
+				<select id="curr" ng-model="curr" ng-options="curric.curriculumName as curric.curriculumName for curric in currs" ng-click="changeToNone($event)"> 
+					<option id="currPlace" value=""> Curriculum </option>
 				</select>
 
 				  <!-- Trainer -->
-				<select id="trainer" ng-model="trainer" ng-options="trainer.trainerFirstName for trainer in trainers" ng-init="trainer='Trainer'" ng-change="noPlaceholder()">
-					<option id="trainPlace" selected disabled value=""> Trainer </option>
+				<select id="trainer" ng-model="trainer" ng-options="trainer.trainerFirstName as trainer.trainerFirstName for trainer in trainers" ng-click="changeToNone($event)">
+					<option id="trainPlace" value=""> Trainer </option>
 				</select>
 
 				  <!-- Cotrainer -->
-				<select id="cotrainer" ng-model="cotrainer" ng-options="trainer.trainerFirstName for trainer in trainers" ng-init="cotrainer='Co-trainer'" ng-change="noPlaceholder()">
-					<option id="cotrainPlace" selected disabled value=""> Co-trainer </option>
+				<select id="cotrainer" ng-model="cotrainer" ng-options="trainer.trainerFirstName as trainer.trainerFirstName for trainer in trainers" ng-click="changeToNone($event)">
+					<option id="cotrainPlace" value=""> Co-trainer </option>
 				</select>
 
 				  <!-- Location -->
-				<select id="location" ng-model="location" ng-options="loc[0].locationName for loc in roomLoc | orderBy:'loc[0].locationName'" ng-init="location='Location'" ng-change="noPlaceholder()">
-				<!--<select ng-model="location" ng-options="location[0].locationName for location in roomLoc" ng-init="location='Location'" ng-change="noPlaceholder()">-->
-					<option id="locPlace" selected disabled value=""> Location* </option>
+				<select id="location" ng-model="location" ng-options="loc.locationName as loc.locationName for loc in locations | orderBy:'loc.locationName'" ng-click="changeToNone($event)">
+					<option id="locPlace" value=""> Location* </option>
 				</select>
 
 				  <!-- Room -->
-				<select id="room" ng-model="room" ng-options="room.roomName for room in location[1] | orderBy:'roomName'" ng-init="room='Room'" ng-change="noPlaceholder()">
-					<option id="roomPlace" selected disabled value=""> Room </option>
+				<select id="room" ng-model="room" ng-options="room.roomName as room.roomName for room in location[1] | orderBy:'roomName'" ng-click="changeToNone($event)">
+					<option id="roomPlace" value=""> Room </option>
 				</select>
 
 				  <!-- Start date -->
@@ -65,6 +64,6 @@
 			</form>
 		</div>
 
-		<script src="resources/js/ui-bootstrap-custom-tpls-2.2.0.js"></script>
+		<script src="js/ui-bootstrap-custom-tpls-2.2.0.js"></script>
 		
 	</body>

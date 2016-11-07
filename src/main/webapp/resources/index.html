@@ -36,8 +36,8 @@
 		}
 		</style>
 		<script src="https://use.fontawesome.com/8d8fa1da46.js"></script>
-		<link href="resources/css/style.css" rel="stylesheet"/>
-		<link href="resources/css/assignForceCSS.css" rel="stylesheet"/>
+		<link href="css/style.css" rel="stylesheet"/>
+		<link href="css/assignForceCSS.css" rel="stylesheet"/>
 	</head>
 
 	<body ng-app="batchApp">
@@ -54,13 +54,13 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<div class="logo"><a href="#/"><img src="resources/img/revature_logo.png" alt="Revature"/></a></div>
+				<div class="logo"><a href="#/"><img src="img/revature_logo.png" alt="Revature"/></a></div>
 				</div>
 				<div id="navbar" class="navbar-collapse collapse rev-menu">
 				<ul class="nav navbar-nav">
 					<li><a href="#trainers"> VIEW TRAINERS </a></li>
-	<!--                 <li><a href="#viewbatches">VIEW BATCHES</a></li>-->
-					<li><a href="#batches"> VIEW ALL BATCHES </a></li>
+	                <!--<li><a href="#viewbatches">VIEW BATCHES</a></li>-->
+					<li><a href="#batches"> VIEW BATCHES </a></li>
 					<!--Phase II-->
 					<!--<li><a href="#contact">SOLUTIONS</a></li>-->
 					<li><a href="#createBatch"> CREATE BATCH </a></li>
@@ -83,29 +83,41 @@
 
 	  <!-- Angular modules -->
 	<script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.min.js"></script>
-	<script type="text/javascript" src="resources/misc/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="resources/misc/bootstrap-3.3.7-dist/js/ui-bootstrap-tpls-2.2.0.min.js"></script>
+	<script type="text/javascript" src="misc/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="misc/bootstrap-3.3.7-dist/js/ui-bootstrap-tpls-2.2.0.min.js"></script>
 
 	<!-- Angular scripts -->
-	<script type="text/javascript" src="resources/js/app.js"></script>
+	<script type="text/javascript" src="js/assignforce.js"></script>
 	<!--<script type="text/javascript" src="../js/createbatch.js"></script>-->
 
 	  <!-- Controllers -->
-	<script type="text/javascript" src="resources/js/controllers/createBatchController.js"></script>	
-	<script type="text/javascript" src="resources/js/controllers/locationController.js"></script>
+	<script type="text/javascript" src="js/controllers/allBatchesController.js"></script>	
+	<script type="text/javascript" src="js/controllers/createBatchController.js"></script>	
+	<script type="text/javascript" src="js/controllers/locationController.js"></script>
+	<script type="text/javascript" src="js/controllers/timelineController.js"></script>
+	<script type="text/javascript" src="js/controllers/trainerController.js"></script>
 
 	  <!-- Services -->
-	<script type="text/javascript" src="resources/js/services/calendarService.js"></script>	
-	<script type="text/javascript" src="resources/js/services/createBatchService.js"></script>	
-	<script type="text/javascript" src="resources/js/services/locationService.js"></script>	
+	<script type="text/javascript" src="js/services/calendarService.js"></script>
+	<script type="text/javascript" src="js/services/allBatchesService.js"></script>
+	<script type="text/javascript" src="js/services/createBatchService.js"></script>
+	<script type="text/javascript" src="js/services/locationService.js"></script>
+	<script type="text/javascript" src="js/services/roomService.js"></script>
+	<script type="text/javascript" src="js/services/trainerService.js"></script>
 
-    <!-- Directives -->
-	<script type="text/javascript" src="resources/js/directives/angular-typeahead.js"></script>
-	<script type="text/javascript" src="resources/js/directives/datetimepicker.js"></script>
+      <!-- Directives -->
+	<script type="text/javascript" src="js/directives/angular-typeahead.js"></script>
+	<script type="text/javascript" src="js/directives/datetimepicker.js"></script>
+
+	  <!-- Factories -->
+	<script type="text/javascript" src="js/factories/transferService.js"></script>
+
+	  <!-- Functions -->
+	<script type="text/javascript" src="js/functions/createBatchFunctions.js"></script>	
   
-	<!-- --> 
-	<script type="text/javascript" src="resources/js/allbatches.js"></script>
-	<script type="text/javascript" src="resources/js/timeline.js"></script>
+	  <!-- Misc --> 
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js"></script>
+	<!--<script type="text/javascript" src="js/allbatches.js"></script>-->
+	<!--<script type="text/javascript" src="js/timeline.js"></script>-->
 
 </html>

@@ -2,22 +2,22 @@ var app = angular.module('batchApp');
 
 /*--------------------------CONTROLLER---------------------------*/
 
-app.controller("TimelineCtrl", function($scope, allBatchService){
-	//Timeline x axis range variables
-	var minDate = new Date(2016,7,20),
-		maxDate = new Date(2017,11,31);
+// app.controller("TimelineCtrl", function($scope, allBatchService){
+// 	//Timeline x axis range variables
+// 	var minDate = new Date(2016,7,20),
+// 		maxDate = new Date(2017,11,31);
 
-	//Pull batch data from service
-	allBatchService.getAllBatches(function(response){
-		if (response.data !== undefined){
-			var data = response.data;
-			projectTimeline(minDate, maxDate, data);
-		}
-	});
+// 	//Pull batch data from service
+// 	allBatchService.getAllBatches(function(response){
+// 		if (response.data !== undefined){
+// 			var data = response.data;
+// 			projectTimeline(minDate, maxDate, data);
+// 		}
+// 	});
 	
 	
 
-});
+// });
 
 //Determine number of weeks in a batch
 function numWeeks(date1, date2) {
