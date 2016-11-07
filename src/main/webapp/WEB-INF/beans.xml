@@ -71,7 +71,4 @@
 	<!-- Find JPA Repositories -->
 	<jpa:repositories base-package="com.ateam.dao" />
 	
-	
-
-
 </beans>
