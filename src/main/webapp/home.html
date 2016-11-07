@@ -116,6 +116,7 @@
 						</div>
 						<div class="input-group">
 							<button class="btn btn-primary" ng-disabled="loginForm.$invalid" ng-click="hCtrl.login()">Login</button>
+							<p ng-show="hCtrl.hasError()" style="color:red;">{{hCtrl.getError()}}</p>
 						</div>
 					</form>
 				</div>

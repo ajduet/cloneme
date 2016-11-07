@@ -21,7 +21,7 @@ app.service('userSrv', function($http, authorizeUrl){
 			.then(function(data){
 				userAuthenticated = true;
 			}.bind(this), function(error){
-				this.error = error.status;
+				this.error = "Invalid username or password";
 			}.bind(this));
 	}
 	
