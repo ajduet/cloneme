@@ -1,7 +1,6 @@
 var app = angular.module('batchApp');
 
 /*--------------------------CONTROLLER---------------------------*/
-
 app.controller("TimelineCtrl", function($scope, $window, allBatchService){
 	
 	//Options for datepicker
@@ -27,6 +26,18 @@ app.controller("TimelineCtrl", function($scope, $window, allBatchService){
 			alert('No response from server');
 		}
 	);
+// app.controller("TimelineCtrl", function($scope, allBatchService){
+// 	//Timeline x axis range variables
+// 	var minDate = new Date(2016,7,20),
+// 		maxDate = new Date(2017,11,31);
+
+// 	//Pull batch data from service
+// 	allBatchService.getAllBatches(function(response){
+// 		if (response.data !== undefined){
+// 			var data = response.data;
+// 			projectTimeline(minDate, maxDate, data);
+// 		}
+// 	});
 	
 	//Project new timeline when min or max date changes
 	$scope.$watch( 'minDate', function(){
@@ -41,6 +52,8 @@ app.controller("TimelineCtrl", function($scope, $window, allBatchService){
 		}
 	});
 });
+
+// });
 
 //Determine number of weeks in a batch
 function numWeeks(date1, date2) {
