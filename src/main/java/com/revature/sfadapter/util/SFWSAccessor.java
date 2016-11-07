@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -105,9 +106,9 @@ public class SFWSAccessor implements SFWebserverWorkflow {
 			encodedUrl = URLEncoder.encode(callback);
 		}
 		
-		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-		params.set("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE);
-		params.set("Accept", "application/json");
+//		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+//		params.set("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE);
+//		params.set("Accept", "application/json");
 		
 		MultiValueMap<String, String> data = new LinkedMultiValueMap<>();
 		data.set("grant_type", "authorization_code");
@@ -120,7 +121,10 @@ public class SFWSAccessor implements SFWebserverWorkflow {
 			data.setAll(optionalParams);
 		}
 		
-		HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(data, params);
+		HttpHeaders requestHeaders = new HttpHeaders();
+		requestHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+		requestHeaders.set("Accept", "application/json");
+		HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(data, requestHeaders);
 		ResponseEntity<SFWSAccessObject> response = client.exchange(url, HttpMethod.POST, requestEntity, SFWSAccessObject.class);
 		return response.getBody();
 	}
