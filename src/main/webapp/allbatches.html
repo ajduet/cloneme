@@ -8,7 +8,7 @@
 				<th>Trainer</th>
 				<th>Start Date</th>
 				<th>End Date</th>
-				<!-- <th></th> -->
+				<th></th>
 			</thead>
 			<tbody>
 				<tr ng-repeat="batch in Batches" ng-click="highlightBatch(batch)" ng-class="{'active': selectedBatch.bName === batch.bName}">
@@ -17,7 +17,13 @@
 					<td>{{ batch.batchTrainerID.trainerFirstName }} {{ batch.batchTrainerID.trainerLastName }}</td>
 					<td>{{ createDate(batch.batchStartDate) }}</td>
 					<td>{{ createDate(batch.batchEndDate) }}</td>
-					<!-- <td><div class="btn-group"><button class="btn btn-primary btn-xs">Edit</button><button class="btn btn-warning btn-xs">Clone</button></div></td> -->
+					<td>
+						<div class="btn-group">
+							<button class="btn btn-primary btn-xs">Edit</button>
+							<button class="btn btn-warning btn-xs">Clone</button>
+							<button class="btn btn-danger btn-xs">Delete</button>
+						</div>
+					</td>
 				</tr>
 			</tbody>
 		</table>

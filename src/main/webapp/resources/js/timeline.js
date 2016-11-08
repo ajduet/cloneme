@@ -163,13 +163,19 @@ function projectTimeline(windowWidth, minDate, maxDate, timelineData){
 	      .attr("in", "SourceAlpha")
 	      .attr("stdDeviation", 5)
 	      .attr("result", "blur");
+	  filter.append("feComponentTransfer")
+	  		.attr("in", "blur")
+	  		.attr("result","betterBlur")
+	  		.append("feFuncA")
+	  			.attr("type","linear")
+	  			.attr("slope","1.5")
 	  filter.append("feFlood")
-      	.attr("in", "blur")
-      	.attr("flood-color", "#0027c6")
+      	.attr("in", "betterBlur")
+      	.attr("flood-color", "#00ffff")
       	.attr("result", "color");
 	  filter.append("feComposite")
       	.attr("in", "color")
-      	.attr("in2", "blur")
+      	.attr("in2", "betterBlur")
       	.attr("operator", "in")
       	.attr("result", "colorBlur");
 
