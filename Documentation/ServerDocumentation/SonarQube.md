@@ -27,7 +27,9 @@ $ sudo yum -y install sonar
   (More information about installing SonarQube as a service can be found [here](http://sonar-pkg.sourceforge.net/))
   
   ## Configuration (Oracle Database)
+  
   ([Source](https://obscuredclarity.blogspot.com/2012/05/install-sonar-using-oracle-as-database.html))
+  
   5. Download the `ojdbc6.jar` driver from [here](http://www.oracle.com/technetwork/database/enterprise-edition/jdbc-112010-090769.html)
   6. Get it onto the instance and place the jar file in `/opt/sonar/extensions/jdbc-driver/oracle/` (Note: you'll probably have to be `sudo` to copy it, since `/opt` is probably write-protected for normal users)
   7. Run:
@@ -63,6 +65,7 @@ $ sudo service sonar stop
 ```
 
 ## Configuration (Using Port 80)
+
 HTTP requests default to port 80.  It's good practice to use a reverse proxy to redirect traffic from port 80 to port 9000, but that was not known at the time of setting this server up.  Here's the configuration steps to put this server on port 80.
 9. Edit your `sonar.properties` file by running:
 
