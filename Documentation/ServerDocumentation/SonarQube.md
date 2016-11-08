@@ -6,7 +6,7 @@
 
 ## Before you start
 
-- SonarQube likes to have an external database to store any persistant information. Consider which database to use before your start.  This guide will conect to an Oracle database and detail the special procedures used for connecting to that type of database.  Using MySQL would most likely be easier, but it was not explored for this guide.
+- SonarQube likes to have an external database to store any persistant information. Consider which database to use before your start.  This guide will conect to an Oracle database and detail the special procedures used for connecting to that type of database.  Using MySQL would most likely be easier, but it was not explored for this guide.  More information about which database systems are valid can be found [here](http://docs.sonarqube.org/display/SONAR/Requirements)
 - In most guides, a linux shell command starts with a `$`. If you're typing a command into a console, don't include the `$`
 
 ## Installation
