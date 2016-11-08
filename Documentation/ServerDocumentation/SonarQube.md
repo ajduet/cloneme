@@ -31,7 +31,7 @@ $ sudo yum -y install sonar
   
   
   
-  ([Source](https://obscuredclarity.blogspot.com/2012/05/install-sonar-using-oracle-as-database.html))
+  [Source](https://obscuredclarity.blogspot.com/2012/05/install-sonar-using-oracle-as-database.html)
   
   
   5. Download the `ojdbc6.jar` driver from [here](http://www.oracle.com/technetwork/database/enterprise-edition/jdbc-112010-090769.html)
