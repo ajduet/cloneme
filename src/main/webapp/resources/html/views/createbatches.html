@@ -44,12 +44,13 @@
 
 					  <!-- Start date -->
 					<datetimepicker id="startDate" ng-model="startDate" date-format="MMMM d, yyyy" date-options="dateOptions" date-disabled="isDisabledDate(date, mode)" hidden-time="true" ng-click="setEndDate(); updateWeeks()"> </datetimepicker>
-					
+					<span id="toSpan">&nbsp; to </span>
+
 					  <!-- End date -->
 					<datetimepicker id="endDate" ng-model="endDate" date-format="MMMM d, yyyy" date-options="dateOptions" date-disabled="isDisabledDate(date, mode)" hidden-time="true" ng-click="updateWeeks()"> </datetimepicker>
 
 					  <!-- Week display -->
-					<div id="weeks" ng-model="weeks"> - {{weeks}} weeks - </div>
+					<div id="weeks" ng-model="weeks"> {{weeks}} weeks </div>
 
 					  <!-- Submit -->
 					<button id="submitBatch" ng-click="saveBatch()"> {{stateChanges[state].submit}} </button>

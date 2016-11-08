@@ -139,6 +139,8 @@
                     cbc.startDate = incomingBatch.batchStartDate;
                     cbc.endDate   = incomingBatch.batchEndDate;
 
+                    cbc.updateWeeks();
+
                     break;
             }
         };
