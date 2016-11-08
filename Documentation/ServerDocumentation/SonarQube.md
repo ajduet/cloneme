@@ -90,4 +90,4 @@ $ sudo /opt/sonar/bin/linux-x86-64/sonar.sh stop
 
 ## Integrating into Jenkins
 
-11. On Jenkins, install the following plugins: `SonarQube Plugin`, ``
+11. On Jenkins, install the following plugins: `SonarQube Plugin` and `Quality Gates Plugin`.
