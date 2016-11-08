@@ -6,7 +6,7 @@
 		<link href="css/createNewBatchCSS.css">
 	</head>
 
-	<body>
+	<div ng-controller="batchCtrl">
 		<div class="dataContainer newBatch" ng-cloak>
 			<h1 id="createBatchHeader"> {{stateChanges[state].header}} </h1>
 
@@ -58,7 +58,7 @@
 				<div class="rightGroup">
 				
 					  <!-- Skill search -->
-					<input id="skills" type="text" placeholder="Skills" options="options" datasets="{{skills}}" ng-model="skillSet" sfTypeahead />
+					<input id="skills" type="text" placeholder="Skills" options="options" datasets="{{skills}}" ng-model="skillSet" sfTypeahead disabled="disabled" />
 				
 					  <!-- Skill search item list -->
 					<skill-search-item skill="currSkill" remove="remove" ng-repeat="currSkill in skills"> </skillSearchItem>
@@ -75,4 +75,4 @@
 
 		<script src="js/modules/ui-bootstrap-custom-tpls-2.2.0.js"></script>
 		
-	</body>
+	</div>

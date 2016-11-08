@@ -37,7 +37,7 @@
             
         }
         
-        bs.saveBatch = function(batchName, topic, curr, trainer, room, date, date2, batchID){
+        bs.saveBatch = function(batchName, topic, curr, trainer, room, date, date2, batchID, callback){
             console.log('Saving batch')
             var batchObj = {};
         
@@ -61,6 +61,7 @@
                 .then(
                     function(response){
                         console.log("Batch saved: ", response);
+                        callback();
                         // $location.path("/allbatches");
                     },
                     

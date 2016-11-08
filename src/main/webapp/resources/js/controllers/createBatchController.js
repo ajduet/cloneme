@@ -1,7 +1,7 @@
 
     var assignforce = angular.module( "batchApp" );
 
-    assignforce.controller( "batchCtrl", function($scope, batchService, calendarService, locationService, trainerService) {//, transferService) {
+    assignforce.controller( "batchCtrl", function($scope, allBatchService, batchService, calendarService, locationService, trainerService) {//, transferService) {
 
         console.log("Beginning create batch controller.");
         var cbc = $scope;
@@ -76,17 +76,42 @@
             cbc.skills.splice( cbc.skills.indexOf( event.target.parentElement.innerText.replace(" clear", "") ), 1);
         };
 
+          // save/update batch
         cbc.saveBatch = function(){
             
             var ID;
             if (cbc.state == "edit") {
-            // if (input == 1) {
                 ID = cbc.batchID;
             } else {
                 ID = "NEW";
             }
-            cbc.updateTask = batchService.saveBatch(cbc.batchName, "J2EE", cbc.curr, cbc.trainer, cbc.room, cbc.startDate, cbc.endDate, cbc.batchID);
+            cbc.updateTask = batchService.saveBatch(cbc.batchName, "J2EE", cbc.curr, cbc.trainer, cbc.room, cbc.startDate, cbc.endDate, cbc.batchID, function() {
+                
+                allBatchService.getAllBatches(function(response) {
+				    cbc.$emit( "repull", { batches: response.data });
+			    });
+            });
+            
+            // allBatchService.getAllBatches(function(response) {
+			// 	cbc.$emit( "repull", { batches: response.data });
+			// });
         }
+
+          // print batch info
+        cbc.printBatch = function() {
+            console.log("Name       :", cbc.batchName,
+                      "\nCurriculum :", cbc.curr,
+                      "\nTrainer    :", cbc.trainer,
+                      "\nCotrainer  :", cbc.cotrainer,
+                      "\nLocation   :", cbc.location,
+                      "\nRoom       :", cbc.room,
+                      "\nStart date :", cbc.startDate,
+                      "\nEnd date   :", cbc.endDate,
+                      "\nBatchID    :", cbc.batchID );
+        };
+
+        
+
           // initialize fields
         cbc.initialize = function(incomingBatch) {
             
@@ -114,8 +139,6 @@
                     cbc.startDate = incomingBatch.batchStartDate;
                     cbc.endDate   = incomingBatch.batchEndDate;
 
-                    // cbc.autofill();
-
                     break;
             }
         };
@@ -136,7 +159,7 @@
                           "SDET": [ "Core Java", "SQL", "Servlets/JSPs", "HTML/CSS", "Selenium/WebDriver", "QTP/UFT", "Cucumber", "Web Services" ],
                           "Misc": [ "DevOps: Git", "DevOps: Maven", "DevOps: Jenkins", "DevOps: SonarQube", "DevOps: JIRA", "DevOps: Tomcat" ] };
 
-        cbc.skills = cbc.skillCurr.Java.splice(0, 4);
+        // cbc.skills = cbc.skillCurr.Java.splice(0, 4);
 
           // configurations
             // calendar configs
@@ -147,26 +170,22 @@
             return mode === 'day' && (currentDate.getDay() === 0 || currentDate.getDay() === 6);
         };
 
+          // broadcasters/listeners
+            // listens for an event "state" to be broadcasted to change states to the supplied state and populates fields grom given batch 
+        cbc.$on( "state", function( event, data ){
+            cbc.changeState(data.state, data.batch);
+        });
+
           // initialize page
         cbc.initialize(null);
 
-        var response = batchService.getBatch(
-                function(response){
-                    cbc.weeks = calendarService.countWeeks(response.data.batchStartDate, response.data.batchEndDate);
-                    cbc.changeState("clone", response.data);
-                },
-                48);
+        // var response = batchService.getBatch(
+        //         function(response){
+        //             cbc.weeks = calendarService.countWeeks(response.data.batchStartDate, response.data.batchEndDate);
+        //             cbc.changeState("clone", response.data);
+        //         },
+        //         48);
 
-        cbc.test = function() {
-            console.log("Name       :", cbc.batchName,
-                      "\nCurriculum :", cbc.curr,
-                      "\nTrainer    :", cbc.trainer,
-                      "\nCotrainer  :", cbc.cotrainer,
-                      "\nLocation   :", cbc.location,
-                      "\nRoom       :", cbc.room,
-                      "\nStart date :", cbc.startDate,
-                      "\nEnd date   :", cbc.endDate,
-                      "\nBatchID    :", cbc.batchID );
-        };
+        
 
     });

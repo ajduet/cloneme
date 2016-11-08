@@ -5517,6 +5517,7 @@ font-family:Futura Bk;
         /*color: rgba(0,0,0,.5);*/
 
         display: block;
+        z-index: 2;
     }
 
     .newBatch {
@@ -5526,7 +5527,7 @@ font-family:Futura Bk;
 
     .newBatch select:focus, .newBatch input:focus {
         outline: none;
-        border-bottom: 2px solid #F26A25;
+        border-bottom: 2px solid var(--revOrange);
     }
 
     .newBatch option:not(first-child) {
@@ -5550,7 +5551,7 @@ font-family:Futura Bk;
 
     #weeks {
         position: relative;
-        top: -90px;
+        top: -89px;
         left: 18.25vw;
 
         width: 8.5vw;
@@ -5564,12 +5565,14 @@ font-family:Futura Bk;
 
     #endDate input {
         position: relative;
-        top: -46px;
+        top: -45px;
 
         height: 25px;
     }
 
     #startDate input {
+        position: relative;
+        top: 1px;
         height: 25px;
     }
 
@@ -5577,6 +5580,7 @@ font-family:Futura Bk;
         position: relative;
         top: -27px !important;
         left: 0px !important;
+        z-index: 1;
     }
 
     #startDate .glyphicon-calendar {
@@ -5593,6 +5597,7 @@ font-family:Futura Bk;
 
     #skills {
         position: relative;
+        top: -5px;
     }
 
     .leftGroup {
@@ -5603,4 +5608,19 @@ font-family:Futura Bk;
         position: relative;
         top: -279px;
         left: 50vw;
+    }
+
+    .createView {
+        height: 35vh;
+    }
+
+    #submitBatch {
+        position: relative;
+        top: -85px;
+
+        padding: 2px;
+    }
+
+    body {
+        --revOrange: #F26A25;
     }

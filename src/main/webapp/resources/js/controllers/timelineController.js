@@ -5,7 +5,7 @@ var app = angular.module('batchApp');
 /*--------------------------CONTROLLER---------------------------*/
 
 app.controller("TimelineCtrl", function($scope, $window, allBatchService){
-	
+
 	//Options for datepicker
 	$scope.options = {
 		datepickerMode: "month",
