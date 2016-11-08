@@ -20,7 +20,7 @@ $ sudo yum -y update
   4. Run the following commands:
   
   ```sh
-$ sudo wget -O /etc/yum.repos.d/sonar.repo http://downloads.sourceforge.net/project/sonar-pkg/rpm/sonar.repo
+$ wget -O /etc/yum.repos.d/sonar.repo http://downloads.sourceforge.net/project/sonar-pkg/rpm/sonar.repo
 $ sudo yum -y install sonar
 ```  
   
