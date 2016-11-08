@@ -5551,16 +5551,18 @@ font-family:Futura Bk;
 
     #weeks {
         position: relative;
-        top: -89px;
-        left: 18.25vw;
+        top: -63px;
+        right: 5vw;
 
-        width: 8.5vw;
-        text-align: center;
+        float: right;
+        
+        width: 6vw;
+        text-align: right;
     }
 
     #endDate {
         position: relative;
-        left: 27vw;
+        left: 20vw;
     }
 
     #endDate input {
@@ -5591,13 +5593,13 @@ font-family:Futura Bk;
 
     #endDate .glyphicon-calendar {
         position: relative;        
-        top: -69px;
+        top: -68px;
         left: 16vw;
     }
 
     #skills {
         position: relative;
-        top: -5px;
+        top: 42px;
     }
 
     .leftGroup {
@@ -5616,11 +5618,21 @@ font-family:Futura Bk;
 
     #submitBatch {
         position: relative;
-        top: -85px;
+        top: -35px;
 
         padding: 2px;
     }
 
     body {
         --revOrange: #F26A25;
+    }
+
+    #toSpan {
+        position: relative;
+        top: -20px;
+        left: 18vw;
+        
+        width: 1vw;
+
+        text-align: center;
     }
