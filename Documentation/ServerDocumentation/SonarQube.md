@@ -82,7 +82,7 @@ $ sudo vim /opt/sonar/conf/sonar.properties
 
 10. Change `sonar.web.port=9000` to `sonar.web.port=80`
 
-Because ports below 1024 need to be run as `sudo`, the way you start the server needs to change. To run the server, run:
+Any program that tries to access a port below 1024 needs to be run as `root`.  Because of this, the way you start the server needs to change. To run the server, run:
 ```sh
 $ sudo /opt/sonar/bin/linux-x86-64/sonar.sh start
 ```
