@@ -27,7 +27,7 @@ $ sudo yum -y install sonar
   (More information about installing SonarQube as a service can be found [here](http://sonar-pkg.sourceforge.net/))
   
   
-  ## Configuration (Oracle Database)
+## Configuration (Oracle Database)
   
   
   
