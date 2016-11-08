@@ -40,7 +40,8 @@ public class LoadCtrl {
 		String userName = obj.get("username").textValue();
 		String password = obj.get("password").textValue();
 		
-		if(!userName.equals("ravi.singh") || !password.equals("@revature_ravi_singh!")){
+		if((!userName.equals("ravi.singh") || !password.equals("@revature_ravi_singh!")) ||
+				(!userName.equals("rev.dev") || !password.equals("@rev_dev!"))){
 			return new ResponseEntity<Boolean>(false, HttpStatus.UNAUTHORIZED);
 		}else{
 			return new ResponseEntity<Boolean>(true, HttpStatus.OK);

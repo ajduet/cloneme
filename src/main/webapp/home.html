@@ -64,61 +64,67 @@
 </head>
 <body ng-app="batchApp">
 	<div ng-controller="HomeCtrl as hCtrl">
-		<div class="navbar-wrapper hero-bm">
-			<div class="container">
-
-				<nav class="navbar navbar-revature navbar-static-top navbar-bg">
-					<div class="container">
-						<div class="navbar-header">
-							<button type="button" class="navbar-toggle collapsed"
-								data-toggle="collapse" data-target="#navbar"
-								aria-expanded="false" aria-controls="navbar">
-								<span class="sr-only">Toggle navigation</span> <span
-									class="icon-bar"></span> <span class="icon-bar"></span> <span
-									class="icon-bar"></span>
-							</button>
-							<div class="logo">
-								<a href="#/"><img src="resources/img/revature_logo.png"
-									alt="Revature" /></a>
+		<div class="col-sm-4 col-md-offset-5"
+			ng-hide="hCtrl.isUserAuthenticated()">
+			<div>
+				<h4>You must login to continue</h4>
+				<form name="loginForm" novalidate>
+					<div class="input-group">
+						<input name="username" type="text" placeholder="Username/Email"
+							class="form-control" required
+							ng-model="hCtrl.credentials.username" />
+					</div>
+					<div class="input-group">
+						<input name="password" type="password" placeholder="Password"
+							class="form-control" required
+							ng-model="hCtrl.credentials.password" />
+					</div>
+					<div class="input-group">
+						<button class="btn btn-primary" ng-disabled="loginForm.$invalid"
+							ng-click="hCtrl.login()">Login</button>
+						<p ng-show="hCtrl.hasError()" style="color: red;">{{hCtrl.getError()}}</p>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div ng-show="hCtrl.isUserAuthenticated()">
+			<div class="navbar-wrapper hero-bm">
+				<div class="container">
+					<nav class="navbar navbar-revature navbar-static-top navbar-bg">
+						<div class="container">
+							<div class="navbar-header">
+								<button type="button" class="navbar-toggle collapsed"
+									data-toggle="collapse" data-target="#navbar"
+									aria-expanded="false" aria-controls="navbar">
+									<span class="sr-only">Toggle navigation</span> <span
+										class="icon-bar"></span> <span class="icon-bar"></span> <span
+										class="icon-bar"></span>
+								</button>
+								<div class="logo">
+									<a href="#/"><img src="resources/img/revature_logo.png"
+										alt="Revature" /></a>
+								</div>
+							</div>
+							<div id="navbar" class="navbar-collapse collapse rev-menu">
+								<ul class="nav navbar-nav">
+									<li><a href="#viewtrainers">VIEW TRAINERS</a></li>
+									<!--                 <li><a href="#viewbatches">VIEW BATCHES</a></li>
+ -->
+									<li><a href="#allbatches">VIEW ALL-BATCHES</a></li>
+									<!--Phase II-->
+									<!--<li><a href="#contact">SOLUTIONS</a></li>-->
+									<li><a href="#createbatches">CREATE BATCH</a></li>
+									<li><a href="#locations">LOCATIONS</a></li>
+									<!--Phase II-->
+									<!--<li><a href="#contact">INSIGHTS</a></li>-->
+								</ul>
 							</div>
 						</div>
-						<div id="navbar" class="navbar-collapse collapse rev-menu">
-							<ul class="nav navbar-nav" ng-show="hCtrl.isUserAuthenticated()">
-								<li><a href="#viewtrainers">VIEW TRAINERS</a></li>
-								<!--                 <li><a href="#viewbatches">VIEW BATCHES</a></li>
- -->
-								<li><a href="#allbatches">VIEW ALL-BATCHES</a></li>
-								<!--Phase II-->
-								<!--<li><a href="#contact">SOLUTIONS</a></li>-->
-								<li><a href="#createbatches">CREATE BATCH</a></li>
-								<li><a href="#locations">LOCATIONS</a></li>
-								<!--Phase II-->
-								<!--<li><a href="#contact">INSIGHTS</a></li>-->
-							</ul>
-						</div>
-					</div>
-				</nav>
-			</div>
-			<div class="col-sm-4 col-md-offset-5" ng-hide="hCtrl.isUserAuthenticated()">
-				<div>
-					<h4>You must login to continue</h4>
-					<form name="loginForm" novalidate>
-						<div class="input-group">
-							<input name="username" type="text" placeholder="Username/Email" class="form-control" required
-								ng-model="hCtrl.credentials.username"/>
-						</div>
-						<div class="input-group">
-							<input name="password" type="password" placeholder="Password" class="form-control" required
-								ng-model="hCtrl.credentials.password"/>
-						</div>
-						<div class="input-group">
-							<button class="btn btn-primary" ng-disabled="loginForm.$invalid" ng-click="hCtrl.login()">Login</button>
-							<p ng-show="hCtrl.hasError()" style="color:red;">{{hCtrl.getError()}}</p>
-						</div>
-					</form>
+					</nav>
 				</div>
 			</div>
 		</div>
+
 	</div>
 
 	<div ng-view></div>
@@ -127,21 +133,27 @@
 	<script type="text/javascript"
 		src="resources/misc/bootstrap-3.3.7-dist/js/ui-bootstrap-tpls-2.2.0.min.js"></script>
 	<script type="text/javascript" src="resources/js/assignforce.js"></script>
-	<script type="text/javascript" src="resources/js/controllers/createBatchController.js"></script>
+	<script type="text/javascript"
+		src="resources/js/controllers/createBatchController.js"></script>
 
 
 	<!-- -->
-	
+
 	<script type="text/javascript"
 		src="resources/misc/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="resources/js/controllers/locationController.js"></script>
+	<script type="text/javascript"
+		src="resources/js/controllers/locationController.js"></script>
 	<script type="text/javascript" src="resources/js/allbatches.js"></script>
 	<script type="text/javascript"
 		src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js"></script>
-	<script type="text/javascript" src="resources/js/controllers/timelineController.js"></script>
-	<script type="text/javascript" src="resources/js/services/userService.js"></script>
-	<script type="text/javascript" src="resources/js/controllers/homeController.js"></script>
-	<script type="text/javascript" src="resources/js/services/transferService.js"></script>
+	<script type="text/javascript"
+		src="resources/js/controllers/timelineController.js"></script>
+	<script type="text/javascript"
+		src="resources/js/services/userService.js"></script>
+	<script type="text/javascript"
+		src="resources/js/controllers/homeController.js"></script>
+	<script type="text/javascript"
+		src="resources/js/services/transferService.js"></script>
 
 </body>
 </html>
