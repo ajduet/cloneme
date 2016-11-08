@@ -1,23 +1,23 @@
 
     var assignforce = angular.module( "batchApp" );
 
-    assignforce.controller( "timelineCtrl", function($scope, allBatchService){
+    assignforce.controller( "TimelineCtrl", function($scope, allBatchService){
         console.log("Beginning timeline controller.");
         var tc = $scope;
         
             // replace with Kevin's code for timeline
 
         // //Timeline x axis range variables
-        // var minDate = new Date(2016,7,20),
-        //     maxDate = new Date(2017,11,31);
+          tc.minDate = new Date(2016,7,20);
+          tc.maxDate = new Date(2017,11,31);
 
         // //Pull batch data from service
-        // allBatchService.getAllBatches(function(response){
-        //     if (response.data !== undefined){
-        //         var data = response.data;
-        //         projectTimeline(minDate, maxDate, data);
-        //     }
-        // });
+         allBatchService.getAllBatches(function(response){
+             if (response.data !== undefined){
+                 var data = response.data;
+                 $scope.projectTimeline($scope.minDate, $scope.maxDate, data);
+             }
+         });
         
           // functions
         tc.numWeeks = function(date1, date2) {
@@ -97,7 +97,7 @@
                 .append('text')
                     .attr('y', function(d) {return yScale(new Date(d.batchStartDate))-5;})
                     .attr('x', function(d) {return xScale(d.batchTrainerID.trainerFirstName+"("+d.batchCurriculumID.curriculumName+")")-2;})
-                    .text(function(d) {return numWeeks(d.batchStartDate,d.batchEndDate);});
+                    .text(function(d) {return $scope.numWeeks(d.batchStartDate,d.batchEndDate);});
         };
 
     });

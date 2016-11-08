@@ -71,4 +71,6 @@
 	<!-- Find JPA Repositories -->
 	<jpa:repositories base-package="com.ateam.dao" />
 	
+	<mvc:resources location="/resources/" mapping="/resources/**"></mvc:resources>
+	
 </beans>
