@@ -3,7 +3,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Batch Creation Page</title>
-<script src="resources/js/ui-bootstrap-custom-tpls-2.2.0.js"></script>
+<script src="../js/modules/ui-bootstrap-custom-tpls-2.2.0.js"></script>
 <style>
 	form .ng-invalid, .ng-empty{
 		border-left: solid 3px rgba(255,0,0,1.0);
@@ -15,14 +15,14 @@
 </style>
 </head>
 <body>
-	<h1 id="createBatchHeader">Create batch here:</h1>
+	<h1 id="createBatchHeader"> Create new batch </h1>
 	<article class="dataContainer">
 		<form name="batchForm" novalidate>
 			<div ng-controller="batchCtrl">
-				<div class="form-group">
+				<!--<div class="form-group">
 					<label for="name">Name:</label> <input name="batchName"type="text"
-						class="form-control" ng-model="batchName" ng-required="true" />
-				</div>
+						class="form-control material-textbox" ng-model="batchName" ng-required="true" />
+				</div>-->
 				<div class="form-group">
 					<label for="curriculum">Curriculum:</label> <select name="batchCurr"
 						id="curriculumSelect" ng-model="curr"
@@ -40,8 +40,6 @@
 						ng-model="room" ng-options="room.roomName for room in rooms" ng-required="true">
 					</select>
 				</div>
-				<pre>Today's Date is:<em> {{dt | date:'fullDate'}} </em>
-				</pre>
 				<div class="row">
 					<div class="col-md-6">
 						<p class="input-group">
