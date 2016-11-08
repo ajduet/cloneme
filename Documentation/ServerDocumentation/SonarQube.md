@@ -1,9 +1,8 @@
 # SonarQube
 
 ## Introduction
-SonarQube is a tool for code analysis. It analyzes Java, Javascript, and other languages, automatically finding bugs, voulnerabilities, code smells (code that works, but may not be using best practices), and code duplication.  It also tracks elements over time.
+[SonarQube](http://www.sonarqube.org/) is a tool for code analysis. It analyzes Java, Javascript, and other languages, automatically finding bugs, vulnerabilities, code smells (code that works, but may not be using best practices), and code duplication.  It also tracks elements over time.
 
-More information here: http://www.sonarqube.org/
 
 ## Before you start
 
@@ -13,7 +12,7 @@ More information here: http://www.sonarqube.org/
 ## Installation
   1. Spin up a new EC2 instance of Amazon Linux (the default image)
   2. SSH into it
-  3. Update your instance if there's a message by running:
+  3. If you receive a message saying there are updates available, update your instance by running:
   
 ```sh
 $ sudo yum -y update
@@ -88,3 +87,7 @@ To stop the server, run:
 ```sh
 $ sudo /opt/sonar/bin/linux-x86-64/sonar.sh stop
 ```
+
+## Integrating into Jenkins
+
+11. On Jenkins, install the following plugins: `SonarQube Plugin`, ``
