@@ -35,12 +35,14 @@ app.controller("TimelineCtrl", function($scope, $window, allBatchService){
 		}
 	});
 	
+
 	$scope.$watch('maxDate', function(){
 		if($scope.data !== undefined){
 			projectTimeline($window.innerWidth, $scope.minDate, $scope.maxDate, $scope.data);
 		}
 	});
 });
+
 
 //Determine number of weeks in a batch
 function numWeeks(date1, date2) {

@@ -23,6 +23,10 @@ app.controller('batchCtrl', function($scope, batchService, trainerService, locat
 			transferService.get()
 	);
 
+	$scope.noPlaceholder = function() {
+		$("#currPlace")[0].parentElement.style.color = "black";
+	};
+
 	function initViewData(response){
 		//Initializing data
 		$scope.batchID = response.data.batchID;
@@ -218,25 +222,40 @@ app.controller('batchCtrl', function($scope, batchService, trainerService, locat
 });
 
 app.service('batchService', function($http, $q,$location){
-	console.log('calling batchService');
+	console.log('Calling batchService');
 	
 	this.getBatch = function(callback, id){
 //		$http.get('rest/getbatch').then(callback);
 		if(typeof(id) == typeof(NaN)){
 			$http.get('rest/getbatch', {params: {bId: id}}).then(callback);
+			// $http.get('http://localhost:8085/AssignForce/rest/getbatch', {params: {bId: id}}).then(callback);
+			// $http.get('http://dev.aduet.tech/AssignForce/rest/getbatch', {params: {bId: id}}).then(callback);
+			// $http.get('http://assignforce.aduet.tech/AssignForce/rest/getbatch', {params: {bId: id}}).then(callback);
 		}
 	}
 	
 	this.getCurrs = function(callback){
 		$http.get('rest/curriculum').then(callback);
+		// $http.get('http://localhost:8085/AssignForce/rest/curriculum').then(callback);
+		// $http.get('http://dev.aduet.tech/AssignForce/rest/curriculum').then(callback);
+		// $http.get('http://assignforce.aduet.tech/AssignForce/rest/curriculum').then(callback);
+		
 	}
 	
 	this.getTopics = function(callback){
 		$http.get('rest/topics').then(callback);
+		// $http.get('http://localhost:8085/AssignForce/rest/topics').then(callback);
+		// $http.get('http://dev.aduet.tech/AssignForce/rest/topics').then(callback);
+		// $http.get('http://assignforce.aduet.tech/AssignForce/rest/topics').then(callback);
+		
 	}
 	
 	this.getRooms = function(callback){
 		$http.get('rest/rooms').then(callback);
+		// $http.get('http://localhost:8085/AssignForce/rest/rooms').then(callback);
+		// $http.get('http://dev.aduet.tech/AssignForce/rest/rooms').then(callback);
+		// $http.get('http://assignforce.aduet.tech/AssignForce/rest/rooms').then(callback);
+		
 	}
 	
 	var ex = null;
@@ -255,7 +274,7 @@ app.service('batchService', function($http, $q,$location){
 		}
 		
 		batchObj.batchName = batchName;
-		batchObj.topic = topic;
+		batchObj.topic = "Java";
 		batchObj.curr = curr;
 		batchObj.trainer = trainer;
 		batchObj.room = room;
