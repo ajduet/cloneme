@@ -11,12 +11,14 @@
 		abc.selectedBatch;
 		
 		abc.highlightBatch = function(batch){
-			if($scope.selectedBatch !== undefined){
-				d3.select('#'+$scope.selectedBatch.batchTrainerID.trainerFirstName+$scope.selectedBatch.batchStartDate)
+			if(abc.selectedBatch !== undefined){
+				d3.select('#id'+abc.selectedBatch.batchID)
 					.attr('filter',null);
 			}
-			$scope.selectedBatch = batch;
-			d3.select('#'+batch.batchTrainerID.trainerFirstName+batch.batchStartDate)
+			console.log(batch);
+			abc.selectedBatch = batch;
+			console.log(abc.selectedBatch);
+			d3.select('#id'+batch.batchID)
 				.attr('filter', 'url(#highlight)');
 		};
 		

@@ -14,7 +14,7 @@
 				<th></th>
 			</thead>
 			<tbody>
-				<tr ng-repeat="batch in Batches" ng-click="highlightBatch(batch)" ng-class="{'active': selectedBatch.bName === batch.bName}">
+				<tr ng-repeat="batch in Batches" ng-click="highlightBatch(batch)" ng-class="{'active': selectedBatch.batchID === batch.batchID}">
 					<td>{{ batch.bName }}</td>
 					<td>{{ batch.batchCurriculumID.curriculumName }}</td>
 					<td>{{ batch.batchTrainerID.trainerFirstName }} {{ batch.batchTrainerID.trainerLastName }}</td>

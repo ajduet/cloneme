@@ -22,7 +22,7 @@ app.controller("TimelineCtrl", function($scope, $window, allBatchService){
 		function(response){
 			if (response !== undefined){
 				$scope.data = response.data;
-				projectTimeline($window.innerWidth, $scope.minDate, $scope.maxDate, $scope.data);
+				projectTimeline($window.innerWidth, $scope.minDate, $scope.maxDate, $scope.data, $scope.$parent);
 			}
 		},
 		function(){
@@ -33,14 +33,14 @@ app.controller("TimelineCtrl", function($scope, $window, allBatchService){
 	//Project new timeline when min or max date changes
 	$scope.$watch( 'minDate', function(){
 		if($scope.data !== undefined){
-			projectTimeline($window.innerWidth, $scope.minDate, $scope.maxDate, $scope.data);
+			projectTimeline($window.innerWidth, $scope.minDate, $scope.maxDate, $scope.data, $scope.$parent);
 		}
 	});
 	
 
 	$scope.$watch('maxDate', function(){
 		if($scope.data !== undefined){
-			projectTimeline($window.innerWidth, $scope.minDate, $scope.maxDate, $scope.data);
+			projectTimeline($window.innerWidth, $scope.minDate, $scope.maxDate, $scope.data, $scope.$parent);
 		}
 	});
 });
@@ -58,7 +58,7 @@ function numWeeks(date1, date2) {
     return Math.floor(diff / week);
 };
 
-function projectTimeline(windowWidth, minDate, maxDate, timelineData){
+function projectTimeline(windowWidth, minDate, maxDate, timelineData, parentScope){
 	
 	var trainers = ['August(Java)','Fred(.NET)','Joe(.NET)','Brian(Java)','Taylor(Java)','Patrick(Java)','Yuvi(SDET)','Steven(Java)','Ryan(SDET)','Richard(Java)','Nicholas(Java)','Ankit(Java)','Genesis(Java)','Emily(.NET)'];
 	
@@ -106,7 +106,8 @@ function projectTimeline(windowWidth, minDate, maxDate, timelineData){
 			return 0;
 		}
 	});
-	console.log(timelineData);
+	//console.log(timelineData);
+	//timelineData.forEach(function(d) {console.log(xScale(d.batchTrainerID.trainerFirstName+"("+d.batchCurriculumID.curriculumName+")")-15);console.log(d.batchTrainerID.trainerFirstName);});
 	//Create lines for between batches
 	var betweenBatches = [];
 	for(var x = 0; x < timelineData.length; x++){
@@ -175,7 +176,7 @@ function projectTimeline(windowWidth, minDate, maxDate, timelineData){
 		.attr("slope","1.5")
 	filter.append("feFlood")
 		.attr("in", "betterBlur")
-		.attr("flood-color", "#00ffff")
+		.attr("flood-color", "#f26a25")
 		.attr("result", "color");
 	filter.append("feComposite")
 		.attr("in", "color")
@@ -202,7 +203,7 @@ function projectTimeline(windowWidth, minDate, maxDate, timelineData){
 		.append('g')
 			.attr('class','rect')
 		.append('rect')
-			.attr('id',function(d){return d.batchTrainerID.trainerFirstName+d.batchStartDate;})
+			.attr('id',function(d){return 'id'+d.batchID;})
 			.attr('y', function(d) {
 				var y = yScale(new Date(d.batchStartDate));
 				if (y < 0){
@@ -223,6 +224,7 @@ function projectTimeline(windowWidth, minDate, maxDate, timelineData){
 				}
 				return end - start;
 			})
+			.on('click', function(d){parentScope.highlightBatch(d);parentScope.$apply();})
 			.style('fill', function(d) {return colorScale(d.batchTrainerID.trainerFirstName);});
 	d3.selectAll('.rect')
 		.append('text')
@@ -238,7 +240,7 @@ function projectTimeline(windowWidth, minDate, maxDate, timelineData){
 	
 	//Add between batch length to timeline
 	svg.append('g')
-	.attr('class','betweenbatches');
+		.attr('class','betweenbatches');
 
 	d3.select('.betweenbatches')
 		.selectAll('g')
