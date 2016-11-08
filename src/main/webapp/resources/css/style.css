@@ -5511,7 +5511,7 @@ font-family:Futura Bk;
     }
 
     .newBatch select {
-        height: 20.9px;
+        /*height: 20.9px;*/
         width: 45vw;
 
         /*color: rgba(0,0,0,.5);*/
@@ -5519,7 +5519,12 @@ font-family:Futura Bk;
         display: block;
     }
 
-    .newBatch select:focus, input:focus {
+    .newBatch {
+        font-size: 16px;
+        height: 16px;
+    }
+
+    .newBatch select:focus, .newBatch input:focus {
         outline: none;
         border-bottom: 2px solid #F26A25;
     }
@@ -5530,4 +5535,72 @@ font-family:Futura Bk;
 
     .newBatch input {
         width: 45vw;
+        padding-left: 5px;
+    }
+
+    .newBatch datetimepicker input {
+        border-radius: 0px;
+        width: 18vw;
+    }
+
+    .newBatch .datetimepicker-wrapper {
+        height: 20px;
+        width: 0vw;
+    }
+
+    #weeks {
+        position: relative;
+        top: -90px;
+        left: 18.25vw;
+
+        width: 8.5vw;
+        text-align: center;
+    }
+
+    #endDate {
+        position: relative;
+        left: 27vw;
+    }
+
+    #endDate input {
+        position: relative;
+        top: -46px;
+
+        height: 25px;
+    }
+
+    #startDate input {
+        height: 25px;
+    }
+
+    #endDate uib-datepicker-popup {
+        position: relative;
+        top: -27px !important;
+        left: 0px !important;
+    }
+
+    #startDate .glyphicon-calendar {
+        position: relative;
+        top: -22px;
+        left: 16vw;
+    }
+
+    #endDate .glyphicon-calendar {
+        position: relative;        
+        top: -69px;
+        left: 16vw;
+    }
+
+    #skills {
+        position: relative;
+    }
+
+    .leftGroup {
+        width: 50vw;
+    }
+
+    .rightGroup {
+        position: relative;
+        top: -279px;
+        left: 50vw;
     }

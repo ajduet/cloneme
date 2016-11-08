@@ -127,6 +127,7 @@ angular.module('ui.bootstrap.datetimepicker', ["ui.bootstrap.dateparser", "ui.bo
             createEvalAttr("closeText", "closeText") +
             createEvalAttr("placeholder", "placeholder") +
             "/>\n" +
+            "<span class='glyphicon glyphicon-calendar'> </span>" +
             "</div>\n";
           var timeTmpl = "<div class=\"datetimepicker-wrapper\" name=\"timepicker\" ng-model=\"time\" ng-change=\"time_change()\" style=\"display:inline-block\">\n" +
             "<div uib-timepicker " + [
