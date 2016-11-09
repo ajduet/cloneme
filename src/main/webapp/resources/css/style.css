@@ -1,4 +1,4 @@
-@import url("../fonts/stylesheet.css");
+@import url("fonts/stylesheet.css");
 *{
 	margin:0;
 	padding:0;
@@ -5482,3 +5482,157 @@ font-family:Futura Bk;
 			padding:75px;
 		}
 }
+
+
+      /* batch create/edit/clone CSS */
+    .newBatch form .ng-invalid {
+        border: none;
+        border-bottom: 1px solid red;
+    }
+
+    .newBatch form .ng-empty {
+        border: none;
+        border-bottom: 1px solid grey;
+    }
+
+    .newBatch form .ng-valid {
+        border: none;
+        border-bottom: 1px solid grey;
+    }
+
+    .newBatch .material-textbox {
+        border: none;
+        border-bottom: 1px solid grey;
+    }
+
+    .newBatch select option:disabled {
+        color: grey;
+        display: none;
+    }
+
+    .newBatch select {
+        /*height: 20.9px;*/
+        width: 45vw;
+
+        /*color: rgba(0,0,0,.5);*/
+
+        display: block;
+        z-index: 2;
+    }
+
+    .newBatch {
+        font-size: 16px;
+        height: 16px;
+    }
+
+    .newBatch select:focus, .newBatch input:focus {
+        outline: none;
+        border-bottom: 2px solid var(--revOrange);
+    }
+
+    .newBatch option:not(first-child) {
+        color: black;
+    }
+
+    .newBatch input {
+        width: 45vw;
+        padding-left: 5px;
+    }
+
+    .newBatch datetimepicker input {
+        border-radius: 0px;
+        width: 18vw;
+    }
+
+    .newBatch .datetimepicker-wrapper {
+        height: 20px;
+        width: 0vw;
+    }
+
+    #weeks {
+        position: relative;
+        top: -63px;
+        right: 5vw;
+
+        float: right;
+        
+        width: 6vw;
+        text-align: right;
+    }
+
+    #endDate {
+        position: relative;
+        left: 20vw;
+    }
+
+    #endDate input {
+        position: relative;
+        top: -45px;
+
+        height: 25px;
+    }
+
+    #startDate input {
+        position: relative;
+        top: 1px;
+        height: 25px;
+    }
+
+    #endDate uib-datepicker-popup {
+        position: relative;
+        top: -27px !important;
+        left: 0px !important;
+        z-index: 1;
+    }
+
+    #startDate .glyphicon-calendar {
+        position: relative;
+        top: -22px;
+        left: 16vw;
+    }
+
+    #endDate .glyphicon-calendar {
+        position: relative;        
+        top: -68px;
+        left: 16vw;
+    }
+
+    #skills {
+        position: relative;
+        top: 42px;
+    }
+
+    .leftGroup {
+        width: 50vw;
+    }
+
+    .rightGroup {
+        position: relative;
+        top: -279px;
+        left: 50vw;
+    }
+
+    .createView {
+        height: 35vh;
+    }
+
+    #submitBatch {
+        position: relative;
+        top: -35px;
+
+        padding: 2px;
+    }
+
+    body {
+        --revOrange: #F26A25;
+    }
+
+    #toSpan {
+        position: relative;
+        top: -20px;
+        left: 18vw;
+        
+        width: 1vw;
+
+        text-align: center;
+    }
