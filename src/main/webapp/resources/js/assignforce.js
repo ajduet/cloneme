@@ -1,5 +1,5 @@
 
-	var assignforce = angular.module( "batchApp", ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepicker']);
+	var assignforce = angular.module( "batchApp", ['ngRoute', 'ui.bootstrap']);
 		
 		  // url routing
 		assignforce.config(['$routeProvider', function($routeProvider){
@@ -8,35 +8,35 @@
 					templateUrl : "index.html"
 				})
 				.when("/batches", {
-					templateUrl : "html/views/batches.html",
+					templateUrl : "resources/html/views/batches.html",
 					controller  : "allBatchCtrl"
 				})
 				.when("/trainers", {
-					templateUrl : "html/views/trainers.html",
+					templateUrl : "resources/html/views/trainers.html",
 					controller  : "trainerCtrl"
 				})
 				.when("/createBatch", {
-					templateUrl : "html/views/createbatches.html",
+					templateUrl : "resources/html/views/createbatches.html",
 					controller  : "batchCtrl"
 				})
 				.when("/locations", {
-					templateUrl : "html/views/locations.html",
+					templateUrl : "resources/html/views/locations.html",
 					controller  : "locationCtrl"
 				})
 
 
 				.when("/viewcurrentbatches", {
-					templateUrl : "html/views/viewbatches.html"
+					templateUrl : "resources/html/views/viewbatches.html"
 				})
 				.when("/viewupcomingbatches", {
-					templateUrl : "html/views/viewbatches.html"
+					templateUrl : "resources/html/views/viewbatches.html"
 				})
 				.when("/allbatches", {
-					templateUrl : "html/views/allbatches.html",
+					templateUrl : "resources/html/views/allbatches.html",
 					controller  : "allBatchCtrl"
 				})
 				.when("/viewendedbatches", {
-					templateUrl : 'html/views/viewbatches.html'
+					templateUrl : 'resources/html/views/viewbatches.html'
 				});
 		}]);
 
@@ -105,23 +105,6 @@
 // 	 * date; }// end createDate
 // 	 */
 // });
-		
-	// app.factory('transferService', function() {
-	// 	 var savedData = {}
-		 
-	// 	 function set(data) {
-	// 	   savedData = data;
-	// 	 }
-	// 	 function get() {
-	// 	  return savedData;
-	// 	 }
-
-	// 	 return {
-	// 	  set: set,
-	// 	  get: get
-	// 	 }
-
-	// });
 
 
 	

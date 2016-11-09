@@ -35,6 +35,12 @@ app.controller("TimelineCtrl", function($scope, $window, allBatchService){
 		}
 	});
 	
+	$scope.$watch('maxDate', function(){
+		if($scope.data !== undefined){
+			projectTimeline($window.innerWidth, $scope.minDate, $scope.maxDate, $scope.data);
+		}
+	});
+});
 
 	$scope.$watch('maxDate', function(){
 		if($scope.data !== undefined){
@@ -104,7 +110,7 @@ function projectTimeline(windowWidth, minDate, maxDate, timelineData){
 			return 0;
 		}
 	});
-	console.log(timelineData);
+	
 	//Create lines for between batches
 	var betweenBatches = [];
 	for(var x = 0; x < timelineData.length; x++){

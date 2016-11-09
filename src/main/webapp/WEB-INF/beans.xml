@@ -19,7 +19,7 @@
 </bean>
 
 	<!-- Find Spring Beans -->
-	<context:component-scan base-package="com.ateam" />
+	<context:component-scan base-package="com.ateam, com.revature" />
 	<mvc:annotation-driven></mvc:annotation-driven>
 	<tx:annotation-driven />
 	<!-- Define DataSource -->
@@ -71,7 +71,6 @@
 	<!-- Find JPA Repositories -->
 	<jpa:repositories base-package="com.ateam.dao" />
 	
+	<mvc:resources location="/resources/" mapping="/resources/**"></mvc:resources>
 	
-
-
 </beans>

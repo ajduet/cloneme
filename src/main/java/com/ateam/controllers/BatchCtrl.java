@@ -23,6 +23,7 @@ import com.ateam.domain.Trainer;
 import com.ateam.service.BatchService;
 import com.ateam.service.DaoService;
 import com.revature.dto.BatchDTO;
+import com.revature.sfadapter.util.SFWSAccessor;
 
 
 @RestController
