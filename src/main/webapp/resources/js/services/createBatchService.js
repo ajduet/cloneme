@@ -37,7 +37,7 @@
             
         }
         
-        bs.saveBatch = function(batchName, topic, curr, trainer, room, date, date2, batchID){
+        bs.saveBatch = function(batchName, topic, curr, trainer, room, date, date2, batchID, callback){
             console.log('Saving batch')
             var batchObj = {};
         
@@ -50,7 +50,7 @@
             }
             
             batchObj.batchName = batchName;
-            batchObj.topic = "Java";
+            batchObj.topic = "J2EE";
             batchObj.curr = curr;
             batchObj.trainer = trainer;
             batchObj.room = room;
@@ -61,16 +61,21 @@
                 .then(
                     function(response){
                         console.log("Batch saved: ", response);
-                        $location.path("/allbatches");
+                        callback();
+                        // $location.path("/allbatches");
                     },
                     
                     function(error){
-                        console.lgo("Batch failed to save.")
+                        console.log("Batch failed to save.")
                         console.log($q.reject(error));
                     }
             );
             
         }
+
+        bs.deleteBatch = function() {
+            // FILL THIS OUT
+        };
 
         bs.attachRooms = function( locations, rooms ) {
             console.log("    Attaching rooms to locations.");
@@ -83,10 +88,11 @@
                         roomList.push( rooms[j] );
                     }
                 }
-                roomLoc[i] = [ locations[i], roomList ];
+                roomLoc[ locations[i].locationName ] = roomList;
                 roomList = [];
             }
+
             return roomLoc;
-        }
+        };
         
     });

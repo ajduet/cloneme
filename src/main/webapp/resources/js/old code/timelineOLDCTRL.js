@@ -1,6 +1,7 @@
 var app = angular.module('batchApp');
 
 /*--------------------------CONTROLLER---------------------------*/
+
 app.controller("TimelineCtrl", function($scope, $window, allBatchService){
 	
 	//Options for datepicker
@@ -26,18 +27,6 @@ app.controller("TimelineCtrl", function($scope, $window, allBatchService){
 			alert('No response from server');
 		}
 	);
-// app.controller("TimelineCtrl", function($scope, allBatchService){
-// 	//Timeline x axis range variables
-// 	var minDate = new Date(2016,7,20),
-// 		maxDate = new Date(2017,11,31);
-
-// 	//Pull batch data from service
-// 	allBatchService.getAllBatches(function(response){
-// 		if (response.data !== undefined){
-// 			var data = response.data;
-// 			projectTimeline(minDate, maxDate, data);
-// 		}
-// 	});
 	
 	//Project new timeline when min or max date changes
 	$scope.$watch( 'minDate', function(){
@@ -53,7 +42,13 @@ app.controller("TimelineCtrl", function($scope, $window, allBatchService){
 	});
 });
 
-// });
+	$scope.$watch('maxDate', function(){
+		if($scope.data !== undefined){
+			projectTimeline($window.innerWidth, $scope.minDate, $scope.maxDate, $scope.data);
+		}
+	});
+});
+
 
 //Determine number of weeks in a batch
 function numWeeks(date1, date2) {
@@ -68,8 +63,6 @@ function numWeeks(date1, date2) {
 };
 
 function projectTimeline(windowWidth, minDate, maxDate, timelineData){
-	
-	console.log(windowWidth);
 	
 	var trainers = ['August(Java)','Fred(.NET)','Joe(.NET)','Brian(Java)','Taylor(Java)','Patrick(Java)','Yuvi(SDET)','Steven(Java)','Ryan(SDET)','Richard(Java)','Nicholas(Java)','Ankit(Java)','Genesis(Java)','Emily(.NET)'];
 	
@@ -168,6 +161,41 @@ function projectTimeline(windowWidth, minDate, maxDate, timelineData){
 			.attr('stroke','lightgray');
 	
 	//Add batches to timeline
+	
+	var defs = svg.append("defs");
+
+	  var filter = defs.append("filter")
+	      .attr("id", "highlight")
+
+	  filter.append("feGaussianBlur")
+	      .attr("in", "SourceAlpha")
+	      .attr("stdDeviation", 5)
+	      .attr("result", "blur");
+	  filter.append("feComponentTransfer")
+	  		.attr("in", "blur")
+	  		.attr("result","betterBlur")
+	  		.append("feFuncA")
+	  			.attr("type","linear")
+	  			.attr("slope","1.5")
+	  filter.append("feFlood")
+      	.attr("in", "betterBlur")
+      	.attr("flood-color", "#00ffff")
+      	.attr("result", "color");
+	  filter.append("feComposite")
+      	.attr("in", "color")
+      	.attr("in2", "betterBlur")
+      	.attr("operator", "in")
+      	.attr("result", "colorBlur");
+
+	  var feMerge = filter.append("feMerge");
+
+	  feMerge.append("feMergeNode")
+	      .attr("in", "colorBlur")
+	  feMerge.append("feMergeNode")
+	      .attr("in", "SourceGraphic");
+	  
+	//Normal stuff
+	
 	svg.append('g')
 		.attr('class','rectangles');
 
@@ -178,6 +206,7 @@ function projectTimeline(windowWidth, minDate, maxDate, timelineData){
 		.append('g')
 			.attr('class','rect')
 		.append('rect')
+			.attr('id',function(d){return d.batchTrainerID.trainerFirstName+d.batchStartDate;})
 			.attr('y', function(d) {
 				var y = yScale(new Date(d.batchStartDate));
 				if (y < 0){

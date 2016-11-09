@@ -1,30 +1,52 @@
-	
-	<div>
-		<div class="batchView">
-			<header>
-				<h1>View All-Batches</h1>
-			</header>
-			<table style="width: 100%">
-				<tr class="tableHeader" id="tableHeader">
-					<th>Batch Name</th>
-					<th>Topic</th>
-					<th>Curriculum</th>
-					<th>Trainer</th>
-					<th>Start Date</th>
-					<th>End Date</th>
-				</tr>
-				<tr class="tableRow" ng-repeat="batch in Batches" ng-click="editBatch(batch.batchID)">
+<div>
+
+	<div class="createView" ng-include src="'html/views/createbatches.html'"> </div>
+
+	<div class="batchView">
+		<h3>View all batches</h1>
+		<table class="table table-sm table-hover" style="width: 100%">
+			<thead>
+				<th>Batch Name</th>
+				<th>Curriculum</th>
+				<th>Trainer</th>
+				<th>Start Date</th>
+				<th>End Date</th>
+				<th></th>
+			</thead>
+			<tbody>
+				<tr ng-repeat="batch in Batches" ng-click="highlightBatch(batch)" ng-class="{'active': selectedBatch.batchID === batch.batchID}">
 					<td>{{ batch.bName }}</td>
-					<td>{{ batch.batchTopicID.topicName }}</td>
-					<td>{{ batch.batchCurriculumID.curriculumName}}</td>
-					<td>{{ batch.batchTrainerID.trainerFirstName }} {{batch.batchTrainerID.trainerLastName}}</td>
+					<td>{{ batch.batchCurriculumID.curriculumName }}</td>
+					<td>{{ batch.batchTrainerID.trainerFirstName }} {{ batch.batchTrainerID.trainerLastName }}</td>
 					<td>{{ createDate(batch.batchStartDate) }}</td>
 					<td>{{ createDate(batch.batchEndDate) }}</td>
+					<td>
+						<div class="btn-group">
+							<button class="btn btn-primary btn-xs" ng-click="edit(batch)"> Edit </button>
+							<button class="btn btn-warning btn-xs" ng-click="clone(batch)"> Clone </button>
+							<button class="btn btn-danger btn-xs">Delete</button>
+						</div>
+					</td>
 				</tr>
-			</table>
-		</div>
-		<br><br>
-		<div ng-controller="timelineCtrl">
-			<div id="timeline"></div>
-		</div>
+			</tbody>
+		</table>
 	</div>
+	<br><br>
+	<div ng-controller="TimelineCtrl">
+		<div class="batchView">
+			<h3>Batch Timeline</h3>
+			<div class="row">
+				<div class="col-md-2">
+					<h4>Start Date:</h4>
+					<div style="display: inline-block;" uib-datepicker datepicker-options="options" ng-model="minDate" class="well"></div>
+				</div>
+				<div class="col-md-2 col-md-offset-1">
+					<h4>End Date:</h4>
+					<div style="display: inline-block;" uib-datepicker datepicker-options="options" ng-model="maxDate" class="well"></div>
+				</div>
+			</div>
+		</div>
+		<br>
+		<div id="timeline"></div>
+	</div>
+</div>
