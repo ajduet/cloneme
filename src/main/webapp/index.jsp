@@ -3,5 +3,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<!-- deliver the client side app -->
-	<% response.sendRedirect("/AssignForce/home.html"); %>
+	<% response.sendRedirect("/AssignForce/resources/index.html"); %>
 </html>

@@ -8,35 +8,35 @@
 					templateUrl : "index.html"
 				})
 				.when("/batches", {
-					templateUrl : "resources/html/views/batches.html",
+					templateUrl : "html/views/batches.html",
 					controller  : "allBatchCtrl"
 				})
 				.when("/trainers", {
-					templateUrl : "resources/html/views/trainers.html",
+					templateUrl : "html/views/trainers.html",
 					controller  : "trainerCtrl"
 				})
 				.when("/createBatch", {
-					templateUrl : "resources/html/views/createbatches.html",
+					templateUrl : "html/views/createbatches.html",
 					controller  : "batchCtrl"
 				})
 				.when("/locations", {
-					templateUrl : "resources/html/views/locations.html",
+					templateUrl : "html/views/locations.html",
 					controller  : "locationCtrl"
 				})
 
 
 				.when("/viewcurrentbatches", {
-					templateUrl : "resources/html/views/viewbatches.html"
+					templateUrl : "html/views/viewbatches.html"
 				})
 				.when("/viewupcomingbatches", {
-					templateUrl : "resources/html/views/viewbatches.html"
+					templateUrl : "html/views/viewbatches.html"
 				})
 				.when("/allbatches", {
-					templateUrl : "resources/html/views/allbatches.html",
+					templateUrl : "html/views/allbatches.html",
 					controller  : "allBatchCtrl"
 				})
 				.when("/viewendedbatches", {
-					templateUrl : 'resources/html/views/viewbatches.html'
+					templateUrl : 'html/views/viewbatches.html'
 				});
 		}]);
 
