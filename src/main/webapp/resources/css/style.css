@@ -1,4 +1,4 @@
-@import url("fonts/stylesheet.css");
+@import url("fonts/fonts.css");
 *{
 	margin:0;
 	padding:0;
@@ -5613,7 +5613,7 @@ font-family:Futura Bk;
     }
 
     .createView {
-        height: 35vh;
+        height: 45vh;
     }
 
     #submitBatch {
@@ -5635,4 +5635,8 @@ font-family:Futura Bk;
         width: 1vw;
 
         text-align: center;
+    }
+
+    h1, h3 {
+        margin-left: .67em;
     }
