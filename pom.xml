@@ -5,7 +5,12 @@
 	<artifactId>AssignForce</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-
+<distributionManagement>
+   <snapshotRepository>
+      <id>internal</id>
+      <url>http://nexus.aduet.tech/content/repositories/snapshots/</url>
+   </snapshotRepository>
+</distributionManagement>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -154,6 +159,19 @@
 	<!-- Build stuff -->
 	<build>
 		<plugins>
+			
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.1</version>
+                <extensions>true</extensions>
+                <configuration>
+                <!-- The Base URL of Nexus instance where we want to stage -->
+                    <nexusUrl>http://nexus.aduet.tech/</nexusUrl>
+                    <!-- The server "id" element from settings to use authentication from -->
+                    <serverId>internal</serverId>
+                </configuration>
+            </plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
