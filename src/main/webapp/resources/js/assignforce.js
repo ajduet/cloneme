@@ -2,10 +2,11 @@
 	var assignforce = angular.module( "batchApp", ['ngRoute', 'ui.bootstrap', 'ui.bootstrap.datetimepicker']);
 		
 		  // url routing
-		assignforce.config(['$routeProvider', function($routeProvider){
+		assignforce.config(function($routeProvider, $locationProvider){
 			$routeProvider
 				.when("/home", {
-					templateUrl : "index.html"
+					templateUrl : "html/views/home.html",
+					contoller: "homeController"
 				})
 				.when("/batches", {
 					templateUrl : "html/views/batches.html",
@@ -18,5 +19,8 @@
 				.when("/locations", {
 					templateUrl : "html/views/locations.html",
 					controller  : "locationCtrl"
-				});
-		}]);
+				})
+				.otherwise({"redirectTo": "/home"});
+			
+			$locationProvider.html5Mode(true);
+		});
