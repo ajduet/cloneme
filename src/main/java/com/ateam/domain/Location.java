@@ -1,6 +1,8 @@
 package com.ateam.domain;
 import java.util.List;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -28,10 +30,10 @@ public class Location {
 	
 	@Column(name = "L_STATE")
 	private String locationState;
+	
+	@OneToMany(mappedBy="roomLocationID")
+	private List<Room> rooms;
 
-//	@OneToMany(fetch = FetchType.EAGER)//, mappedBy = "Room")
-//	private List<Room> rooms;
-		
 	public Location() {
 		super();
 	}
@@ -45,6 +47,7 @@ public class Location {
 	public String getLocationCity() {
 		return locationCity;
 	}
+	
 	public void setLocationCity(String locationCity) {
 		this.locationCity = locationCity;
 	}
@@ -82,6 +85,8 @@ public class Location {
 		return "Location [locationID=" + locationID + ", locationName=" + locationName + ", locationCity="
 				+ locationCity + ", locationState=" + locationState + "]";
 	}
+
+	
 	
 	
 }
