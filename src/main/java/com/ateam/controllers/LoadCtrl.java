@@ -40,11 +40,19 @@ public class LoadCtrl {
 		String userName = obj.get("username").textValue();
 		String password = obj.get("password").textValue();
 		
-		if((!userName.equals("ravi.singh") || !password.equals("@revature_ravi_singh!")) ||
-				(!userName.equals("rev.dev") || !password.equals("@rev_dev!"))){
-			return new ResponseEntity<Boolean>(false, HttpStatus.UNAUTHORIZED);
-		}else{
+//		if((!userName.equals("ravi.singh") || !password.equals("@revature_ravi_singh!")) ||
+//				(!userName.equals("rev.dev") || !password.equals("@rev_dev!"))){
+//			return new ResponseEntity<Boolean>(false, HttpStatus.UNAUTHORIZED);
+//		}else{
+//			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+//		}
+		
+		if("ravi.singh".equals(userName) && "@revature_ravi_singh!".equals(password)){
 			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		}else if("rev.dev".equals(userName) && "@rev_dev!".equals(password)){
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		}else{
+			return new ResponseEntity<Boolean>(false, HttpStatus.UNAUTHORIZED);
 		}
 		
 //		//extract the authorization code

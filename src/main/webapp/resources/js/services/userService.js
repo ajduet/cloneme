@@ -3,7 +3,7 @@
  */
 var app = angular.module("batchApp");
 
-app.constant('authorizeUrl', 'rest/authorize');
+app.constant('authorizeUrl', '../rest/authorize');
 
 app.service('userSrv', function($http, authorizeUrl){
 	
