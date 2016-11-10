@@ -5,7 +5,9 @@
 		
 		<link href="css/createNewBatchCSS.css">
 	</head>
-	<h1>Batches</h1>
+
+	<h1 style="margin-left: .67em"> Batches </h1>
+	
 	<div ng-controller="batchCtrl">
 		<div class="dataContainer newBatch" ng-cloak>
 			<h3 id="createBatchHeader"> {{stateChanges[state].header}} </h3>
@@ -64,12 +66,6 @@
 					  <!-- Skill search item list -->
 					<skill-search-item skill="currSkill" remove="remove" ng-repeat="currSkill in skills"> </skillSearchItem>
 				</div>
-
-				<!--<div class="form-group">
-					<input type="submit" value="{{ submitButton }}"
-						class="btn btn-warning btn-large btn-block"
-						ng-click="saveBatch(batchName, topic.topicName, curr.curriculumName, trainer.trainerFirstName, room.roomName, date, date2, batchID)" ng-disabled="batchForm.$invalid">
-				</div>-->
 
 			</form>
 		</div>
