@@ -17,13 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RestController
 public class LoadCtrl {
 	
-	@RequestMapping(value="/home", method=RequestMethod.GET)
-	public String home(){
-		System.out.println("home direction");
-		
-		return "forward: resources/staticpages/home.html";	// not really sure what to return here
-	}
-		
+	
 	@RequestMapping(value="/authorize", method=RequestMethod.POST)
 	public ResponseEntity<Boolean> initSetup(ModelMap modelMap, @RequestBody String credentials){
 		
