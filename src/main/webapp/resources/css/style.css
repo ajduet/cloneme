@@ -5640,3 +5640,22 @@ font-family:Futura Bk;
     h1, h3 {
         margin-left: .67em;
     }
+	
+	.angucomplete-holder input {
+        height: 25px;
+        border-radius: 0px;
+    }
+
+    batchItemProgress td {
+        border-bottom: 1px solid #ddd;
+        padding: 2px 10px;
+        position: relative;
+        top: 0px;
+    }
+
+    .activeBatchList td, .activeBatchList th {
+        border-bottom: 1px solid #ddd;
+        padding: 2px 10px;
+        position: relative;
+        top: 0px;
+    }

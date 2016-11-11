@@ -22,34 +22,34 @@
 
             // retrieve lists
         cbc.getCurrs = batchService.getCurrs(
-                function(response){
-                    console.log("  (CBC) Retrieving curricula.");
-                    cbc.currs = response.data;
-                });
+            function(response){
+                console.log("  (CBC) Retrieving curricula.");
+                cbc.currs = response.data;
+            });
         
         cbc.getTrainers = trainerService.getAllTrainers(
-                function(response){
-                    console.log("  (CBC) Retrieving trainers.");
-                    cbc.trainers = response.data;
-                });
+            function(response){
+                console.log("  (CBC) Retrieving trainers.");
+                cbc.trainers = response.data;
+            });
         
         cbc.getLocations = locationService.getAllLocations(
-                function(response){
-                    console.log("  (CBC) Retrieving locations.");
-                    cbc.locations = response.data
-                    if (cbc.rooms != null) {
-                        cbc.roomLoc = batchService.attachRooms(cbc.locations, cbc.rooms);
-                    }
-                });
+            function(response){
+                console.log("  (CBC) Retrieving locations.");
+                cbc.locations = response.data
+                if (cbc.rooms != null) {
+                    cbc.roomLoc = batchService.attachRooms(cbc.locations, cbc.rooms);
+                }
+            });
 
         cbc.getRooms = batchService.getRooms(
-                function(response){
-                    console.log("  (CBC) Retrieving rooms.");
-                    cbc.rooms = response.data
-                    if (cbc.locations != null) {
-                        cbc.roomLoc = batchService.attachRooms(cbc.locations, cbc.rooms);
-                    }
-                });
+            function(response){
+                console.log("  (CBC) Retrieving rooms.");
+                cbc.rooms = response.data
+                if (cbc.locations != null) {
+                    cbc.roomLoc = batchService.attachRooms(cbc.locations, cbc.rooms);
+                }
+            });
 
           // auto increment end date to 10 weeks ahead of chosen start date
         cbc.setEndDate = function() {
@@ -91,10 +91,6 @@
 				    cbc.$emit( "repull", { batches: response.data });
 			    });
             });
-            
-            // allBatchService.getAllBatches(function(response) {
-			// 	cbc.$emit( "repull", { batches: response.data });
-			// });
         }
 
           // print batch info
@@ -110,12 +106,27 @@
                       "\nBatchID    :", cbc.batchID );
         };
 
-        
+          // update searchable skills
+        cbc.updateCurr = function() {
+            if (cbc.curr != undefined) {
+                cbc.searchableSkills = cbc.skillCurr["Misc"].concat(cbc.skillCurr[cbc.curr]);
+            } else {
+                cbc.searchableSkills = cbc.skillCurr["Misc"];
+            }
+        };
+
+          // add chosen skill to skill list
+        cbc.addToSkills = function(data) {
+            if (data != undefined) {
+                cbc.skills.push(data.title);
+            }
+        };
 
           // initialize fields
         cbc.initialize = function(incomingBatch) {
-            
-            // cbc.distributeRooms();
+
+            cbc.skills = [];
+            cbc.searchableSkills = [];
 
             switch(cbc.state) {
                 case "create":
@@ -128,7 +139,7 @@
                         break;
                     }
 
-                    console.log("    Populating fields.");
+                    console.log("    (CBC) Populating fields.");
                     cbc.batchName = incomingBatch.bName;
                     cbc.batchID   = (cbc.state == "edit") ? incomingBatch.batchID : 0;
                     cbc.curr      = incomingBatch.batchCurriculumID.curriculumName;
@@ -156,12 +167,22 @@
                                          "submit": "Save clone" } };
 
             // connection of trainer skills to curricula
-        cbc.skillCurr = { "Java": [ "Core Java", "SQL", "Servlets/JSPs", "HTML/CSS", "JavaScript", "Hiberante", "Spring", "Web Services", "AngularJS" ],
-                          ".NET": [ "Core C#", "ADO.NET", "ASP.NET", "Web Services", "HTML/CSS", "JavaScript", "AngularJS", "Entity" ],
-                          "SDET": [ "Core Java", "SQL", "Servlets/JSPs", "HTML/CSS", "Selenium/WebDriver", "QTP/UFT", "Cucumber", "Web Services" ],
-                          "Misc": [ "DevOps: Git", "DevOps: Maven", "DevOps: Jenkins", "DevOps: SonarQube", "DevOps: JIRA", "DevOps: Tomcat" ] };
+        cbc.skillCurr = { "Java": [ { skill: "Core Java"},         { skill: "SQL"},                { skill: "Servlets/JSPs"}, 
+                                    { skill: "HTML/CSS"},          { skill: "JavaScript"},         { skill: "Hiberante"}, 
+                                    { skill: "Spring"},            { skill: "Web Services"},       { skill: "AngularJS"} ],
 
-        // cbc.skills = cbc.skillCurr.Java.splice(0, 4);
+                          ".NET": [ { skill: "Core C#"},           { skill: "ADO.NET"},            { skill: "ASP.NET"}, 
+                                    { skill: "Web Services"},      { skill: "HTML/CSS"},           { skill: "JavaScript"}, 
+                                    { skill: "AngularJS"},         { skill: "Entity"} ],
+
+                          "SDET": [ { skill: "Core Java"},         { skill: "SQL"},                { skill: "Servlets/JSPs"}, 
+                                    { skill: "HTML/CSS"},          { skill: "Selenium/WebDriver"}, { skill: "QTP/UFT"}, 
+                                    { skill: "Cucumber"},          { skill: "Web Services"} ],
+
+                          "Misc": [ { skill: "DevOps: Git"},       { skill: "DevOps: Maven"},      { skill: "DevOps: Jenkins"}, 
+                                    { skill: "DevOps: SonarQube"}, { skill: "DevOps: JIRA"},       { skill: "DevOps: Tomcat"} ] };
+
+        cbc.searchableSkills = cbc.skillCurr["Misc"];
 
           // configurations
             // calendar configs
@@ -172,6 +193,35 @@
             return mode === 'day' && (currentDate.getDay() === 0 || currentDate.getDay() === 6);
         };
 
+            // typeahead configs
+        cbc.onAdd = function () {
+            if (_.isObject($scope.selectedItem)) {
+                var exists = _.find($scope.people, function (person) {
+                    return person.id === $scope.selectedItem.id;
+                });
+
+                if (!exists) {
+                    $scope.people.push($scope.selectedItem);
+                }
+
+                // a blank string will tell the control to clear/reset.
+                $scope.selectedItem = '';
+            }
+        };
+
+        cbc.onFilter = function (parsedResponse) {
+            // Remove any users already in the person list.
+            return _.filter(parsedResponse, function (item) {
+                return !_.find($scope.people, function (person) {
+                    return person.id === item.id;
+                });
+            });
+        };
+
+        cbc.onSave = function () {
+            // ...
+        };
+
           // broadcasters/listeners
             // listens for an event "state" to be broadcasted to change states to the supplied state and populates fields grom given batch 
         cbc.$on( "state", function( event, data ){
@@ -180,14 +230,5 @@
 
           // initialize page
         cbc.initialize(null);
-
-        // var response = batchService.getBatch(
-        //         function(response){
-        //             cbc.weeks = calendarService.countWeeks(response.data.batchStartDate, response.data.batchEndDate);
-        //             cbc.changeState("clone", response.data);
-        //         },
-        //         48);
-
-        
 
     });

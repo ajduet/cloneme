@@ -95,18 +95,24 @@
 				</div>
 			</div>
 		</div>
+
+          <!-- Menu bar -->
 		<div ng-show="aCtrl.isUserAuthenticated()">
 			<ng-include src="'html/views/menu.html'">
 		</div>
-		<div ng-view></div>
+		
+          <!-- Content view -->
+        <div ng-view ng-show="aCtrl.isUserAuthenticated()">
+        </div>
+
 	</div>
 </body>
 
-<!-- AngularJS -->
+  <!-- AngularJS -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.js"></script>
 
-<!-- Angular modules -->
+  <!-- Angular modules -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.min.js"></script>
 <script type="text/javascript"
@@ -114,10 +120,10 @@
 <script type="text/javascript"
 	src="misc/bootstrap-3.3.7-dist/js/ui-bootstrap-tpls-2.2.0.min.js"></script>
 
-<!-- Angular scripts -->
+  <!-- Angular scripts -->
 <script type="text/javascript" src="js/assignforce.js"></script>
 
-<!-- Controllers -->
+  <!-- Controllers -->
 <script type="text/javascript"
 	src="js/controllers/allBatchesController.js"></script>
 <script type="text/javascript"
@@ -130,7 +136,7 @@
 <script type="text/javascript" src="js/controllers/homeController.js"></script>
 <script type="text/javascript" src="js/controllers/authController.js"></script>
 
-<!-- Services -->
+  <!-- Services -->
 <script type="text/javascript" src="js/services/calendarService.js"></script>
 <script type="text/javascript" src="js/services/allBatchesService.js"></script>
 <script type="text/javascript" src="js/services/createBatchService.js"></script>
@@ -138,17 +144,21 @@
 <script type="text/javascript" src="js/services/trainerService.js"></script>
 <script type="text/javascript" src="js/services/userService.js"></script>
 
-<!-- Directives -->
+  <!-- Directives -->
 <script type="text/javascript" src="js/directives/angular-datepicker.js"></script>
+<script type="text/javascript" src="js/directives/angucomplete-alt.js"></script>
 <script type="text/javascript" src="js/directives/angular-typeahead.js"></script>
 <script type="text/javascript" src="js/directives/datetimepicker.js"></script>
 <script type="text/javascript"
 	src="js/directives/skillSearchItemDirective.js"></script>
 
-<!-- Factories -->
+  <!-- Factories -->
 <script type="text/javascript" src="js/factories/transferFactory.js"></script>
 
-<!-- Misc -->
+  <!-- Filters -->
+<script type="text/javascript" src="js/filters/activeBatchFilter.js"></script>
+
+  <!-- Misc -->
 <script type="text/javascript"
 	src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js"></script>
 
