@@ -93,7 +93,7 @@ System.out.println(re);
 				produces = MediaType.APPLICATION_JSON_VALUE)
 		public ResponseEntity<Batch> saveBatch(@RequestBody BatchDTO batchObj) throws InterruptedException{
 			
-
+			System.out.println();
 			Trainer t = bServ.getTrainerByName(batchObj.getTrainer());
 			System.out.println(t.toString());
 			Room room = bServ.getRoomByName(batchObj.getRoom());
