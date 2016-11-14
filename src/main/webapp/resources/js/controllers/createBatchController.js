@@ -36,7 +36,15 @@
         cbc.getLocations = locationService.getAllLocations(
                 function(response){
                     console.log("  (CBC) Retrieving locations.");
-                    cbc.locations = response.data
+                    cbc.locations = response.data;
+
+                    for (var i = 0; i < cbc.locations.length; i++) {
+                        if (cbc.locations[i].locationID == 0) {
+                            cbc.locations.splice(i);
+                            break;
+                        }
+                    };
+
                     if (cbc.rooms != null) {
                         cbc.roomLoc = batchService.attachRooms(cbc.locations, cbc.rooms);
                     }
@@ -85,17 +93,92 @@
             } else {
                 ID = "NEW";
             }
-            cbc.updateTask = batchService.saveBatch(cbc.batchName, "J2EE", cbc.curr, cbc.trainer, cbc.room, cbc.startDate, cbc.endDate, cbc.batchID, function() {
-                
+
+            var curr = cbc.curr;
+            if (curr == null) {
+                curr = "No curriculum selected";
+            }
+
+            var trainer = cbc.trainer;
+            if (trainer == null) {
+                trainer = "No trainer selected";
+            }
+            
+            var cotrainer = cbc.cotrainer;
+            if (cotrainer == null) {
+                cotrainer = "No trainer selected";
+            }
+
+            var room = cbc.room;
+            if (room == null) {
+                room = "Dummy LocID" + cbc.location.locationID;
+            }
+
+            cbc.updateTask = batchService.saveBatch(cbc.batchName, "J2EE", curr, trainer, room, cbc.startDate, cbc.endDate, cbc.batchID, function() {
                 allBatchService.getAllBatches(function(response) {
 				    cbc.$emit( "repull", { batches: response.data });
 			    });
             });
-            
-            // allBatchService.getAllBatches(function(response) {
-			// 	cbc.$emit( "repull", { batches: response.data });
-			// });
         }
+
+        cbc.validate = function() {
+            console.log("  (CBC) Validating inputs.");
+
+            var valid = 1;
+
+              // batch name
+            if (cbc.batchName == undefined || cbc.batchName == "") {
+                $("#name").addClass("invalidInput");
+                valid = 0;                
+            } else {
+                $("#name").removeClass("invalidInput");
+            }
+
+            //   // curriculum
+            // if (cbc.curr == null) {
+            //     $("#curr").addClass("invalidInput");
+            //     valid = 0;                
+            // } else {
+            //     $("#curr").removeClass("invalidInput");
+            // }
+
+            //   // trainer
+            // if (cbc.trainer == null) {
+            //     $("#trainer").addClass("invalidInput");
+            //     valid = 0;                
+            // } else {
+            //     $("#trainer").removeClass("invalidInput");
+            // }
+
+            //   // cotrainer
+            // if (cbc.cotrainer == null) {
+            //     $("#cotrainer").addClass("invalidInput");
+            //     valid = 0;                
+            // } else {
+            //     $("#cotrainer").removeClass("invalidInput");
+            // }
+
+              // location
+            if (cbc.location == null) {
+                $("#location").addClass("invalidInput");
+                valid = 0;
+            } else {
+                $("#location").removeClass("invalidInput");
+            }
+
+            //   // room
+            // if (cbc.room == null) {
+            //     $("#room").addClass("invalidInput");
+            //     valid = 0;                
+            // } else {
+            //     $("#room").removeClass("invalidInput");
+            // }
+
+            if (valid == 1) {
+                console.log("    All fields valid.");
+                cbc.saveBatch();
+            }
+        };
 
           // print batch info
         cbc.printBatch = function() {
@@ -110,7 +193,15 @@
                       "\nBatchID    :", cbc.batchID );
         };
 
-        
+          // remove placeholder coloring
+        cbc.removeGrey = function() {
+            event.target.style.color = "#000000";
+        };
+
+          // enable selection of room
+        cbc.enableRoom = function() {
+            cbc.roomDis = false;
+        };
 
           // initialize fields
         cbc.initialize = function(incomingBatch) {
@@ -161,7 +252,7 @@
                           "SDET": [ "Core Java", "SQL", "Servlets/JSPs", "HTML/CSS", "Selenium/WebDriver", "QTP/UFT", "Cucumber", "Web Services" ],
                           "Misc": [ "DevOps: Git", "DevOps: Maven", "DevOps: Jenkins", "DevOps: SonarQube", "DevOps: JIRA", "DevOps: Tomcat" ] };
 
-        // cbc.skills = cbc.skillCurr.Java.splice(0, 4);
+        cbc.roomDis = true;
 
           // configurations
             // calendar configs

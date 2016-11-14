@@ -1,11 +1,9 @@
 package com.ateam.domain;
 import java.util.List;
 
-import java.util.List;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,7 +29,7 @@ public class Location {
 	@Column(name = "L_STATE")
 	private String locationState;
 	
-	@OneToMany(mappedBy="roomLocationID")
+	@OneToMany(mappedBy="roomLocationID", cascade = CascadeType.MERGE)
 	private List<Room> rooms;
 
 	public Location() {

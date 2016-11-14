@@ -291,9 +291,9 @@ public class DaoServiceImpl implements DaoService {
 		
 		for (Curriculum c : cs) {
 
-			if(c.getSkill() != null){
-				c.setSkill(null);
-			}
+//			if(c.getSkill() != null){
+//				c.setSkill(null);
+//			}
 
 		}
 		

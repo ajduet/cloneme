@@ -113,9 +113,11 @@ System.out.println(re);
 			
 			  // Curriculum
 			Curriculum c;
+			System.out.println("Curriculum: " + batchObj.getCurr());
 			if (batchObj.getCurr() == null) {
 				c = new Curriculum();
 			} else {
+				System.out.println("Fetching existing curriculum");
 				c = bServ.getCurriculumByName(batchObj.getCurr());
 			}
 			System.out.println(c);
