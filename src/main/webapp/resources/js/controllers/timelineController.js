@@ -157,6 +157,19 @@ function projectTimeline(windowWidth, minDate, maxDate, timelineData, parentScop
 			.attr('y2', height)
 			.attr('stroke','lightgray');
 	
+	//Add line for current date on timeline
+	
+	svg.append('g')
+		.attr('class','currentdate')
+		
+	d3.select('.currentdate')
+		.append('line')
+			.attr('x1', 0)
+			.attr('x2', width)
+			.attr('y1', yScale(new Date()))
+			.attr('y2',yScale(new Date()))
+			.attr('stroke','#f26a25');
+	
 	//Add batches to timeline
 	
 	var defs = svg.append("defs");
