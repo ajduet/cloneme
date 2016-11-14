@@ -4,7 +4,7 @@ var app = angular.module('batchApp');
 
 /*--------------------------CONTROLLER---------------------------*/
 
-app.controller("TimelineCtrl", function($scope, $window, allBatchService){
+app.controller("TimelineCtrl", function($scope, $window, allBatchService, calendarService){
 
 	//Options for datepicker
 	$scope.options = {
@@ -22,7 +22,7 @@ app.controller("TimelineCtrl", function($scope, $window, allBatchService){
 		function(response){
 			if (response !== undefined){
 				$scope.data = response.data;
-				projectTimeline($window.innerWidth, $scope.minDate, $scope.maxDate, $scope.data, $scope.$parent);
+				projectTimeline($window.innerWidth, $scope.minDate, $scope.maxDate, $scope.data, $scope.$parent, calendarService.countWeeks);
 			}
 		},
 		function(){
@@ -33,32 +33,19 @@ app.controller("TimelineCtrl", function($scope, $window, allBatchService){
 	//Project new timeline when min or max date changes
 	$scope.$watch( 'minDate', function(){
 		if($scope.data !== undefined){
-			projectTimeline($window.innerWidth, $scope.minDate, $scope.maxDate, $scope.data, $scope.$parent);
+			projectTimeline($window.innerWidth, $scope.minDate, $scope.maxDate, $scope.data, $scope.$parent, calendarService.countWeeks);
 		}
 	});
 	
 
 	$scope.$watch('maxDate', function(){
 		if($scope.data !== undefined){
-			projectTimeline($window.innerWidth, $scope.minDate, $scope.maxDate, $scope.data, $scope.$parent);
+			projectTimeline($window.innerWidth, $scope.minDate, $scope.maxDate, $scope.data, $scope.$parent, calendarService.countWeeks);
 		}
 	});
 });
 
-
-//Determine number of weeks in a batch
-function numWeeks(date1, date2) {
-    var week = 1000 * 60 * 60 * 24 * 7;
-
-    var date1ms = new Date(date1).getTime();
-    var date2ms = new Date(date2).getTime();
-
-    var diff = date2ms - date1ms;
-
-    return Math.floor(diff / week);
-};
-
-function projectTimeline(windowWidth, minDate, maxDate, timelineData, parentScope){
+function projectTimeline(windowWidth, minDate, maxDate, timelineData, parentScope, numWeeks){
 	
 	var trainers = ['August(Java)','Fred(.NET)','Joe(.NET)','Brian(Java)','Taylor(Java)','Patrick(Java)','Yuvi(SDET)','Steven(Java)','Ryan(SDET)','Richard(Java)','Nicholas(Java)','Ankit(Java)','Genesis(Java)','Emily(.NET)'];
 	
@@ -106,21 +93,29 @@ function projectTimeline(windowWidth, minDate, maxDate, timelineData, parentScop
 			return 0;
 		}
 	});
-	//console.log(timelineData);
-	//timelineData.forEach(function(d) {console.log(xScale(d.batchTrainerID.trainerFirstName+"("+d.batchCurriculumID.curriculumName+")")-15);console.log(d.batchTrainerID.trainerFirstName);});
+	
 	//Create lines for between batches
-	var betweenBatches = [];
+	var batchCount = {};
 	for(var x = 0; x < timelineData.length; x++){
-		for(var y = x; y < timelineData.length; y++){
-			if(x !== y && timelineData[x].batchTrainerID.trainerFirstName === timelineData[y].batchTrainerID.trainerFirstName){
-				var between = {x: xScale(timelineData[x].batchTrainerID.trainerFirstName+"("+timelineData[x].batchCurriculumID.curriculumName+")"),
-								y1: yScale(new Date(timelineData[x].batchEndDate)),
-								y2: yScale(new Date(timelineData[y].batchStartDate)),
-								length:numWeeks(timelineData[x].batchEndDate,timelineData[y].batchStartDate)};
-				betweenBatches.push(between);
-			}
+		
+		if(batchCount[timelineData[x].batchTrainerID.trainerFirstName] === undefined){
+			batchCount[timelineData[x].batchTrainerID.trainerFirstName] = [];
 		}
-	} 
+		
+		batchCount[timelineData[x].batchTrainerID.trainerFirstName].push(timelineData[x]);
+	}
+	
+	var betweenBatches = [];
+	
+	for(var trainer in batchCount){
+		for(var x = 0; x < batchCount[trainer].length-1; x++){
+			var between = {x: xScale(batchCount[trainer][x].batchTrainerID.trainerFirstName+"("+batchCount[trainer][x].batchCurriculumID.curriculumName+")"),
+					y1: yScale(new Date(batchCount[trainer][x].batchEndDate)),
+					y2: yScale(new Date(batchCount[trainer][x+1].batchStartDate)),
+					length:numWeeks(batchCount[trainer][x].batchEndDate,batchCount[trainer][x+1].batchStartDate)};
+			betweenBatches.push(between);
+		}
+	}
 	
 	var lanePadding = (xScale.range()[1]-xScale.range()[0])/2;
 	
@@ -156,6 +151,19 @@ function projectTimeline(windowWidth, minDate, maxDate, timelineData, parentScop
 			.attr('x2', function(d){return xScale(d)+lanePadding;})
 			.attr('y2', height)
 			.attr('stroke','lightgray');
+	
+	//Add line for current date on timeline
+	
+	svg.append('g')
+		.attr('class','currentdate')
+		
+	d3.select('.currentdate')
+		.append('line')
+			.attr('x1', 0)
+			.attr('x2', width)
+			.attr('y1', yScale(new Date()))
+			.attr('y2',yScale(new Date()))
+			.attr('stroke','#f26a25');
 	
 	//Add batches to timeline
 	
