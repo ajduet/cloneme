@@ -9,6 +9,7 @@
 				<th>Batch Name</th>
 				<th>Curriculum</th>
 				<th>Trainer</th>
+				<th>Location</th>
 				<th>Start Date</th>
 				<th>End Date</th>
 				<th></th>
@@ -18,6 +19,7 @@
 					<td>{{ batch.bName }}</td>
 					<td>{{ batch.batchCurriculumID.curriculumName }}</td>
 					<td>{{ batch.batchTrainerID.trainerFirstName }} {{ batch.batchTrainerID.trainerLastName }}</td>
+					<td>{{ batch.batchRoomID.locationID.locationName }}</td>
 					<td>{{ createDate(batch.batchStartDate) }}</td>
 					<td>{{ createDate(batch.batchEndDate) }}</td>
 					<td>
