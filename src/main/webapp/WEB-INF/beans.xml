@@ -25,11 +25,9 @@
 	<!-- Define DataSource -->
 	<bean id="mydataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
-		<!-- <property name="url" value="jdbc:oracle:thin:@revschedtest.cy0du1iivwoh.us-east-1.rds.amazonaws.com:1521:DEVREV"></property> -->
-  		<!--<property name="url" value="jdbc:oracle:thin:@schedule.cy0du1iivwoh.us-east-1.rds.amazonaws.com:1521:REVSCHED"></property> -->
-  		<property name="url" value="#{systemEnvironment['DB_CONNECTION']}"></property>
-		<property name="username" value="revature"></property>
-		<property name="password" value="RevatureScheduler"></property>
+  		<property name="url" value="#{systemEnvironment['DB_URL']}"></property>
+		<property name="username" value="#{systemEnvironment['DB_USER']}"></property>
+		<property name="password" value="#{systemEnvironment['DB_PASSWORD']}"></property>
 		<!-- <property name="ignoreResourceNotFound" value="true" />
  		<property name="searchSystemEnvironment" value="true" />
 		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" /> -->
