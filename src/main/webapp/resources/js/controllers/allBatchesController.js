@@ -50,7 +50,7 @@
 		abc.$on( "repull", function( event, data ) {
 			console.log("  (ABC) Repulling batches");
 			abc.Batches = data.batches;
-			console.log(abc.Batches);
+			abc.$broadcast( "repullTimeline", data );
 		});
 
 		//   // add new batch to list

@@ -30,6 +30,12 @@ app.controller("TimelineCtrl", function($scope, $window, allBatchService, calend
 		}
 	);
 	
+    $scope.$on( "repullTimeline", function( event, data ) {
+			console.log("  (TLC) Repulling batches");
+			$scope.data = data.batches;
+			projectTimeline($window.innerWidth, $scope.minDate, $scope.maxDate, $scope.data, $scope.$parent);
+	});
+
 	//Project new timeline when min or max date changes
 	$scope.$watch( 'minDate', function(){
 		if($scope.data !== undefined){

@@ -6,7 +6,7 @@
 			$routeProvider
 				.when("/home", {
 					templateUrl : "html/views/home.html",
-					contoller: "homeController"
+					contoller   : "homeCtrl"
 				})
 				.when("/batches", {
 					templateUrl : "html/views/batches.html",

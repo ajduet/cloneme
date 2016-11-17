@@ -20,8 +20,8 @@
 					<td>{{ batch.batchCurriculumID.curriculumName }}</td>
 					<td>{{ batch.batchTrainerID.trainerFirstName }} {{ batch.batchTrainerID.trainerLastName }}</td>
 					<td>{{ batch.batchRoomID.locationID.locationName }}</td>
-					<td>{{ createDate(batch.batchStartDate) }}</td>
-					<td>{{ createDate(batch.batchEndDate) }}</td>
+					<td>{{ batch.batchStartDate | date : 'MMMM d, yyyy' }}</td>
+					<td>{{ batch.batchEndDate | date : 'MMMM d, yyyy' }}</td>
 					<td>
 						<div class="btn-group">
 							<button class="btn btn-primary btn-xs" ng-click="edit(batch)"> Edit </button>

@@ -5647,4 +5647,22 @@ font-family:Futura Bk;
 
     .newBatch select {
         color: #aaa;
+	
+	.angucomplete-holder input {
+        height: 25px;
+        border-radius: 0px;
+    }
+
+    batchItemProgress td {
+        border-bottom: 1px solid #ddd;
+        padding: 2px 10px;
+        position: relative;
+        top: 0px;
+    }
+
+    .activeBatchList td, .activeBatchList th {
+        border-bottom: 1px solid #ddd;
+        padding: 2px 10px;
+        position: relative;
+        top: 0px;
     }
