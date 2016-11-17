@@ -13,9 +13,6 @@ public class BatchDTO {
 	private Date date;
 	private Date date2;
 
-	
-	
-	
 	public int getBatchId() {
 		return batchId;
 	}

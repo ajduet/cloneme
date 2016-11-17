@@ -1,8 +1,8 @@
 package com.ateam.domain;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -45,14 +45,14 @@ public class Batch {
 
 	//@ManyToOne(fetch=FetchType.LAZY)
 	//@ManyToOne(fetch=FetchType.EAGER)
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "CUR_ID")
 	@Fetch(FetchMode.JOIN)
 	private Curriculum batchCurriculumID;
 	
 	//@OneToOne(fetch=FetchType.LAZY)
 	//@OneToOne(fetch=FetchType.EAGER)
-	@OneToOne
+	@OneToOne(cascade = {CascadeType.ALL})
 	@JoinColumn(name = "R_ID")
 	@Fetch(FetchMode.JOIN)
 	private Room batchRoomID;
@@ -66,7 +66,7 @@ public class Batch {
 	
 	//@ManyToOne(fetch=FetchType.LAZY)
 	//@ManyToOne(fetch=FetchType.EAGER)
-	@OneToOne
+	@OneToOne(cascade = {CascadeType.ALL})
 	@JoinColumn(name = "T_ID")
 	@Fetch(FetchMode.JOIN)
 	private Trainer batchTrainerID;

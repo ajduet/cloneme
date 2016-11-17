@@ -5640,3 +5640,11 @@ font-family:Futura Bk;
     h1, h3 {
         margin-left: .67em;
     }
+
+    .invalidInput {
+        border-bottom: 2px solid red !important; 
+    }
+
+    .newBatch select {
+        color: #aaa;
+    }

@@ -93,21 +93,54 @@ System.out.println(re);
 				produces = MediaType.APPLICATION_JSON_VALUE)
 		public ResponseEntity<Batch> saveBatch(@RequestBody BatchDTO batchObj) throws InterruptedException{
 			
-
-			Trainer t = bServ.getTrainerByName(batchObj.getTrainer());
+			  // Trainer
+			Trainer t;
+			if (batchObj.getTrainer() == null) {
+				t = new Trainer();
+			} else {
+				t = bServ.getTrainerByName(batchObj.getTrainer());
+			}
 			System.out.println(t.toString());
-			Room room = bServ.getRoomByName(batchObj.getRoom());
-			System.out.println(room);
-			Curriculum c = bServ.getCurriculumByName(batchObj.getCurr());
-			System.out.println(c);
-//			Topic topic = bServ.getTopicByName(batchObj.getTopic());
-//			System.out.println(topic);
 			
-			Batch b = new Batch(batchObj.getBatchName(), new Timestamp(batchObj.getDate().getTime()), 
-					new Timestamp(batchObj.getDate2().getTime()),
-					c, room, 
-					new B_Status(1), t);
+			  // Room
+			Room room;
+			if (batchObj.getRoom() == null) {
+				room = new Room();
+			} else {
+				room = bServ.getRoomByName(batchObj.getRoom());
+			}
+			System.out.println(room);
+			
+			  // Curriculum
+			Curriculum c;
+			System.out.println("Curriculum: " + batchObj.getCurr());
+			if (batchObj.getCurr() == null) {
+				c = new Curriculum();
+			} else {
+				System.out.println("Fetching existing curriculum");
+				c = bServ.getCurriculumByName(batchObj.getCurr());
+			}
+			System.out.println(c);
+			
+			  // Start date
+			Timestamp start;
+			if (batchObj.getDate() == null) {
+				start = new Timestamp((long)0);
+			} else {
+				start = new Timestamp(batchObj.getDate().getTime());
+			}
+			
+			  // End date
+			Timestamp end;
+			if (batchObj.getDate2() == null) {
+				end = new Timestamp((long)0);
+			} else {
+				end = new Timestamp(batchObj.getDate2().getTime());
+			}
+			
+			Batch b = new Batch(batchObj.getBatchName(), start, end, c, room, new B_Status(1), t);
 			b.setBatchID(batchObj.getBatchId());
+			
 			System.out.println("-------------------------------");
 			System.out.println(batchObj.getBatchId());
 			System.out.println(b.toString());
