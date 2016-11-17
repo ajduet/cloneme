@@ -33,16 +33,16 @@ public class Curriculum {
 	private String curriculumName;
 	
 //	@ManyToMany(mappedBy="curriculum", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-	@ManyToMany(fetch=FetchType.EAGER)
-	@JoinTable(name="CUR_SKILL_JT", 
-	joinColumns=@JoinColumn(name="CUR_ID"), 
-	inverseJoinColumns=@JoinColumn(name="SKILL_ID"))
-	@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")					// ADDED this to fix serialization/infinite loop issues
-	private List<Skill> skill;
+//	@ManyToMany(fetch=FetchType.EAGER)
+//	@JoinTable(name="CUR_SKILL_JT", 
+//	joinColumns=@JoinColumn(name="CUR_ID"), 
+//	inverseJoinColumns=@JoinColumn(name="SKILL_ID"))
+//	@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")					// ADDED this to fix serialization/infinite loop issues
+//	private List<Skill> skill;
 
 	public Curriculum() {
 		super();
-		this.skill = new ArrayList<Skill>();
+//		this.skill = new ArrayList<Skill>();
 	}
 
 	public Curriculum(int curriculumID) {
@@ -65,7 +65,7 @@ public class Curriculum {
 		super();
 		this.curriculumID = curriculumID;
 		this.curriculumName = curriculumName;
-		this.skill = skill;
+//		this.skill = skill;
 	}
 
 	public int getCurriculumID() {
@@ -84,17 +84,17 @@ public class Curriculum {
 		this.curriculumName = curriculumName;
 	}
 
-	public List<Skill> getSkill() {
-		return skill;
-	}
-
-	public void setSkill(List<Skill> skill) {
-		this.skill = skill;
-	}
+//	public List<Skill> getSkill() {
+//		return skill;
+//	}
+//
+//	public void setSkill(List<Skill> skill) {
+//		this.skill = skill;
+//	}
 
 	@Override
 	public String toString() {
-		return "Curriculum [curriculumID=" + curriculumID + ", curriculumName=" + curriculumName + ", skill=" + skill
+		return "Curriculum [curriculumID=" + curriculumID + ", curriculumName=" + curriculumName// + ", skill=" + skill
 				+ "]";
 	}
 	

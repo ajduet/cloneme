@@ -82,15 +82,55 @@
 
             var roomLoc = [];
             var roomList = [];
+            var dummy = { locationID: null,
+                          roomID       : 0,
+                          roomName     : "No room selected",
+                          roomStatusID : {
+                              rsName       : "Unavailable",
+                              rsStatusID   : 0 
+                          },
+                          unavailable  : []
+                        };
+            
             for (i = 0; i < locations.length; i++) {
+                roomList.push(dummy);
                 for (var j = 0; j < rooms.length; j++) {
+                    
+                    if (rooms[j].locationID.locationID == 0) {
+                        continue;
+                    }
+                    
                     if (rooms[j].locationID.locationID == locations[i].locationID) {
                         roomList.push( rooms[j] );
                     }
+
                 }
-                roomLoc[ locations[i].locationName ] = roomList;
+                if (locations[i].locationID != 0) {
+                    roomLoc[ locations[i].locationName ] = roomList;
+                }
                 roomList = [];
             }
+
+            // roomLoc = bs.addDummyRoom( roomLoc );
+
+            return roomLoc;
+        };
+
+        bs.addDummyRoom = function( roomLoc ) {
+            var dummy = { locationID: null,
+                          roomID       : 0,
+                          roomName     : "No room selected",
+                          roomStatusID : {
+                              rsName       : "Unavailable",
+                              rsStatusID   : 0 
+                          },
+                          unavailable  : []
+                        };
+
+            roomLoc.forEach( function(index) {
+                roomLoc[index].push(dummy);
+                console.log("roomLoc[" + index + "]: " + roomLoc[index]);
+            });
 
             return roomLoc;
         };
