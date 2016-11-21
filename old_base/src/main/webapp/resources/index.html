@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>AssignForce</title>
+
+<!-- jQuery -->
+<script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous">
+<!-- Optional theme -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+	integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+	crossorigin="anonymous">
+<!-- Latest compiled and minified JavaScript -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+	crossorigin="anonymous"></script>
+
+<meta charset="utf-8">
+<meta name="theme-color" content="#f26925">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+
+<title>Revature | Advancing Talent and Technologies</title>
+<link rel="canonical" href="https://revature.com" />
+<link
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"
+	rel="icon" />
+<script src="https://use.typekit.net/pvo4jdm.js"></script>
+<script>
+	try {
+		Typekit.load({
+			async : true
+		});
+	} catch (e) {
+	}
+</script>
+
+<meta
+	content="We’re a leading-edge technology solutions firm with an unparalleled talent development platform that empowers people and companies to move forward, faster."
+	name="description">
+<meta name="keywords"
+	content="training program, software development, find developers, hire software developer" />
+
+<style type="text/css">
+.wf-loading {
+	visibility: hidden;
+}
+</style>
+
+<!-- stylesheets -->
+<script src="https://use.fontawesome.com/8d8fa1da46.js"></script>
+<link href="css/style.css" rel="stylesheet" />
+<link href="css/assignForceCSS.css" rel="stylesheet" />
+<link href="css/angular-datepicker.css" rel="stylesheet" />
+
+<base href="/AssignForce/resources/">
+
+</head>
+
+<body ng-app="batchApp">
+
+	<div ng-controller="AuthCtrl as aCtrl">
+		<div ng-if="!aCtrl.isUserAuthenticated()">
+			<div class="col-sm-4 col-md-offset-5"
+				ng-hide="hCtrl.isUserAuthenticated()">
+				<div>
+					<h4>You must login to continue</h4>
+					<form name="loginForm" novalidate>
+						<div class="input-group">
+							<input name="username" type="text" placeholder="Username/Email"
+								class="form-control" required
+								ng-model="aCtrl.credentials.username" />
+						</div>
+						<div class="input-group">
+							<input name="password" type="password" placeholder="Password"
+								class="form-control" required
+								ng-model="aCtrl.credentials.password" />
+						</div>
+						<div class="input-group">
+							<button class="btn btn-primary" ng-disabled="loginForm.$invalid"
+								ng-click="aCtrl.login()">Login</button>
+							<p ng-show="aCtrl.hasError()" style="color: red;">{{aCtrl.getError()}}</p>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+          <!-- Menu bar -->
+		<div ng-show="aCtrl.isUserAuthenticated()">
+			<ng-include src="'html/views/menu.html'">
+		</div>
+		
+          <!-- Content view -->
+        <div ng-view ng-show="aCtrl.isUserAuthenticated()">
+        </div>
+
+	</div>
+</body>
+
+  <!-- AngularJS -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.js"></script>
+
+  <!-- Angular modules -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.min.js"></script>
+<script type="text/javascript"
+	src="misc/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script type="text/javascript"
+	src="misc/bootstrap-3.3.7-dist/js/ui-bootstrap-tpls-2.2.0.min.js"></script>
+
+  <!-- Angular scripts -->
+<script type="text/javascript" src="js/assignforce.js"></script>
+
+  <!-- Controllers -->
+<script type="text/javascript"
+	src="js/controllers/allBatchesController.js"></script>
+<script type="text/javascript"
+	src="js/controllers/createBatchController.js"></script>
+<script type="text/javascript"
+	src="js/controllers/locationController.js"></script>
+<script type="text/javascript"
+	src="js/controllers/timelineController.js"></script>
+<script type="text/javascript" src="js/controllers/trainerController.js"></script>
+<script type="text/javascript" src="js/controllers/homeController.js"></script>
+<script type="text/javascript" src="js/controllers/authController.js"></script>
+
+  <!-- Services -->
+<script type="text/javascript" src="js/services/calendarService.js"></script>
+<script type="text/javascript" src="js/services/allBatchesService.js"></script>
+<script type="text/javascript" src="js/services/createBatchService.js"></script>
+<script type="text/javascript" src="js/services/locationService.js"></script>
+<script type="text/javascript" src="js/services/trainerService.js"></script>
+<script type="text/javascript" src="js/services/userService.js"></script>
+
+  <!-- Directives -->
+<script type="text/javascript" src="js/directives/angular-datepicker.js"></script>
+<script type="text/javascript" src="js/directives/angucomplete-alt.js"></script>
+<script type="text/javascript" src="js/directives/angular-typeahead.js"></script>
+<script type="text/javascript" src="js/directives/datetimepicker.js"></script>
+<script type="text/javascript"
+	src="js/directives/skillSearchItemDirective.js"></script>
+
+  <!-- Factories -->
+<script type="text/javascript" src="js/factories/transferFactory.js"></script>
+
+  <!-- Filters -->
+<script type="text/javascript" src="js/filters/activeBatchFilter.js"></script>
+
+  <!-- Misc -->
+<script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js"></script>
+
+</body>
+
+</html>

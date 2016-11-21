@@ -1,0 +1,41 @@
+
+    <div ng-controller="homeCtrl" id="home">
+
+        <h1> Dashboard </h1>
+        <h3 style="margin-left: 2em"> Active batches </h3>
+        
+        <div style="margin: 0px 2.5%; line-height: 30px;"> 
+            <table style="border-collapse: collapse; width: 100%;">
+            
+                <thead>
+                    <tr class="activeBatchList">
+                        <th> Name </th>
+                        <th> Curriculum </th>
+                        <th> Trainer </th>
+                        <th> Co-trainer </th>
+                        <th> Start Date </th>
+                        <th> End Date </th>
+                    </tr>
+                </thead>
+
+                <tbody class="activeBatches">
+                    <tr class="activeBatchList" ng-repeat-start="batch in (active | activeBatch) track by batch.batchID">
+                        <td style="border-bottom: 0px solid black; position: relative; top: 1px"> {{ batch.bName }} </td>
+                        <td style="border-bottom: 0px solid black; position: relative; top: 1px"> {{ batch.batchCurriculumID.curriculumName }} </td>
+                        <td style="border-bottom: 0px solid black; position: relative; top: 1px"> {{ batch.batchTrainerID.trainerFirstName }} {{ batch.batchTrainerID.trainerLastName }} </td>
+                        <!--<td style="border-bottom: 0px solid black; position: relative; top: 1px"> NO YET IMPLEMENTED </td>-->
+                        <td style="border-bottom: 0px solid black; position: relative; top: 1px"> </td>
+                        <td style="border-bottom: 0px solid black; position: relative; top: 1px"> {{ batch.batchStartDate | date : 'MMMM d, yyyy' }} </td>
+                        <td style="border-bottom: 0px solid black; position: relative; top: 1px"> {{ batch.batchEndDate | date : 'MMMM d, yyyy' }} </td>
+                    </tr>
+                    <tr ng-repeat-end>
+                        <td colspan="6" style="padding: 0px; border-bottom: 1px solid #DDD;" >
+                            <span style="display: block; height: 2px; background-color: #F26A25; width: {{ calcProgress(batch.batchStartDate, batch.batchEndDate) }}; position: relative; top: 0px;"> &nbsp; </span>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+
+    </div>

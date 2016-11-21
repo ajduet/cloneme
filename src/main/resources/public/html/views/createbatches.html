@@ -1,0 +1,67 @@
+<div>
+	<h1 style="margin-left: .67em"> Batches </h1>
+	
+	<div ng-controller="createBatchCtrl as cbCtrl" class="col-md-12">
+		<div class="dataContainer newBatch" ng-cloak>
+			<h3 id="createBatchHeader"> {{cbCtrl.stateChanges[cbCtrl.state].header}} </h3>
+
+			<form name="batchForm" novalidate>
+
+				<div class="leftGroup"> 
+
+					  <!-- Name -->
+					<input ng-model="cbCtrl.batch.name" type="text" placeholder="Name*"/>
+
+					  <!-- Curriculum -->
+					<select ng-model="cbCtrl.batch.curriculum" ng-options="curriculum.id as curriculum.name for curriculum in cbCtrl.curricula" ng-click="cbCtrl.changeToNone($event)"> 
+						<option value=""> Curriculum </option>
+					</select>
+
+					  <!-- Trainer -->
+					<select ng-model="cbCtrl.batch.trainer" ng-options="trainer.trainerID as trainer.firstName for trainer in cbCtrl.trainers" ng-click="cbCtrl.changeToNone($event)">
+						<option value=""> Trainer </option>
+					</select>
+
+					  <!-- Cotrainer -->
+					<select ng-model="cbCtrl.batch.cotrainer" ng-options="trainer.trainerID as trainer.firstName for trainer in cbCtrl.trainers" ng-click="cbCtrl.changeToNone($event)">
+						<option value=""> Co-trainer </option>
+					</select>
+
+					  <!-- Location -->
+					<select id="location" ng-model="cbCtrl.batch.location" ng-options="location.id as location.name for location in cbCtrl.locations | orderBy:'name'" ng-click="cbCtrl.changeToNone($event)">
+						<option value=""> Location* </option>
+					</select>
+
+				 	  <!-- Room -->
+					<select id="room" ng-model="cbCtrl.batch.room" ng-options="room.roomID as room.roomName for room in cbCtrl.filterRooms(cbCtrl.batch.location)" ng-click="cbCtrl.changeToNone($event)">
+						<option value=""> Room </option>
+					</select>
+
+					  <!-- Start date -->
+					<datetimepicker id="startDate" ng-model="cbCtrl.batch.startDate" date-format="MMMM d, yyyy" date-options="cbCtrl.dateOptions" date-disabled="cbCtrl.isDisabledDate(date, mode)" hidden-time="true" ng-click="cbCtrl.setEndDate(); cbCtrl.updateWeeks()"> </datetimepicker>
+					<span id="toSpan">&nbsp; to </span>
+
+					  <!-- End date -->
+					<datetimepicker id="endDate" ng-model="cbCtrl.batch.endDate" date-format="MMMM d, yyyy" date-options="cbCtrl.dateOptions" date-disabled="cbCtrl.isDisabledDate(date, mode)" hidden-time="true" ng-click="cbCtrl.updateWeeks()"> </datetimepicker>
+
+					  <!-- Week display -->
+					<div id="weeks"> {{cbCtrl.weeks}} weeks </div>
+
+					  <!-- Submit -->
+					<!--<button id="submitBatch" ng-click="cbCtrl.saveBatch()"> {{cbCtrl.stateChanges[cbCtrl.state].submit}} </button>-->
+					<button id="submitBatch" ng-click="cbCtrl.filterRooms(cbCtrl.batch.location)"> {{cbCtrl.stateChanges[cbCtrl.state].submit}} </button>
+				
+				<!-- </div>
+				<div class="rightGroup">
+				
+					  Skill search
+					<input id="skills" type="text" placeholder="Skills" options="options" datasets="{{skills}}" ng-model="skillSet" sfTypeahead disabled="disabled" />
+				
+					  Skill search item list
+					<skill-search-item skill="currSkill" remove="remove" ng-repeat="currSkill in skills"> </skillSearchItem>
+				</div> -->
+
+			</form>
+		</div>
+	</div>
+</div>
