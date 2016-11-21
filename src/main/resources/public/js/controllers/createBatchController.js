@@ -115,6 +115,7 @@
                     );
                     break;
                 case 'clone':
+                    cbc.batch.id = 0;
                     batchService.create(
                         cbc.batch,
                         function(){
@@ -148,14 +149,16 @@
                     if(cbc.state === 'edit'){
                         cbc.batch.id = incomingBatch.id;
                     }
+                      // required 
                     cbc.batch.name = incomingBatch.name;
-                    cbc.batch.curriculum = incomingBatch.curriculum.id;
-                    cbc.batch.trainer = incomingBatch.trainer.trainerID;
-                    cbc.batch.cotrainer = incomingBatch.cotrainer ? incomingBatch.cotrainer.trainerID : null;
                     cbc.batch.location = incomingBatch.location.id;
-                    cbc.batch.room = incomingBatch.room ? incomingBatch.room.roomID : null;
-                    cbc.batch.startDate = incomingBatch.startDate;
-                    cbc.batch.endDate = incomingBatch.endDate;
+                      // no required
+                    if (cbc.batch.curriculum) { cbc.batch.curriculum = incomingBatch.curriculum.id; }
+                    if (cbc.batch.trainer)    { cbc.batch.trainer    = incomingBatch.trainer.trainerID; }
+                    if (cbc.batch.cotrainer)  { cbc.batch.cotrainer  = incomingBatch.cotrainer.trainerID; }
+                    if (cbc.batch.startDate)  { cbc.batch.room       = incomingBatch.room.roomID; }
+                    if (cbc.batch.curriculum) { cbc.batch.startDate  = incomingBatch.startDate; }
+                    if (cbc.batch.endDate)    { cbc.batch.endDate    = incomingBatch.endDate; }
 
                     cbc.updateWeeks();
 
