@@ -24,7 +24,7 @@
 </head>
 <body ng-app="batchApp">
 	<div ng-controller="AuthCtrl as aCtrl">
-		<div ng-if="!aCtrl.isUserAuthenticated()">
+		<div ng-if="!aCtrl.isUserAuthenticated()" ng-cloak>
 			<div class="col-sm-4 col-md-offset-5"
 				ng-hide="aCtrl.isUserAuthenticated()">
 				<div>

@@ -5646,7 +5646,7 @@ font-family:Futura Bk;
     }   
     
     .batches th, .trainers th, .locations th {
-        border-bottom: 1px solid #DDD;
+        border-bottom: 1px solid #ddd;
     }
 
     .radioOption input[type=radio] {

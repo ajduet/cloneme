@@ -105,7 +105,7 @@
                     batchService.update(
                         cbc.batch,
                         function(){
-                            console.log("  (CBC) Successfully edited batc.h");
+                            console.log("  (CBC) Successfully edited batch.");
                             $scope.$emit("repull");
                             cbc.batch = batchService.getEmptyBatch();
                         },

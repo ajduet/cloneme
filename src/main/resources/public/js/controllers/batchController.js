@@ -23,8 +23,8 @@
 				function(batchData){
 					console.log("  (BC)  Successfully pulled batches.");
 					bc.batches = batchData;
-					$scope.$broadcast("timeline",{batches: bc.batches})
-				}.bind(bc),
+					$scope.$broadcast( "timeline", {batches: bc.batches})
+				},
 				function(error){
 					console.log(error.data.errorMessage);
 				}
@@ -42,6 +42,20 @@
 			$scope.$broadcast( "state", { state: "clone", 
 									   batch: batch });
 		};
+
+        bc.delete = function(batch) {
+            batchService.delete(batch, function() {
+                console.log("  (BC)  Batch successfully deleted.");
+                if (bc.batches.indexOf( batch ) != -1) {
+                    console.log("Before:", bc.batches);
+                    bc.getAllBatches();
+                    console.log(" After:", bc.batches);
+					$scope.$broadcast( "timeline", {batches: bc.batches})
+                }
+            }), function(errorMessage) {
+                console.log("  (BC)  Batched failed to delete with message: ", errorMessage);
+            };
+        };
 
 		$scope.$on("repull", function() {
 			console.log("  (BC)  Repulling batches.");
