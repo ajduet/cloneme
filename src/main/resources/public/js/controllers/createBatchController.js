@@ -46,16 +46,6 @@
                 console.log(error.data.errorMessage);
             }
         );
-
-        roomService.getAll(
-            function(roomData){
-                console.log("  (CBC) Retrieved rooms.");
-                cbc.rooms = roomData;
-            },
-            function(error){
-                console.log(error.data.errorMessage);
-            }
-        );
         
         cbc.filterRooms = function(locationID){
             if(locationID != undefined){
@@ -77,10 +67,6 @@
             cbc.weeks = calendarService.countWeeks(cbc.batch.startDate, cbc.batch.endDate);
         };
 
-            // changes dropdown CSS
-        cbc.noPlaceholder = function() {
-        };
-
             // change default option to "none"
         cbc.changeToNone = function() {
             event.target.children[0].label = "No" + event.target.children[0].innerText.toLowerCase().replace("*", "") + "selected";
@@ -92,14 +78,21 @@
         };
 
             // save/update batch
-        cbc.saveBatch = function(){
-            console.log(cbc.batch);
+        cbc.saveBatch = function(isValid){
+
+            if ( !isValid ) {
+                console.log("  (CBC) Invalid form.");
+                return;
+            }
+
+            console.log("Batch: ", cbc.batch);
+
             switch(cbc.state){
                 case 'create':
                     batchService.create(
                         cbc.batch,
                         function(){
-                            console.log("Successfully created batch.");
+                            console.log("  (CBC) Successfully created batch.");
                             $scope.$emit("repull");
                             cbc.batch = batchService.getEmptyBatch();
                         },
@@ -112,7 +105,7 @@
                     batchService.update(
                         cbc.batch,
                         function(){
-                            console.log("Successfully edited batc.h");
+                            console.log("  (CBC) Successfully edited batc.h");
                             $scope.$emit("repull");
                             cbc.batch = batchService.getEmptyBatch();
                         },
@@ -125,7 +118,7 @@
                     batchService.create(
                         cbc.batch,
                         function(){
-                            console.log("Successfully cloned batch.");
+                            console.log("  (CBC) Successfully cloned batch.");
                             $scope.$emit("repull");
                             cbc.batch = batchService.getEmptyBatch();
                         },
@@ -136,7 +129,6 @@
                     break;
             }
         };
-        
 
             // initialize fields
         cbc.initialize = function(incomingBatch) {

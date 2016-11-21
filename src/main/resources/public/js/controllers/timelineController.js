@@ -52,7 +52,7 @@ app.controller("TimelineCtrl", function($scope, $window, batchService, calendarS
 });
 
 function projectTimeline(windowWidth, minDate, maxDate, timelineData, parentScope, numWeeks){
-	console.log("Drawing Timeline");
+	console.log("  (TLC) Drawing timeline.");
 	
 	var trainers = ['August(Java)','Fred(.NET)','Joe(.NET)','Brian(Java)','Taylor(Java)','Patrick(Java)','Yuvi(SDET)','Steven(Java)','Ryan(SDET)','Richard(Java)','Nicholas(Java)','Ankit(Java)','Genesis(Java)','Emily(.NET)'];
 	

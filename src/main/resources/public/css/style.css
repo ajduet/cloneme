@@ -5487,7 +5487,7 @@ font-family:Futura Bk;
       /* batch create/edit/clone CSS */
     .newBatch form .ng-invalid {
         border: none;
-        border-bottom: 1px solid red;
+        border-bottom: 2px solid red !important;
     }
 
     .newBatch form .ng-empty {

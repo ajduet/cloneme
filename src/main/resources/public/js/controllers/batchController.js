@@ -21,7 +21,7 @@
 		bc.getAllBatches = function(){
 			batchService.getAll(
 				function(batchData){
-					console.log("Successfully pulled batches");
+					console.log("  (BC)  Successfully pulled batches.");
 					bc.batches = batchData;
 					$scope.$broadcast("timeline",{batches: bc.batches})
 				}.bind(bc),
@@ -44,7 +44,7 @@
 		};
 
 		$scope.$on("repull", function() {
-			console.log("  (ABC) Repulling batches");
+			console.log("  (BC)  Repulling batches.");
 			bc.getAllBatches();
         });
 		
