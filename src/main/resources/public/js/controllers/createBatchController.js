@@ -8,6 +8,11 @@
           // functions
 		  	// initializes batch service
         cbc.batch = batchService.getEmptyBatch();
+        cbc.alerts;
+
+        cbc.closeAlert = function(index){
+            cbc.alerts.splice(index,1);
+        }
         
             // changes form state and populates fields if need-be
         cbc.changeState = function(newState, incomingBatch) { 
@@ -59,7 +64,7 @@
         
         cbc.filterRooms = function(locationID){
             if(locationID != undefined){
-                return this.locations.filter(function(location){return location.id===locationID})[0].rooms;
+                return cbc.locations.filter(function(location){return location.id===locationID})[0].rooms;
             }
             else {
                 return [];
@@ -92,48 +97,48 @@
         };
 
             // save/update batch
-        cbc.saveBatch = function(){
-            console.log(cbc.batch);
-            switch(cbc.state){
-                case 'create':
-                    batchService.create(
-                        cbc.batch,
-                        function(){
-                            console.log("Successfully created batch.");
-                            $scope.$emit("repull");
-                            cbc.batch = batchService.getEmptyBatch();
-                        },
-                        function(error){
-                            console.log(error.data.message);
-                        }
-                    );
-                    break;
-                case 'edit':
-                    batchService.update(
-                        cbc.batch,
-                        function(){
-                            console.log("Successfully edited batc.h");
-                            $scope.$emit("repull");
-                            cbc.batch = batchService.getEmptyBatch();
-                        },
-                        function(error){
-                            console.log(error.data.message);
-                        }
-                    );
-                    break;
-                case 'clone':
-                    batchService.create(
-                        cbc.batch,
-                        function(){
-                            console.log("Successfully cloned batch.");
-                            $scope.$emit("repull");
-                            cbc.batch = batchService.getEmptyBatch();
-                        },
-                        function(error){
-                            console.log(error.data.message);
-                        }
-                    );
-                    break;
+        cbc.saveBatch = function(isValid){
+            cbc.alerts = [];
+            if(isValid) {
+                switch (cbc.state) {
+                    case 'edit':
+                        batchService.update(
+                            cbc.batch,
+                            function () {
+                                console.log("Successfully edited batch");
+                                $scope.$emit("repull");
+                                cbc.batch = batchService.getEmptyBatch();
+                                cbc.alerts.push({type:'alert-success',message:'Batch successfully edited.'});
+                            },
+                            function (error) {
+                                console.log(error.data.message);
+                            }
+                        );
+                        break;
+                    case 'create':
+                    case 'clone':
+                        batchService.create(
+                            cbc.batch,
+                            function () {
+                                console.log("Successfully created batch.");
+                                $scope.$emit("repull");
+                                cbc.batch = batchService.getEmptyBatch();
+                                cbc.alerts.push({type:'alert-success',message:'Batch successfully created.'})
+                            },
+                            function (error) {
+                                console.log(error.data.message);
+                            }
+                        );
+                        break;
+                }
+            }
+            else{
+                if(!cbc.batch.name){
+                    cbc.alerts.push({type:'alert-danger',message:'Name required.'});
+                }
+                if(!cbc.batch.location){
+                    cbc.alerts.push({type:'alert-danger',message:'Location required.'});
+                }
             }
         };
         
