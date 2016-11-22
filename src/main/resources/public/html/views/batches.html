@@ -19,8 +19,8 @@
 					<td>{{ batch.curriculum.name }}</td>
 					<td>{{ batch.trainer.firstName }} {{ batch.trainer.lastName }}</td>
 					<td>{{ batch.location.name }}</td>
-					<td>{{ batch.startDate | date: 'MMM d, yyyy'}}</td>
-					<td>{{ batch.endDate | date: 'MMM d, yyyy'}}</td>
+					<td>{{ batch.startDate | date: 'MMM. d, yyyy'}}</td>
+					<td>{{ batch.endDate | date: 'MMM. d, yyyy'}}</td>
 					<td>
 						<div class="btn-group batchManipulation">
 							<button class="btn btn-primary btn-xs material-icons" ng-click="bCtrl.edit(batch)"> <i class="material-icons"> edit </i> </button>

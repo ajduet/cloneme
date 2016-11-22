@@ -1,5 +1,5 @@
 
-	var assignforce = angular.module( "batchApp", ['ngRoute', 'ngResource', 'ui.bootstrap', 'ui.bootstrap.datetimepicker']);
+	var assignforce = angular.module( "batchApp", ['ngRoute', 'ngAria', 'ngAnimate', 'ngMaterial', 'ngResource', 'ui.bootstrap', 'ui.bootstrap.datetimepicker']);
 		
 		  // url routing
 		assignforce.config(function($routeProvider, $locationProvider){

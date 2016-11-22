@@ -38,7 +38,8 @@
 					</select>
 
 					  <!-- Start date -->
-					<datetimepicker id="startDate" placeholder="Start date" ng-model="cbCtrl.batch.startDate" date-format="MMMM d, yyyy" date-options="cbCtrl.dateOptions" date-disabled="cbCtrl.isDisabledDate(date, mode)" hidden-time="true" ng-click="cbCtrl.setEndDate(); cbCtrl.updateWeeks()"> </datetimepicker>
+					<!--<datetimepicker id="startDate" placeholder="Start date" ng-model="cbCtrl.batch.startDate" date-format="MMMM d, yyyy" date-options="cbCtrl.dateOptions" date-disabled="cbCtrl.isDisabledDate(date, mode)" hidden-time="true" ng-click="cbCtrl.setEndDate(); cbCtrl.updateWeeks()">  </datetimepicker>-->
+                    <md-datepicker ng-model="startDate"> </md-datepicker>
 					<span id="toSpan">&nbsp; to </span>
 
 					  <!-- End date -->
