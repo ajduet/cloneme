@@ -14,7 +14,7 @@
 				<th></th>
 			</thead>
 			<tbody>
-				<tr ng-repeat="batch in bCtrl.batches" ng-click="bCtrl.highlightBatch(batch)" ng-class="{'active': bCtrl.selectedBatch.id === batch.id}">
+				<tr ng-repeat="batch in bCtrl.batches | orderBy:'startDate' " ng-click="bCtrl.highlightBatch(batch)" ng-class="{'active': bCtrl.selectedBatch.id === batch.id}">
 					<td>{{ batch.name }}</td>
 					<td>{{ batch.curriculum.name }}</td>
 					<td>{{ batch.trainer.firstName }} {{ batch.trainer.lastName }}</td>
@@ -22,10 +22,10 @@
 					<td>{{ batch.startDate | date: 'MMM d, yyyy'}}</td>
 					<td>{{ batch.endDate | date: 'MMM d, yyyy'}}</td>
 					<td>
-						<div class="btn-group">
-							<button class="btn btn-primary btn-xs" ng-click="bCtrl.edit(batch)"> Edit </button>
-							<button class="btn btn-warning btn-xs" ng-click="bCtrl.clone(batch)"> Clone </button>
-							<button class="btn btn-danger btn-xs">Delete</button>
+						<div class="btn-group batchManipulation">
+							<button class="btn btn-primary btn-xs material-icons" ng-click="bCtrl.edit(batch)"> <i class="material-icons"> edit </i> </button>
+							<button class="btn btn-warning btn-xs material-icons" ng-click="bCtrl.clone(batch)"> <i class="material-icons"> content_copy </i> </button>
+							<button class="btn btn-danger btn-xs material-icons" ng-click="bCtrl.delete(batch)"> <i class="material-icons"> delete </i> </button>
 						</div>
 					</td>
 				</tr>

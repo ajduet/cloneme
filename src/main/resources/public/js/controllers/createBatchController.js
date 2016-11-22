@@ -8,6 +8,11 @@
           // functions
 		  	// initializes batch service
         cbc.batch = batchService.getEmptyBatch();
+        cbc.alerts;
+
+        cbc.closeAlert = function(index){
+            cbc.alerts.splice(index,1);
+        }
         
             // changes form state and populates fields if need-be
         cbc.changeState = function(newState, incomingBatch) { 
@@ -46,20 +51,10 @@
                 console.log(error.data.errorMessage);
             }
         );
-
-        roomService.getAll(
-            function(roomData){
-                console.log("  (CBC) Retrieved rooms.");
-                cbc.rooms = roomData;
-            },
-            function(error){
-                console.log(error.data.errorMessage);
-            }
-        );
         
         cbc.filterRooms = function(locationID){
             if(locationID != undefined){
-                return this.locations.filter(function(location){return location.id===locationID})[0].rooms;
+                return cbc.locations.filter(function(location){return location.id===locationID})[0].rooms;
             }
             else {
                 return [];
@@ -77,10 +72,6 @@
             cbc.weeks = calendarService.countWeeks(cbc.batch.startDate, cbc.batch.endDate);
         };
 
-            // changes dropdown CSS
-        cbc.noPlaceholder = function() {
-        };
-
             // change default option to "none"
         cbc.changeToNone = function() {
             event.target.children[0].label = "No" + event.target.children[0].innerText.toLowerCase().replace("*", "") + "selected";
@@ -92,51 +83,50 @@
         };
 
             // save/update batch
-        cbc.saveBatch = function(){
-            console.log(cbc.batch);
-            switch(cbc.state){
-                case 'create':
-                    batchService.create(
-                        cbc.batch,
-                        function(){
-                            console.log("Successfully created batch.");
-                            $scope.$emit("repull");
-                            cbc.batch = batchService.getEmptyBatch();
-                        },
-                        function(error){
-                            console.log(error.data.message);
-                        }
-                    );
-                    break;
-                case 'edit':
-                    batchService.update(
-                        cbc.batch,
-                        function(){
-                            console.log("Successfully edited batc.h");
-                            $scope.$emit("repull");
-                            cbc.batch = batchService.getEmptyBatch();
-                        },
-                        function(error){
-                            console.log(error.data.message);
-                        }
-                    );
-                    break;
-                case 'clone':
-                    batchService.create(
-                        cbc.batch,
-                        function(){
-                            console.log("Successfully cloned batch.");
-                            $scope.$emit("repull");
-                            cbc.batch = batchService.getEmptyBatch();
-                        },
-                        function(error){
-                            console.log(error.data.message);
-                        }
-                    );
-                    break;
+        cbc.saveBatch = function(isValid){
+            cbc.alerts = [];
+            if(isValid) {
+                switch (cbc.state) {
+                    case 'edit':
+                        batchService.update(
+                            cbc.batch,
+                            function () {
+                                console.log("Successfully edited batch");
+                                $scope.$emit("repull");
+                                cbc.batch = batchService.getEmptyBatch();
+                                cbc.alerts.push({type:'alert-success',message:'Batch successfully edited.'});
+                            },
+                            function (error) {
+                                console.log(error.data.message);
+                            }
+                        );
+                        break;
+                    case 'create':
+                    case 'clone':
+                        batchService.create(
+                            cbc.batch,
+                            function () {
+                                console.log("Successfully created batch.");
+                                $scope.$emit("repull");
+                                cbc.batch = batchService.getEmptyBatch();
+                                cbc.alerts.push({type:'alert-success',message:'Batch successfully created.'})
+                            },
+                            function (error) {
+                                console.log(error.data.message);
+                            }
+                        );
+                        break;
+                }
+            }
+            else{
+                if(!cbc.batch.name){
+                    cbc.alerts.push({type:'alert-danger',message:'Name required.'});
+                }
+                if(!cbc.batch.location){
+                    cbc.alerts.push({type:'alert-danger',message:'Location required.'});
+                }
             }
         };
-        
 
             // initialize fields
         cbc.initialize = function(incomingBatch) {
@@ -156,14 +146,16 @@
                     if(cbc.state === 'edit'){
                         cbc.batch.id = incomingBatch.id;
                     }
+                      // required 
                     cbc.batch.name = incomingBatch.name;
-                    cbc.batch.curriculum = incomingBatch.curriculum.id;
-                    cbc.batch.trainer = incomingBatch.trainer.trainerID;
-                    cbc.batch.cotrainer = incomingBatch.cotrainer ? incomingBatch.cotrainer.trainerID : null;
                     cbc.batch.location = incomingBatch.location.id;
-                    cbc.batch.room = incomingBatch.room ? incomingBatch.room.roomID : null;
-                    cbc.batch.startDate = incomingBatch.startDate;
-                    cbc.batch.endDate = incomingBatch.endDate;
+                      // no required
+                    if (cbc.batch.curriculum) { cbc.batch.curriculum = incomingBatch.curriculum.id; }
+                    if (cbc.batch.trainer)    { cbc.batch.trainer    = incomingBatch.trainer.trainerID; }
+                    if (cbc.batch.cotrainer)  { cbc.batch.cotrainer  = incomingBatch.cotrainer.trainerID; }
+                    if (cbc.batch.startDate)  { cbc.batch.room       = incomingBatch.room.roomID; }
+                    if (cbc.batch.curriculum) { cbc.batch.startDate  = incomingBatch.startDate; }
+                    if (cbc.batch.endDate)    { cbc.batch.endDate    = incomingBatch.endDate; }
 
                     cbc.updateWeeks();
 

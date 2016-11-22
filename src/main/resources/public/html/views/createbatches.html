@@ -5,12 +5,16 @@
 		<div class="dataContainer newBatch" ng-cloak>
 			<h3 id="createBatchHeader"> {{cbCtrl.stateChanges[cbCtrl.state].header}} </h3>
 
-			<form name="batchForm" novalidate>
+			<div class="row" ng-repeat="alert in cbCtrl.alerts">
+				<div uib-alert class="col-md-3" ng-class="alert.type" close="cbCtrl.closeAlert($index)">{{alert.message}}</div>
+			</div>
+
+			<form name="batchForm" ng-submit="cbCtrl.saveBatch(batchForm.$valid)" novalidate>
 
 				<div class="leftGroup"> 
 
 					  <!-- Name -->
-					<input ng-model="cbCtrl.batch.name" type="text" placeholder="Name*"/>
+					<input id="name" ng-model="cbCtrl.batch.name" type="text" placeholder="Name*" required/>
 
 					  <!-- Curriculum -->
 					<select ng-model="cbCtrl.batch.curriculum" ng-options="curriculum.id as curriculum.name for curriculum in cbCtrl.curricula" ng-click="cbCtrl.changeToNone($event)"> 
@@ -28,7 +32,7 @@
 					</select>
 
 					  <!-- Location -->
-					<select id="location" ng-model="cbCtrl.batch.location" ng-options="location.id as location.name for location in cbCtrl.locations | orderBy:'name'" ng-click="cbCtrl.changeToNone($event)">
+					<select id="location" ng-model="cbCtrl.batch.location" ng-options="location.id as location.name for location in cbCtrl.locations | orderBy:'name'" ng-click="cbCtrl.changeToNone($event)" required>
 						<option value=""> Location* </option>
 					</select>
 
@@ -38,19 +42,19 @@
 					</select>
 
 					  <!-- Start date -->
-					<datetimepicker id="startDate" ng-model="cbCtrl.batch.startDate" date-format="MMMM d, yyyy" date-options="cbCtrl.dateOptions" date-disabled="cbCtrl.isDisabledDate(date, mode)" hidden-time="true" ng-click="cbCtrl.setEndDate(); cbCtrl.updateWeeks()"> </datetimepicker>
+					<datetimepicker id="startDate" placeholder="Start date" ng-model="cbCtrl.batch.startDate" date-format="MMMM d, yyyy" date-options="cbCtrl.dateOptions" date-disabled="cbCtrl.isDisabledDate(date, mode)" hidden-time="true" ng-click="cbCtrl.setEndDate(); cbCtrl.updateWeeks()"> </datetimepicker>
 					<span id="toSpan">&nbsp; to </span>
 
 					  <!-- End date -->
-					<datetimepicker id="endDate" ng-model="cbCtrl.batch.endDate" date-format="MMMM d, yyyy" date-options="cbCtrl.dateOptions" date-disabled="cbCtrl.isDisabledDate(date, mode)" hidden-time="true" ng-click="cbCtrl.updateWeeks()"> </datetimepicker>
+					<datetimepicker id="endDate" placeholder="End date" ng-model="cbCtrl.batch.endDate" date-format="MMMM d, yyyy" date-options="cbCtrl.dateOptions" date-disabled="cbCtrl.isDisabledDate(date, mode)" hidden-time="true" ng-click="cbCtrl.updateWeeks()"> </datetimepicker>
 
 					  <!-- Week display -->
 					<div id="weeks"> {{cbCtrl.weeks}} weeks </div>
 
 					  <!-- Submit -->
-					<!--<button id="submitBatch" ng-click="cbCtrl.saveBatch()"> {{cbCtrl.stateChanges[cbCtrl.state].submit}} </button>-->
-					<button id="submitBatch" ng-click="cbCtrl.filterRooms(cbCtrl.batch.location)"> {{cbCtrl.stateChanges[cbCtrl.state].submit}} </button>
-				
+
+					<button id="submitBatch" type="submit"> {{cbCtrl.stateChanges[cbCtrl.state].submit}} </button>
+
 				<!-- </div>
 				<div class="rightGroup">
 				
