@@ -61,28 +61,28 @@
             // get all batches
         hc.batches = [];
         batchService.getAll(function(response) {
-            console.log("  (HC) Retrieving all batches.");
+            console.log("  (HC)  Retrieving all batches.");
             hc.batches = response;
         }, function() {
-            console.log("  (HC) Error retrieving all batches.");
+            console.log("  (HC)  Error retrieving all batches.");
         });
         
             // get all trainers 
         hc.trainers = [];
         trainerService.getAll(function(response) {
-            console.log("  (HC) Retrieving all trainers.");
+            console.log("  (HC)  Retrieving all trainers.");
             hc.trainers = response;
         }, function() {
-            console.log("  (HC) Error retrieving all trainers.");
+            console.log("  (HC)  Error retrieving all trainers.");
         });
 
             // get all locations 
         hc.locations = [];
         locationService.getAll(function(response) {
-            console.log("  (HC) Retrieving all locations.");
+            console.log("  (HC)  Retrieving all locations.");
             hc.locations = response;
         }, function() {
-            console.log("  (HC) Error retrieving all locations.");
+            console.log("  (HC)  Error retrieving all locations.");
         });
 
             // date filter presets

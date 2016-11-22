@@ -2,7 +2,7 @@
 var app = angular.module("batchApp");
 
 app.service('batchService', function($resource) {
-    var Batch = $resource('api/v2/batch/:id',{id: '@id'},{update:{method:'PUT',url:'api/v2/batch'}});
+    var Batch = $resource('api/v2/batch/:id',{id: '@id'},{ save:{method:"POST",url:"api/v2/batch"}, update:{method:'PUT',url:'api/v2/batch'} });
     var bs = this;
 
     bs.getEmptyBatch = function(){

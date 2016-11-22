@@ -51,16 +51,6 @@
                 console.log(error.data.errorMessage);
             }
         );
-
-        roomService.getAll(
-            function(roomData){
-                console.log("  (CBC) Retrieved rooms.");
-                cbc.rooms = roomData;
-            },
-            function(error){
-                console.log(error.data.errorMessage);
-            }
-        );
         
         cbc.filterRooms = function(locationID){
             if(locationID != undefined){
@@ -80,10 +70,6 @@
             // change weeks label
         cbc.updateWeeks = function() {
             cbc.weeks = calendarService.countWeeks(cbc.batch.startDate, cbc.batch.endDate);
-        };
-
-            // changes dropdown CSS
-        cbc.noPlaceholder = function() {
         };
 
             // change default option to "none"
@@ -141,7 +127,6 @@
                 }
             }
         };
-        
 
             // initialize fields
         cbc.initialize = function(incomingBatch) {
@@ -161,14 +146,16 @@
                     if(cbc.state === 'edit'){
                         cbc.batch.id = incomingBatch.id;
                     }
+                      // required 
                     cbc.batch.name = incomingBatch.name;
-                    cbc.batch.curriculum = incomingBatch.curriculum.id;
-                    cbc.batch.trainer = incomingBatch.trainer.trainerID;
-                    cbc.batch.cotrainer = incomingBatch.cotrainer ? incomingBatch.cotrainer.trainerID : null;
                     cbc.batch.location = incomingBatch.location.id;
-                    cbc.batch.room = incomingBatch.room ? incomingBatch.room.roomID : null;
-                    cbc.batch.startDate = incomingBatch.startDate;
-                    cbc.batch.endDate = incomingBatch.endDate;
+                      // no required
+                    if (cbc.batch.curriculum) { cbc.batch.curriculum = incomingBatch.curriculum.id; }
+                    if (cbc.batch.trainer)    { cbc.batch.trainer    = incomingBatch.trainer.trainerID; }
+                    if (cbc.batch.cotrainer)  { cbc.batch.cotrainer  = incomingBatch.cotrainer.trainerID; }
+                    if (cbc.batch.startDate)  { cbc.batch.room       = incomingBatch.room.roomID; }
+                    if (cbc.batch.curriculum) { cbc.batch.startDate  = incomingBatch.startDate; }
+                    if (cbc.batch.endDate)    { cbc.batch.endDate    = incomingBatch.endDate; }
 
                     cbc.updateWeeks();
 
