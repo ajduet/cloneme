@@ -14,7 +14,32 @@
 	   		</div>
 	    </div>
 	</div>
-	<button class="btn btn-default">Add Location</button>
-	<button class="btn btn-default">Add Room</button>
+
+	<div class="container-fluid">
+		<div class="row">
+			<button class="btn btn-default">Add Location</button>
+			<button class="btn btn-default">Add Room</button>
+		</div>
+		<br>
+		<div class="row">
+			<div class="well col-md-5">
+				<h4>Add Location:</h4>
+				<form name="locationForm" novalidate>
+					<div class="form-group">
+						<label for="locationName">Name:</label>
+						<input type="text" id="locationName" class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="locationCity">City:</label>
+						<input type="text" id="locationCity" class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="locationState">State:</label>
+						<input type="text" id="locationState" class="form-control">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 	   
 </div>
