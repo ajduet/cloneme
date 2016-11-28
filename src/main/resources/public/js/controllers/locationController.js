@@ -1,27 +1,49 @@
 var assignforce = angular.module("batchApp");
 
-assignforce.controller( "locationCtrl", function($scope, $window, locationService) {
+assignforce.controller( "locationCtrl", function($scope, $window, locationService, roomService) {
     console.log("Beginning location controller.");
     var lc = this;
 
     lc.location = locationService.getEmptyLocation();
+    lc.roomInfo = {};
 
-    lc.alerts = [];
+    lc.locationAlerts = [];
+    lc.roomAlerts = [];
     lc.locations = [];
-    lc.isCollapsed = {addLocation:true};
+    lc.isCollapsed = {addLocation:true, addRoom:true};
 	lc.states = ['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD',
 		'MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN',
 		'TX','UT','VT','VA','WA','WV','WI','WY'];
 
-    lc.closeAlert = function(index){
-        lc.alerts.splice(index,1);
+    lc.closeAlert = function(type, index){
+    	if (type === 'location'){
+            lc.locationAlerts.splice(index,1);
+		}
+		else {
+    		lc.roomAlerts.splice(index,1);
+		}
     };
 
-    lc.cancel = function(name){
-    	lc.isCollapsed[name] = true;
-    	lc.location = locationService.getEmptyLocation();
+    lc.cancel = function(type){
+    	if(type === 'location'){
+            lc.isCollapsed['addLocation'] = true;
+            lc.location = locationService.getEmptyLocation();
+            lc.locationAlerts = [];
+		}
+		else{
+            lc.isCollapsed['addRoom'] = true;
+            lc.roomInfo = {};
+            lc.roomAlerts = [];
+		}
+
 	};
-    
+
+    lc.changeCollapsedForm = function(name){
+    	lc.isCollapsed['addLocation'] = true;
+    	lc.isCollapsed['addRoom'] = true;
+    	lc.isCollapsed[name] = false;
+	};
+
     lc.changeCollapsed = function(name){
     	lc.isCollapsed[name] = !lc.isCollapsed[name];
     };
@@ -42,7 +64,7 @@ assignforce.controller( "locationCtrl", function($scope, $window, locationServic
     };
 
     lc.saveLocation = function(isValid){
-    	lc.alerts = [];
+    	lc.locationAlerts = [];
     	if(isValid){
     		locationService.create(
     			lc.location,
@@ -58,13 +80,55 @@ assignforce.controller( "locationCtrl", function($scope, $window, locationServic
 		}
 		else{
     		if(!lc.location.name){
-    			lc.alerts.push({type: 'alert-danger', message: 'Name is required'});
+    			lc.locationAlerts.push({type: 'alert-danger', message: 'Name is required'});
 			}
 			if(!lc.location.city){
-    			lc.alerts.push({type: 'alert-danger', message: 'City is required'});
+    			lc.locationAlerts.push({type: 'alert-danger', message: 'City is required'});
 			}
 			if(!lc.location.state){
-				lc.alerts.push({type: 'alert-danger', message: 'State is required'});
+				lc.locationAlerts.push({type: 'alert-danger', message: 'State is required'});
+			}
+		}
+	};
+
+    lc.saveRoom = function(isValid){
+    	lc.roomAlerts = [];
+		if(isValid){
+			var room = roomService.getEmptyRoom();
+			if(lc.roomInfo.building){
+				room.roomName = lc.roomInfo.building+'-'+lc.roomInfo.name;
+			}
+			else{
+				room.roomName = lc.roomInfo.name;
+			}
+			roomService.create(
+				room,
+				function(newRoom){
+					console.log('Room created successfully');
+					var location = lc.roomInfo.location;
+					location.rooms.push(newRoom);
+					locationService.update(
+						location,
+						function(){
+							console.log('Room added to location successfully');
+							lc.fetchLocations();
+						},
+						function(error){
+							console.log(error.data.message)
+						}
+					);
+				},
+				function(error){
+					console.log(error.data.message);
+				}
+			);
+		}
+		else {
+			if(!lc.roomInfo.name){
+				lc.roomAlerts.push({type: 'alert-danger', message: 'Name is required'});
+			}
+			if(!lc.roomInfo.location){
+				lc.roomAlerts.push({type: 'alert-danger', message: 'Location is required'});
 			}
 		}
 	};

@@ -17,6 +17,7 @@
         cbc.resetBatch = function(){
             cbc.batch = batchService.getEmptyBatch();
             cbc.changeState('create');
+            cbc.alerts = [];
         };
         
             // changes form state and populates fields if need-be
