@@ -4,21 +4,27 @@ assignforce.controller( "locationCtrl", function($scope, $window, locationServic
     console.log("Beginning location controller.");
     var lc = this;
 
-    lc.location = {};
+    lc.location = locationService.getEmptyLocation();
 
-    lc.alerts;
+    lc.alerts = [];
+    lc.locations = [];
+    lc.isCollapsed = {addLocation:true};
+	lc.states = ['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD',
+		'MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN',
+		'TX','UT','VT','VA','WA','WV','WI','WY'];
 
     lc.closeAlert = function(index){
         lc.alerts.splice(index,1);
     };
 
-    lc.isCollapsed = {addLocation:true};
+    lc.cancel = function(name){
+    	lc.isCollapsed[name] = true;
+    	lc.location = locationService.getEmptyLocation();
+	};
     
     lc.changeCollapsed = function(name){
     	lc.isCollapsed[name] = !lc.isCollapsed[name];
     };
-
-    lc.locations = [];
 
     lc.fetchLocations = function() {
         locationService.getAll(
@@ -30,12 +36,10 @@ assignforce.controller( "locationCtrl", function($scope, $window, locationServic
                 console.log("Successfully pulled locations");
             },
             function (error) {
-                error.data.message;
+                console.log(error.data.message);
             }
         );
     };
-
-    lc.fetchLocations();
 
     lc.saveLocation = function(isValid){
     	lc.alerts = [];
@@ -44,6 +48,7 @@ assignforce.controller( "locationCtrl", function($scope, $window, locationServic
     			lc.location,
 				function(){
     				console.log('Location created successfully');
+    				lc.location = locationService.getEmptyLocation();
     				lc.fetchLocations();
 				},
 				function(error){
@@ -63,5 +68,7 @@ assignforce.controller( "locationCtrl", function($scope, $window, locationServic
 			}
 		}
 	};
+
+    lc.fetchLocations();
 
 });

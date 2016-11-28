@@ -44,12 +44,13 @@
 					<div class="form-group">
 						<label for="locationState" class="col-sm-2 control-label">State:</label>
 						<div class="col-sm-5">
-							<input type="text" id="locationState" class="form-control" ng-model="lCtrl.location.state" required>
+							<select id="locationState" class="form-control" ng-options="state as state for state in lCtrl.states" ng-model="lCtrl.location.state" required></select>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-5">
 							<button type="submit" class="btn btn-success">Save new location</button>
+							<button type="button" class="btn btn-danger" ng-click="lCtrl.cancel('addLocation')">Cancel</button>
 						</div>
 					</div>
 				</form>
