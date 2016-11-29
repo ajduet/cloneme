@@ -142,7 +142,20 @@ assignforce.controller( "locationCtrl", function($scope, $window, locationServic
 			else{
 				room.roomName = lc.roomInfo.name;
 			}
-			roomService.create(
+
+			var location = lc.roomInfo.location;
+			location.rooms.push(room);
+			locationService.update(
+				location,
+				function(){
+					console.log('Created room successfully');
+				},
+				function(error){
+					console.log(error.data.message);
+				}
+			);
+
+			/*roomService.create(
 				room,
 				function(newRoom){
 					console.log('Room created successfully');
@@ -163,7 +176,7 @@ assignforce.controller( "locationCtrl", function($scope, $window, locationServic
 				function(error){
 					console.log(error.data.message);
 				}
-			);
+			);*/
 		}
 		else {
 			if(!lc.roomInfo.name){
