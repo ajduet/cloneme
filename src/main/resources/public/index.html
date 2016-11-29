@@ -21,6 +21,12 @@
 <link rel="stylesheet" href="css/assignForceCSS.css" />
 <link rel="stylesheet" href="css/angular-datepicker.css" />
 <link rel="stylesheet" href="css/createNewBatchCSS.css" />
+<style type="text/css">
+	.wf-loading {
+		visibility: hidden;
+	}
+</style>
+
 
 </head>
 <body ng-app="batchApp">
@@ -52,14 +58,14 @@
 		</div>
 		
         <div ng-show="aCtrl.isUserAuthenticated()">
-			<ng-include src="'html/views/menu.html'">
+			<div ng-include src="'html/views/menu.html'"></div>
 		</div>
   		<div ng-show="aCtrl.isUserAuthenticated()">
   	    	<div ng-view></div>
   		</div>
 
-	</div>
 
+	</div>
 <!-- AngularJS -->
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.js"></script>
 
@@ -105,6 +111,7 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js"></script>
 <script type="text/javascript" src="https://use.fontawesome.com/8d8fa1da46.js"></script>
 <script type="text/javascript" src="https://use.typekit.net/pvo4jdm.js"></script>
+<script type="text/javascript" src="https://revaturetraining.atlassian.net/s/d41d8cd98f00b204e9800998ecf8427e-T/-ulp2nw/100021/c/1000.0.11/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?locale=en-US&collectorId=de01c6fc"></script>
 <script>
 	try {
 		Typekit.load({
@@ -113,12 +120,6 @@
 	} catch (e) {
 	}
 </script>
-
-<style type="text/css">
-	.wf-loading {
-		visibility: hidden;
-	}
-</style>
 
 </body>
 

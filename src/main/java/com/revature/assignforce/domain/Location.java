@@ -1,18 +1,14 @@
 package com.revature.assignforce.domain;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import java.util.List;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "LOCATION")
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class Location {
 	
 	@Id
@@ -29,9 +25,13 @@ public class Location {
 	
 	@Column(name = "STATE")
 	private String state;
+
+	@Column(name="active", insertable = false)
+	private Boolean active;
 	
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="LOCATION")
+	//@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private List<Room> rooms;
 	
 	public Location(){}
@@ -83,6 +83,14 @@ public class Location {
 
 	public void setRooms(List<Room> rooms) {
 		this.rooms = rooms;
+	}
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
 	}
 
 	@Override

@@ -48,6 +48,9 @@ public class Trainer {
 	@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")						// ADDED this to fix serialization/infinite loop issues
 	private List<Skill> skill;
 
+	@Column(name="active", insertable = false)
+	private Boolean active;
+
 	public int getTrainerID() {
 		return trainerID;
 	}
@@ -100,6 +103,11 @@ public class Trainer {
 		this.skill = skill;
 	}
 
-	
-	
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
 }

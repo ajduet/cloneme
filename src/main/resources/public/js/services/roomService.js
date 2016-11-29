@@ -2,20 +2,27 @@
 var app = angular.module("batchApp");
 
 app.service( "roomService", function($resource) {
-    var Room = $resource('/api/v2/room/:roomID',{roomID: '@roomID'},{update:{method:'PUT'}});
+    var Room = $resource('api/v2/room/:roomID',{roomID: '@roomID'},{update:{method:'PUT', url:'api/v2/room'}});
     var rs = this;
 
+    rs.getEmptyRoom = function(){
+        return new Room();
+    };
+
+    rs.cloneRoom = function(room){
+        return new Room(room);
+    };
+
     rs.create = function(room, success, error){
-        var newRoom = new Room(room);
-        newRoom.$save(success, error);
+        room.$save(success, error);
     };
 
     rs.getAll = function(success, error) {
-        return Room.query(success, error);
+        Room.query(success, error);
     };
 
     rs.getById = function(id, success, error){
-        return Room.get({id: id}, success, error);
+        Room.get({id: id}, success, error);
     };
 
     rs.update = function(room, success, error){

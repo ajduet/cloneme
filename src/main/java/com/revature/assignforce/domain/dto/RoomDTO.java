@@ -7,28 +7,21 @@ import com.revature.assignforce.domain.Unavailable;
 
 public class RoomDTO {
 
-	private int ID;
-	private String name;
-	private Location location;
+	private int roomID;
+	private String roomName;
 	private List<Unavailable> unavailabilities;
 	
-	public int getID() {
-		return ID;
+	public int getRoomID() {
+		return roomID;
 	}
-	public void setID(int iD) {
-		ID = iD;
+	public void setRoomID(int iD) {
+		roomID = iD;
 	}
-	public String getName() {
-		return name;
+	public String getRoomName() {
+		return roomName;
 	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public Location getLocation() {
-		return location;
-	}
-	public void setLocation(Location location) {
-		this.location = location;
+	public void setRoomName(String name) {
+		roomName = name;
 	}
 	public List<Unavailable> getUnavailabilities() {
 		return unavailabilities;

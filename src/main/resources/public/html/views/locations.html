@@ -2,18 +2,107 @@
 	<h1>Locations:</h1>
 	
 	<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-	  <div ng-repeat="location in lCtrl.locations" class="panel panel-default">
-	    <div class="panel-heading" ng-click="lCtrl.changeCollapsed(location)">
-	      <h3 class="panel-title">
-	     	{{location.name}}
-	      </h3>
+		<div ng-repeat="location in lCtrl.locations" class="panel panel-default">
+			<div class="panel-heading" ng-click="lCtrl.changeCollapsed(location.name)">
+				<h3 class="panel-title">{{location.name}}</h3>
+				<div class="btn-group">
+					<button type="button" class="btn btn-xs btn-primary" ng-click="lCtrl.editLocation(location)">Edit</button>
+					<button type="button" class="btn btn-xs btn-danger" ng-click="lCtrl.deleteLocation(location)">Delete</button>
+				</div>
+	    	</div>
+	    	<div class="panel-body" uib-collapse="lCtrl.isCollapsed[location.name]">
+	     		<ul ng-if="location.rooms.length" class="list-unstyled">
+					<li ng-repeat = "room in location.rooms | orderBy: 'roomName'">
+						<h4>{{room.roomName}}</h4>
+						<div class="btn-group">
+							<button type="button" class="btn btn-xs btn-primary" ng-click="lCtrl.editRoom(room)">Edit</button>
+							<button type="button" class="btn btn-xs btn-danger" ng-click="lCtrl.deleteRoom(room)">Delete</button>
+						</div>
+					</li>
+				</ul>
+				<h4 ng-if="!location.rooms.length">No rooms</h4>
+	   		</div>
 	    </div>
-	    <div class="panel-body" uib-collapse="lCtrl.isCollapsed[location.name]">
-	     	<ul ng-if="location.rooms.length" class="list-unstyled">
-				<li ng-repeat = "room in location.rooms | orderBy: 'roomName'"><h4>{{room.roomName}}</h4></li>
-			</ul>
-			<h4 ng-if="!location.rooms.length">No rooms</h4>
-	     </div>
-	    </div>
-	   </div>
+	</div>
+
+	<div class="container-fluid">
+		<div class="row">
+			<button class="btn btn-default" ng-click="lCtrl.changeCollapsedForm('addLocation')">Add Location</button>
+			<button class="btn btn-default" ng-click="lCtrl.changeCollapsedForm('addRoom')">Add Room</button>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-md-5" uib-collapse="lCtrl.isCollapsed['addLocation']">
+				<h3>{{lCtrl.locationStateInfo[lCtrl.locationState].title}}</h3>
+
+				<div class="row" ng-repeat="alert in lCtrl.locationAlerts">
+					<div uib-alert class="col-md-offset-1 col-sm-7" ng-class="alert.type" close="lCtrl.closeAlert('location',$index)">{{alert.message}}</div>
+				</div>
+
+				<form name="locationForm" class="form-horizontal" ng-submit="lCtrl.saveLocation(locationForm.$valid)" novalidate>
+					<div class="form-group">
+						<label for="locationName" class="col-sm-2 control-label">Name*:</label>
+						<div class="col-sm-5">
+							<input type="text" id="locationName" class="form-control" ng-model="lCtrl.location.name" required>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="locationCity" class="col-sm-2 control-label">City*:</label>
+						<div class="col-sm-5">
+							<input type="text" id="locationCity" class="form-control" ng-model="lCtrl.location.city" required>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="locationState" class="col-sm-2 control-label">State*:</label>
+						<div class="col-sm-5">
+							<select id="locationState" class="form-control" ng-options="state as state for state in lCtrl.USStates" ng-model="lCtrl.location.state" required></select>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-5">
+							<button type="submit" class="btn btn-success">{{lCtrl.locationStateInfo[lCtrl.locationState].button}}</button>
+							<button type="button" class="btn btn-danger" ng-click="lCtrl.cancel('location')">Cancel</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-5" uib-collapse="lCtrl.isCollapsed['addRoom']">
+				<h3>Add Room:</h3>
+
+				<div class="row" ng-repeat="alert in lCtrl.roomAlerts">
+					<div uib-alert class="col-md-offset-1 col-sm-7" ng-class="alert.type" close="lCtrl.closeAlert('room',$index)">{{alert.message}}</div>
+				</div>
+
+				<form name="roomForm" class="form-horizontal" ng-submit="lCtrl.saveRoom(roomForm.$valid)" novalidate>
+					<div class="form-group">
+						<label for="roomBuilding" class="col-sm-2 control-label">Building:</label>
+						<div class="col-sm-5">
+							<input type="text" id="roomBuilding" class="form-control" ng-model="lCtrl.roomInfo.building">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="roomName" class="col-sm-2 control-label">Name*:</label>
+						<div class="col-sm-5">
+							<input type="text" id="roomName" class="form-control" ng-model="lCtrl.roomInfo.name" required>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="roomLocation" class="col-sm-2 control-label">Location*:</label>
+						<div class="col-sm-5">
+							<select id="roomLocation" class="form-control" ng-options="location as location.name for location in lCtrl.locations" ng-model="lCtrl.roomInfo.location" required></select>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-5">
+							<button type="submit" class="btn btn-success">Save new room</button>
+							<button type="button" class="btn btn-danger" ng-click="lCtrl.cancel('room')">Cancel</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	   
 </div>

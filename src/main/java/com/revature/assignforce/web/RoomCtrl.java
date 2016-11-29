@@ -32,8 +32,8 @@ public class RoomCtrl {
 	@RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Object createRoom( @RequestBody RoomDTO in ) {
 	
-		int ID = in.getID();
-		String name = in.getName();
+		int ID = in.getRoomID();
+		String name = in.getRoomName();
 		List<Unavailable> unavailabilities = in.getUnavailabilities();
 		
 		Room out = new Room( ID, name, unavailabilities );
@@ -64,8 +64,8 @@ public class RoomCtrl {
 	@RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Object updateRoom( @RequestBody RoomDTO in ) {
 	
-		int ID = in.getID();
-		String name = in.getName();
+		int ID = in.getRoomID();
+		String name = in.getRoomName();
 		List<Unavailable> unavailabilities = in.getUnavailabilities();
 		
 		Room out = new Room( ID, name, unavailabilities );
@@ -83,9 +83,9 @@ public class RoomCtrl {
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Object deleteRoom( @PathVariable("id") int ID ) {
 		
-		Room delete = roomService.getOneItem(ID);
-		roomService.deleteItem(delete);
-		return new ResponseEntity<Room>(delete, HttpStatus.OK);
+		//Room delete = roomService.getOneItem(ID);
+		roomService.deleteItem(ID);
+		return new ResponseEntity<Object>(null, HttpStatus.OK);
 	}
 	
 	  // GET ALL

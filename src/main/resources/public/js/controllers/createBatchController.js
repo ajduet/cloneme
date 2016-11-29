@@ -8,11 +8,17 @@
           // functions
 		  	// initializes batch service
         cbc.batch = batchService.getEmptyBatch();
-        cbc.alerts;
+        cbc.alerts = [];
 
         cbc.closeAlert = function(index){
             cbc.alerts.splice(index,1);
-        }
+        };
+
+        cbc.resetBatch = function(){
+            cbc.batch = batchService.getEmptyBatch();
+            cbc.changeState('create');
+            cbc.alerts = [];
+        };
         
             // changes form state and populates fields if need-be
         cbc.changeState = function(newState, incomingBatch) { 
@@ -160,7 +166,7 @@
                     cbc.updateWeeks();
 
                     break;
-            };
+            }
         };
 
         // data
