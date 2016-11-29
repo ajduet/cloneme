@@ -83,9 +83,9 @@ public class RoomCtrl {
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Object deleteRoom( @PathVariable("id") int ID ) {
 		
-		Room delete = roomService.getOneItem(ID);
-		roomService.deleteItem(delete);
-		return new ResponseEntity<Room>(delete, HttpStatus.OK);
+		//Room delete = roomService.getOneItem(ID);
+		roomService.deleteItem(ID);
+		return new ResponseEntity<Object>(null, HttpStatus.OK);
 	}
 	
 	  // GET ALL

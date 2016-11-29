@@ -9,6 +9,10 @@ app.service( "roomService", function($resource) {
         return new Room();
     };
 
+    rs.cloneRoom = function(room){
+        return new Room(room);
+    };
+
     rs.create = function(room, success, error){
         room.$save(success, error);
     };

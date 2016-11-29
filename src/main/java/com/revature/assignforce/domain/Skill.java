@@ -22,6 +22,9 @@ public class Skill {
 	@Column(name = "NAME", unique=true, nullable=false)
 	private String Name;
 
+	@Column(name="active", insertable = false)
+	private Boolean active;
+
 	public Skill(){}
 	
 	public Skill(int iD, String name) {
@@ -44,6 +47,14 @@ public class Skill {
 
 	public void setName(String name) {
 		Name = name;
+	}
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
 	}
 
 	@Override

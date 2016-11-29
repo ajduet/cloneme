@@ -6,14 +6,18 @@ assignforce.controller( "locationCtrl", function($scope, $window, locationServic
 
     lc.location = locationService.getEmptyLocation();
     lc.roomInfo = {};
-
+	lc.locationState = 'create';
+	lc.roomState = 'create';
     lc.locationAlerts = [];
     lc.roomAlerts = [];
     lc.locations = [];
     lc.isCollapsed = {addLocation:true, addRoom:true};
-	lc.states = ['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD',
+	lc.USStates = ['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD',
 		'MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN',
 		'TX','UT','VT','VA','WA','WV','WI','WY'];
+
+	lc.locationStateInfo = {edit:{title:'Edit Location',button:'Edit location'},create:{title:'Add Location',button:'Save new location'}};
+    lc.roomStateInfo = {edit:{title:'Edit Room',button:'Edit Room'},create:{title:'Add Location',button:'Save new location'}};
 
     lc.closeAlert = function(type, index){
     	if (type === 'location'){
@@ -28,10 +32,12 @@ assignforce.controller( "locationCtrl", function($scope, $window, locationServic
     	if(type === 'location'){
             lc.isCollapsed['addLocation'] = true;
             lc.location = locationService.getEmptyLocation();
+            lc.locationState = 'create';
             lc.locationAlerts = [];
 		}
 		else{
             lc.isCollapsed['addRoom'] = true;
+            lc.roomState = 'create';
             lc.roomInfo = {};
             lc.roomAlerts = [];
 		}
@@ -66,17 +72,33 @@ assignforce.controller( "locationCtrl", function($scope, $window, locationServic
     lc.saveLocation = function(isValid){
     	lc.locationAlerts = [];
     	if(isValid){
-    		locationService.create(
-    			lc.location,
-				function(){
-    				console.log('Location created successfully');
-    				lc.location = locationService.getEmptyLocation();
-    				lc.fetchLocations();
-				},
-				function(error){
-					console.log(error.data.message);
-				}
-			);
+    		if(lc.locationState === 'create'){
+                locationService.create(
+                    lc.location,
+                    function(){
+                        console.log('Location created successfully');
+                        lc.location = locationService.getEmptyLocation();
+                        lc.fetchLocations();
+                    },
+                    function(error){
+                        console.log(error.data.message);
+                    }
+                );
+			}
+			else if (lc.locationState === 'edit'){
+				locationService.update(
+					lc.location,
+					function(){
+						console.log('Location editted successfully');
+						lc.location = locationService.getEmptyLocation();
+						lc.fetchLocations();
+					},
+					function(error){
+						console.log(error.data.message);
+					}
+				)
+			}
+
 		}
 		else{
     		if(!lc.location.name){
@@ -89,6 +111,25 @@ assignforce.controller( "locationCtrl", function($scope, $window, locationServic
 				lc.locationAlerts.push({type: 'alert-danger', message: 'State is required'});
 			}
 		}
+	};
+
+    lc.editLocation = function(location){
+		lc.isCollapsed['addLocation'] = false;
+		lc.locationState = 'edit';
+		lc.location = location;
+	};
+
+    lc.deleteLocation = function(location){
+		locationService.delete(
+			location,
+			function(){
+				console.log('Successfully deleted location');
+				lc.fetchLocations();
+			},
+			function(error){
+				console.log(error.data.message);
+			}
+		);
 	};
 
     lc.saveRoom = function(isValid){
@@ -111,6 +152,7 @@ assignforce.controller( "locationCtrl", function($scope, $window, locationServic
 						location,
 						function(){
 							console.log('Room added to location successfully');
+                            lc.roomInfo = {};
 							lc.fetchLocations();
 						},
 						function(error){
@@ -131,6 +173,24 @@ assignforce.controller( "locationCtrl", function($scope, $window, locationServic
 				lc.roomAlerts.push({type: 'alert-danger', message: 'Location is required'});
 			}
 		}
+	};
+
+    lc.editRoom = function(room){
+
+	};
+
+    lc.deleteRoom = function(room){
+    	var resourceRoom = roomService.cloneRoom(room);
+    	roomService.delete(
+    		resourceRoom,
+			function(){
+    			console.log('Room successfully deleted');
+    			lc.fetchLocations();
+			},
+			function(error){
+				console.log(error.data.message);
+			}
+		);
 	};
 
     lc.fetchLocations();
