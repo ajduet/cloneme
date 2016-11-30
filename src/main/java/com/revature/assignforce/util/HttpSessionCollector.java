@@ -31,6 +31,9 @@ public class HttpSessionCollector implements HttpSessionListener {
 
     public static HttpSession find(String sessionId) {
         System.out.println("search for " + sessionId);
+        for (HttpSession s : sessions.values()) {
+            System.out.println(s.getId());
+        }
         return sessions.get(sessionId);
     }
 }
