@@ -27,6 +27,7 @@ public class AssignForceV2Application {
 
 	@Bean
 	HttpSessionListener httpSessionListener(){
+		System.out.println("Returning our sessions");
 		return sessions;
 	}
 }
