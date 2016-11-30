@@ -4,23 +4,15 @@
 
 var app = angular.module("batchApp");
 
-app.controller("AuthCtrl", function(userSrv){
-	
-	this.credentials = {};
-	
-	this.isUserAuthenticated = function(){
-		return userSrv.isUserAuthenticated();
-	}
-	
-	this.login = function(){
-		userSrv.login(this.credentials);
-	}
-	
-	this.hasError = function(){
-		return userSrv.error || false;
-	}
-	
-	this.getError = function(){
-		return userSrv.error;
-	}
+app.controller("AuthCtrl", function($scope, $location, $window){
+
+	$scope.$on('$viewContentLoaded', function(){
+		if($location.search().token){
+			$window.sessionStorage.setItem('token',$location.search().token)
+		}
+		else {
+			$window.location.replace('https://sf.aduet.tech/services/auth?redirect_url=http%3A%2F%2Fdev2.aduet.tech/home');
+		}
+	});
+
 });
