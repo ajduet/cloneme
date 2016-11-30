@@ -26,29 +26,16 @@ public class AuthController {
 
 
 
-	private HttpSessionListener httpSessionListener;
 
 	@RequestMapping(value="/authorize",method=RequestMethod.GET)
-	public void initSetup(@RequestParam String redirect_url, HttpServletRequest request, HttpServletResponse response) throws IOException{
-		String sToken = (String) request.getSession().getAttribute("token");
-		System.out.println(request.getSession().getId());
-		request.getSession().setAttribute("redirect", redirect_url);
-
-		if(sToken == null){
-			response.sendRedirect(String.format("https://sf.aduet.tech/services/auth?redirect_url=http://dev2.aduet.tech/api/v2/token?id=%s", request.getSession().getId()));
-		}
+	public void initSetup(@RequestParam String redirect_url, HttpSession session, HttpServletResponse response) throws IOException{
+		System.out.println(session.getId());
+//		if(sToken == null){
+//			response.sendRedirect(String.format("https://sf.aduet.tech/services/auth?redirect_url=http://dev2.aduet.tech/api/v2/token?id=%s", request.getSession().getId()));
+//		}
 	}
 	
 	@RequestMapping(value="/token")
 	public void getToken(@RequestParam(required = false) String token, @RequestParam(required = false) String id, HttpServletResponse response) throws IOException {
-		HttpSession session = ((HttpSessionCollector)httpSessionListener).find(id);
-
-		System.out.println("---------" + id);
-		System.out.println((String) session.getAttribute("redirect"));
-		System.out.println(session.toString());
-
-		session.setAttribute("token", token);
-		String redirect = (String) session.getAttribute("redirect");
-		response.sendRedirect(String.format("%s?token=%s", redirect, token));
 	}
 }
