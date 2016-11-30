@@ -17,7 +17,7 @@ assignforce.controller( "locationCtrl", function($scope, $window, locationServic
 		'TX','UT','VT','VA','WA','WV','WI','WY'];
 
 	lc.locationStateInfo = {edit:{title:'Edit Location',button:'Edit location'},create:{title:'Add Location',button:'Save new location'}};
-    lc.roomStateInfo = {edit:{title:'Edit Room',button:'Edit Room'},create:{title:'Add Location',button:'Save new location'}};
+    lc.roomStateInfo = {edit:{title:'Edit Room',button:'Edit room'},create:{title:'Add Room',button:'Save new room'}};
 
     lc.closeAlert = function(type, index){
     	if (type === 'location'){
@@ -98,6 +98,8 @@ assignforce.controller( "locationCtrl", function($scope, $window, locationServic
 					}
 				)
 			}
+			lc.isCollapsed['addLocation'] = true;
+			lc.locationState = 'create';
 
 		}
 		else{
@@ -114,8 +116,8 @@ assignforce.controller( "locationCtrl", function($scope, $window, locationServic
 	};
 
     lc.editLocation = function(location){
+        lc.locationState = 'edit';
 		lc.isCollapsed['addLocation'] = false;
-		lc.locationState = 'edit';
 		lc.location = location;
 	};
 
@@ -135,48 +137,51 @@ assignforce.controller( "locationCtrl", function($scope, $window, locationServic
     lc.saveRoom = function(isValid){
     	lc.roomAlerts = [];
 		if(isValid){
-			var room = roomService.getEmptyRoom();
-			if(lc.roomInfo.building){
-				room.roomName = lc.roomInfo.building+'-'+lc.roomInfo.name;
-			}
-			else{
-				room.roomName = lc.roomInfo.name;
-			}
+			if(lc.roomState === 'create'){
+                var room = roomService.getEmptyRoom();
+                if(lc.roomInfo.building){
+                    room.roomName = lc.roomInfo.building+'-'+lc.roomInfo.name;
+                }
+                else{
+                    room.roomName = lc.roomInfo.name;
+                }
 
-			var location = lc.roomInfo.location;
-			location.rooms.push(room);
-			locationService.update(
-				location,
-				function(){
-					console.log('Created room successfully');
-				},
-				function(error){
-					console.log(error.data.message);
-				}
-			);
+                var location = lc.roomInfo.location;
+                location.rooms.push(room);
+                locationService.update(
+                    location,
+                    function(){
+                        console.log('Created room successfully');
+                    },
+                    function(error){
+                        console.log(error.data.message);
+                    }
+                );
+			}
+			else if(lc.roomState === 'edit'){
+                var room = roomService.getEmptyRoom();
+                room.roomID = lc.roomInfo.roomID;
+                if(lc.roomInfo.building){
+                    room.roomName = lc.roomInfo.building+'-'+lc.roomInfo.name;
+                }
+                else{
+                    room.roomName = lc.roomInfo.name;
+                }
 
-			/*roomService.create(
-				room,
-				function(newRoom){
-					console.log('Room created successfully');
-					var location = lc.roomInfo.location;
-					location.rooms.push(newRoom);
-					locationService.update(
-						location,
-						function(){
-							console.log('Room added to location successfully');
-                            lc.roomInfo = {};
-							lc.fetchLocations();
-						},
-						function(error){
-							console.log(error.data.message)
-						}
-					);
-				},
-				function(error){
-					console.log(error.data.message);
-				}
-			);*/
+                roomService.update(
+                	room,
+					function(){
+                		console.log('Room updated succesfully');
+                        lc.roomInfo = {};
+                		lc.fetchLocations();
+					},
+					function(error){
+						console.log(error.data.message);
+					}
+				);
+			}
+			lc.isCollapsed['addRoom'] = true;
+			lc.roomState = 'create';
 		}
 		else {
 			if(!lc.roomInfo.name){
@@ -189,7 +194,18 @@ assignforce.controller( "locationCtrl", function($scope, $window, locationServic
 	};
 
     lc.editRoom = function(room){
-
+		lc.roomState = 'edit';
+		lc.isCollapsed['addRoom'] = false;
+		lc.roomInfo = {};
+		lc.roomInfo.roomID = room.roomID;
+		if(room.roomName.includes('-')){
+			var roomSplit = room.roomName.split('-');
+			lc.roomInfo.building = roomSplit[0];
+			lc.roomInfo.name = roomSplit[1];
+		}
+		else{
+			lc.roomInfo.name = room.roomName;
+		}
 	};
 
     lc.deleteRoom = function(room){
