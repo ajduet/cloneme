@@ -19,10 +19,13 @@ public class AuthController {
 	@RequestMapping(value="/authorize",method=RequestMethod.GET)
 	public void initSetup(@RequestParam String redirect_url, HttpSession session, HttpServletResponse response) throws IOException{
 		String sToken = (String) session.getAttribute("token");
-		session.setAttribute("redirect", redirect_url);
+
 
 		if(sToken == null){
+			session.setAttribute("redirect", redirect_url);
 			response.sendRedirect("https://sf.aduet.tech/services/auth?redirect_url=http://dev2.aduet.tech/api/v2/token");
+		}else{
+			response.sendRedirect(String.format("%s?token=%s", redirect_url, sToken));
 		}
 	}
 	
