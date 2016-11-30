@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "LOCATION")
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
-public class Location {
+public class Location implements Activatable{
 	
 	@Id
 	@Column(name = "ID")

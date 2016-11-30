@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "TRAINER")
-public class Trainer {
+public class Trainer implements Activatable{
 
 	@Id
 	@Column(name = "ID")

@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import com.revature.assignforce.domain.Skill;
 
 @Repository
-public interface SkillRepository extends BaseRepository<Skill, Integer> {
+public interface SkillRepository extends ActivatableObjectRepository<Skill, Integer> {
 
 }

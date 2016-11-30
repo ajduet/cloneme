@@ -2,6 +2,7 @@ package com.revature.assignforce.web;
 
 import java.util.List;
 
+import com.revature.assignforce.service.ActivatableObjectDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,7 @@ import com.revature.assignforce.service.DaoService;
 public class RoomCtrl {
 
 	@Autowired
-	DaoService<Room, Integer> roomService;
+	ActivatableObjectDaoService<Room, Integer> roomService;
 
 	  // CREATE
 		// creating new room object from information passed from room data transfer object

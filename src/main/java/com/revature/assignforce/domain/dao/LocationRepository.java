@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import com.revature.assignforce.domain.Location;
 
 @Repository
-public interface LocationRepository extends BaseRepository<Location, Integer> {
+public interface LocationRepository extends ActivatableObjectRepository<Location, Integer> {
 
 }

@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import com.revature.assignforce.domain.Curriculum;
 
 @Repository
-public interface CurriculumRepository extends BaseRepository<Curriculum, Integer> {
+public interface CurriculumRepository extends ActivatableObjectRepository<Curriculum, Integer> {
 
 }

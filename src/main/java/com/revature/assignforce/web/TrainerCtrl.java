@@ -2,6 +2,7 @@ package com.revature.assignforce.web;
 
 import java.util.List;
 
+import com.revature.assignforce.service.ActivatableObjectDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,7 +25,7 @@ import com.revature.assignforce.service.DaoService;
 public class TrainerCtrl {
 	
 	@Autowired
-	DaoService<Trainer, Integer> trainerService;
+	ActivatableObjectDaoService<Trainer, Integer> trainerService;
 
 	  // CREATE
 		// creating new trainer object from information passed from trainer data transfer object
@@ -86,9 +87,8 @@ public class TrainerCtrl {
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Object deleteTrainer( @PathVariable("id") int ID ) {
 		
-		Trainer delete = trainerService.getOneItem(ID);
-		trainerService.deleteItem(delete);
-		return new ResponseEntity<Trainer>(delete, HttpStatus.OK);
+		trainerService.deleteItem(ID);
+		return new ResponseEntity<Object>(null, HttpStatus.OK);
 	}
 	
 	  // GET ALL

@@ -11,7 +11,7 @@ import jdk.nashorn.internal.ir.annotations.Ignore;
 @Table(name = "ROOM")
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Room {
+public class Room implements Activatable{
 	
 	@Id
 	@Column(name = "ID")

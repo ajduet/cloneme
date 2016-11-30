@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "SKILL")
-public class Skill {
+public class Skill implements Activatable{
 
 	@Id
 	@Column(name = "ID")

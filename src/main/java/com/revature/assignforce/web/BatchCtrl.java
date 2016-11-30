@@ -113,9 +113,8 @@ public class BatchCtrl {
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Object deleteBatch( @PathVariable("id") int ID ) {
 		
-		Batch delete = batchService.getOneItem(ID);
-		batchService.deleteItem(delete);
-		return new ResponseEntity<Batch>(delete, HttpStatus.OK);
+		batchService.deleteItem(ID);
+		return new ResponseEntity<Object>(null, HttpStatus.OK);
 	}
 	
 	  // GET ALL

@@ -7,7 +7,7 @@ import com.revature.assignforce.domain.Trainer;
 import java.util.List;
 
 @Repository
-public interface TrainerRepository extends BaseRepository<Trainer, Integer> {
+public interface TrainerRepository extends ActivatableObjectRepository<Trainer, Integer> {
 	public Trainer findByFirstName(String name);
 	public List<Trainer> findByActiveIsTrue();
 }
