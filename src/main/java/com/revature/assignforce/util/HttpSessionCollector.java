@@ -1,5 +1,7 @@
 package com.revature.assignforce.util;
 
+import org.springframework.stereotype.Component;
+
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
@@ -9,6 +11,7 @@ import java.util.Map;
 /**
  * Created by August Duet on 11/30/2016.
  */
+@Component
 public class HttpSessionCollector implements HttpSessionListener {
     private static final Map<String, HttpSession> sessions = new HashMap<String, HttpSession>();
 
