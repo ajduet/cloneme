@@ -42,7 +42,7 @@ public class AuthController {
 	@RequestMapping(value="/token")
 	public void getToken(@RequestParam(required = false) String token, @RequestParam(required = false) String id, HttpServletResponse response) throws IOException {
 
-		System.out.println(id);
+		System.out.println("---------" + id);
 		HttpSession session = ((HttpSessionCollector)httpSessionListener).find(id);
 		session.setAttribute("token", token);
 		String redirect = (String) session.getAttribute("redirect");
