@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -22,15 +23,20 @@ public class ActivatableObjectDaoService<T extends Activatable, ID extends Seria
     }
 
     @Override
-    public List<T> getAllItems(){ return repo.findByActiveIsTrue();}
+    //public List<T> getAllItems(){ return repo.findByActiveIsTrue();}
 
     public void deleteItem(ID id){
-        Activatable item = (Activatable) repo.findOne(id);
 
-        item.setActive(false);
+        try{
+            repo.delete(id);
+        }catch(Exception ex){
+            Activatable item = (Activatable) repo.findOne(id);
+            item.setActive(false);
 
-        T saveItem = (T)item;
-        repo.save(saveItem);
+            T saveItem = (T)item;
+            repo.save(saveItem);
+        }
+
 
     }
 }
