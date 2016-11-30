@@ -14,17 +14,23 @@ public class HttpSessionCollector implements HttpSessionListener {
 
     @Override
     public void sessionCreated(HttpSessionEvent event) {
+        System.out.println("Creating Session");
         HttpSession session = event.getSession();
         sessions.put(session.getId(), session);
+        for (HttpSession s : sessions.values()) {
+            System.out.println(s.getId());
+        }
     }
 
 
     @Override
     public void sessionDestroyed(HttpSessionEvent event) {
+        System.out.println("Destroying Session");
         sessions.remove(event.getSession().getId());
     }
 
     public static HttpSession find(String sessionId) {
+        System.out.println("search for " + sessionId);
         return sessions.get(sessionId);
     }
 }

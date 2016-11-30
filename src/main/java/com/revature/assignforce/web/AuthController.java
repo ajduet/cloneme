@@ -25,12 +25,13 @@ import javax.servlet.http.HttpSessionListener;
 public class AuthController {
 
 
-	@Autowired
+
 	private HttpSessionListener httpSessionListener;
 
 	@RequestMapping(value="/authorize",method=RequestMethod.GET)
 	public void initSetup(@RequestParam String redirect_url, HttpServletRequest request, HttpServletResponse response) throws IOException{
 		String sToken = (String) request.getSession().getAttribute("token");
+		System.out.println(request.getSession().getId());
 		request.getSession().setAttribute("redirect", redirect_url);
 
 		if(sToken == null){
@@ -39,8 +40,9 @@ public class AuthController {
 	}
 	
 	@RequestMapping(value="/token")
-	public void getToken(@RequestParam String token, @RequestParam String id, HttpServletResponse response) throws IOException {
+	public void getToken(@RequestParam(required = false) String token, @RequestParam(required = false) String id, HttpServletResponse response) throws IOException {
 
+		System.out.println(id);
 		HttpSession session = ((HttpSessionCollector)httpSessionListener).find(id);
 		session.setAttribute("token", token);
 		String redirect = (String) session.getAttribute("redirect");
