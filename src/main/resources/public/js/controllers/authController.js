@@ -4,7 +4,7 @@
 
 var app = angular.module("batchApp");
 
-app.controller("AuthCtrl", function(userSrv){
+app.controller("AuthCtrl", function( $mdToast, userSrv ){
 	
 	this.credentials = {};
 	
@@ -23,4 +23,9 @@ app.controller("AuthCtrl", function(userSrv){
 	this.getError = function(){
 		return userSrv.error;
 	}
+
+      // global function available to all other controllers (as they are all children of authCtrl) to create toast messages
+    this.showToast = function( message ) {
+        $mdToast.show( $mdToast.simple().textContent( message ).action("OKAY").position("top right").highlightAction(true) );
+    };
 });

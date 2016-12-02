@@ -1,19 +1,72 @@
-<div>
-	<h1>Locations:</h1>
-	
-	<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-	  <div ng-repeat="location in lCtrl.locations" class="panel panel-default">
-	    <div class="panel-heading" ng-click="lCtrl.changeCollapsed(location)">
-	      <h3 class="panel-title">
-	     	{{location.name}}
-	      </h3>
-	    </div>
-	    <div class="panel-body" uib-collapse="lCtrl.isCollapsed[location.name]">
-	     	<ul ng-if="location.rooms.length" class="list-unstyled">
-				<li ng-repeat = "room in location.rooms | orderBy: 'roomName'"><h4>{{room.roomName}}</h4></li>
-			</ul>
-			<h4 ng-if="!location.rooms.length">No rooms</h4>
-	     </div>
-	    </div>
-	   </div>
-</div>
+
+    <md-card md-whiteframe="8" ng-cloak>
+
+        <md-toolbar layout="columns" layout-align="center center">
+
+            <div class="md-toolbar-tools">
+                <span> Locations </span>
+            </div>
+
+            <span flex> </span>
+
+            <md-button class="md-icon-button" ng-click="lCtrl.addLocation()">
+                <md-tooltip> Add location </md-tooltip>
+                <md-icon md-svg-icon="img/ic_add_location_white_24px.svg"> </md-icon>
+            </md-button>
+
+            <md-button class="md-icon-button" ng-click="lCtrl.addRoom()">
+                <md-tooltip> Add room to selected </md-tooltip>
+                <md-icon md-svg-icon="img/ic_add_circle_white_24px.svg"> </md-icon>
+            </md-button>
+
+            <md-button class="md-icon-button" ng-click="lCtrl.editSelected()">
+                <md-tooltip> Edit selected </md-tooltip>
+                <md-icon md-svg-icon="img/ic_edit_white_24px.svg"> </md-icon>
+            </md-button>
+
+            <md-button class="md-icon-button" ng-click="lCtrl.deleteSelected()">
+                <md-tooltip> Delete selected </md-tooltip>
+                <md-icon md-svg-icon="img/ic_delete_white_24px.svg"> </md-icon>
+            </md-button>
+
+        </md-toolbar> 
+
+        <md-content>
+
+            <md-list>
+                <md-list-item class="md-2-line locListItem" md-ink-ripple ng-repeat-start="location in lCtrl.locations track by location.id" ng-click="lCtrl.openLocation(location)" layout-align="center center">
+
+                    <md-icon md-svg-icon="img/ic_business_black_48px.svg"> </md-icon>
+                    <div class="md-list-item-text" layout="column">
+                        <h3> {{ location.name }} </h3>
+                        <p> {{ location.city }}, {{ location.state }} </p>
+                    </div>
+
+                    <span flex> </span>
+
+                    <md-checkbox md-no-ink ng-checked="lCtrl.exists(location)" ng-click="lCtrl.toggle(location)"> </md-checkbox>
+
+                </md-list-item>
+
+                <md-list id="{{ 'loc'.concat(location.id) }}" class="roomList">
+                    <md-list-item ng-repeat="room in location.rooms | orderBy:'roomName'" ng-click="lCtrl.toggle(room)" layout-align="center center">
+
+                        <div flex="5"> </div>
+
+                        <md-icon md-svg-icon="img/ic_place_black_48px.svg"> </md-icon>
+                        <p> &nbsp; {{ room.roomName }} </p>
+
+                        <span flex> </span>
+
+                        <md-checkbox md-no-ink ng-checked="lCtrl.exists(room)" ng-click="lCtrl.toggle(room)"> </md-checkbox>
+
+                    </md-list-item>
+                </md-list>
+                
+                <md-divider ng-repeat-end ng-if="location.rooms.length > 0 && lCtrl.visible(location)"></md-divider>
+
+            </md-list>
+                
+        </md-content>
+
+    </md-card>

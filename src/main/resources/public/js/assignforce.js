@@ -1,8 +1,11 @@
 
-	var assignforce = angular.module( "batchApp", ['ngRoute', 'ngAria', 'ngAnimate', 'ngMaterial', 'ngResource', 'ui.bootstrap', 'ui.bootstrap.datetimepicker']);
-		
+	var assignforce = angular.module( "batchApp", ['ngRoute', 'ngAnimate', 'ngAria', 'ngResource', 'ngMaterial', 'md.data.table']);
+
+          // global constants
+        assignforce.constant("secWeek", 604800000);
+        
 		  // url routing
-		assignforce.config(function($routeProvider, $locationProvider){
+		assignforce.config( function($routeProvider, $locationProvider){
 			$routeProvider
 				.when("/home", {
 					templateUrl : "html/views/home.html",
@@ -25,4 +28,23 @@
 			$locationProvider.html5Mode(true);
 		});
 
-        assignforce.constant("secWeek", 604800000);
+          // theme config
+        assignforce.config( function($mdThemingProvider) {
+
+            var revOrangeMap = $mdThemingProvider.extendPalette("deep-orange", {
+                "500": "#f26a25",
+                "hue-2": "#f26a25"
+            });
+
+            $mdThemingProvider.definePalette("revOrange", revOrangeMap);
+                
+            // $mdThemingProvider.theme("default")
+            //     .primaryPalette("revOrange")
+            //     .accentPalette("revOrange");
+
+            $mdThemingProvider.theme("default")
+                .primaryPalette("indigo")
+                .accentPalette("pink");
+
+        });
+
