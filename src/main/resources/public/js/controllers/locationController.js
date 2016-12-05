@@ -1,227 +1,225 @@
-var assignforce = angular.module("batchApp");
 
-assignforce.controller( "locationCtrl", function($scope, $window, locationService, roomService) {
-    console.log("Beginning location controller.");
-    var lc = this;
+ var assignforce = angular.module( "batchApp" );
 
-    lc.location = locationService.getEmptyLocation();
-    lc.roomInfo = {};
-	lc.locationState = 'create';
-	lc.roomState = 'create';
-    lc.locationAlerts = [];
-    lc.roomAlerts = [];
-    lc.locations = [];
-    lc.isCollapsed = {addLocation:true, addRoom:true};
-	lc.USStates = ['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD',
-		'MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN',
-		'TX','UT','VT','VA','WA','WV','WI','WY'];
+    assignforce.controller( "locationCtrl", function( $scope, $filter, $mdDialog, locationService ) {
+        console.log("Beginning location controller.");
+        var lc = this;
 
-	lc.locationStateInfo = {edit:{title:'Edit Location',button:'Edit location'},create:{title:'Add Location',button:'Save new location'}};
-    lc.roomStateInfo = {edit:{title:'Edit Room',button:'Edit room'},create:{title:'Add Room',button:'Save new room'}};
+          // functions
+            // calls showToast method of aCtrl
+        lc.showToast = function( message ) {
+            $scope.$parent.aCtrl.showToast( message );
+        };
 
-    lc.closeAlert = function(type, index){
-    	if (type === 'location'){
-            lc.locationAlerts.splice(index,1);
-		}
-		else {
-    		lc.roomAlerts.splice(index,1);
-		}
-    };
+            // adds location
+        lc.addLocation = function() {
+            $mdDialog.show({
+                templateUrl: "html/templates/locationTemplate.html",
+                controller: "locationDialogCtrl",
+                controllerAs: "ldCtrl",
+                locals: { 
+                    location : { name: "" },
+                    state    : "create" },
+                bindToController: true,
+                clickOutsideToClose: true
+            }).then( function() {
+                lc.showToast("Location created.");
+                lc.repull();
+            }, function(){
+                lc.showToast("Failed to create location.");
+            });
+        };
 
-    lc.cancel = function(type){
-    	if(type === 'location'){
-            lc.isCollapsed['addLocation'] = true;
-            lc.location = locationService.getEmptyLocation();
-            lc.locationState = 'create';
-            lc.locationAlerts = [];
-		}
-		else{
-            lc.isCollapsed['addRoom'] = true;
-            lc.roomState = 'create';
-            lc.roomInfo = {};
-            lc.roomAlerts = [];
-		}
-
-	};
-
-    lc.changeCollapsedForm = function(name){
-    	lc.isCollapsed['addLocation'] = true;
-    	lc.isCollapsed['addRoom'] = true;
-    	lc.isCollapsed[name] = false;
-	};
-
-    lc.changeCollapsed = function(name){
-    	lc.isCollapsed[name] = !lc.isCollapsed[name];
-    };
-
-    lc.fetchLocations = function() {
-        locationService.getAll(
-            function (locationData) {
-                lc.locations = locationData;
-                lc.locations.forEach(function (location) {
-                    lc.isCollapsed[location.name] = true;
-                });
-                console.log("Successfully pulled locations");
-            },
-            function (error) {
-                console.log(error.data.message);
+            // opens room list for location
+        lc.openLocation = function(location) {
+            if ( $filter("activeItem")(location.rooms).length > 0 ) {
+                var id = "#loc" + location.id;
+                $(id).slideToggle( lc.removeRooms(location) );
             }
-        );
-    };
+        };
 
-    lc.saveLocation = function(isValid){
-    	lc.locationAlerts = [];
-    	if(isValid){
-    		if(lc.locationState === 'create'){
-                locationService.create(
-                    lc.location,
-                    function(){
-                        console.log('Location created successfully');
-                        lc.location = locationService.getEmptyLocation();
-                        lc.fetchLocations();
-                    },
-                    function(error){
-                        console.log(error.data.message);
+            // add room to location
+        lc.addRoom = function() {
+            if (lc.selectedList.length > 1) {
+                lc.showToast("Please select only a location.");
+            } 
+              // indicates that the list item is actually a room and not a location
+            else if (!Array.isArray(lc.selectedList[0].rooms)) {
+                lc.showToast("Please select a location.");
+            } else {
+                $mdDialog.show({
+                    templateUrl: "html/templates/roomTemplate.html",
+                    controller: "roomDialogCtrl",
+                    controllerAs: "ldCtrl",
+                    locals: { 
+                        location : lc.selectedList[0],
+                        room     : { roomName: "" },
+                        state    : "create" },
+                    bindToController: true,
+                    clickOutsideToClose: true
+                }).then( function() {
+                    lc.showToast("Room updated.");
+                    lc.repull();
+                }, function(){
+                    lc.showToast("Failed to update room.");
+                });
+            }
+        };
+
+            // removes rooms from selectedList on location menu close
+        lc.removeRooms = function( location ) {
+            if (location.rooms.length > 0) {
+                location.rooms.forEach( function(room) {
+                    var idx = lc.selectedList.indexOf(room);
+                    if (idx > -1) {
+                        lc.selectedList.splice( idx, 1 );
                     }
-                );
-			}
-			else if (lc.locationState === 'edit'){
-				locationService.update(
-					lc.location,
-					function(){
-						console.log('Location editted successfully');
-						lc.location = locationService.getEmptyLocation();
-						lc.fetchLocations();
-					},
-					function(error){
-						console.log(error.data.message);
-					}
-				)
-			}
-			lc.isCollapsed['addLocation'] = true;
-			lc.locationState = 'create';
+                });
+            }
+        };
 
-		}
-		else{
-    		if(!lc.location.name){
-    			lc.locationAlerts.push({type: 'alert-danger', message: 'Name is required'});
-			}
-			if(!lc.location.city){
-    			lc.locationAlerts.push({type: 'alert-danger', message: 'City is required'});
-			}
-			if(!lc.location.state){
-				lc.locationAlerts.push({type: 'alert-danger', message: 'State is required'});
-			}
-		}
-	};
-
-    lc.editLocation = function(location){
-        lc.locationState = 'edit';
-		lc.isCollapsed['addLocation'] = false;
-		lc.location = location;
-	};
-
-    lc.deleteLocation = function(location){
-		locationService.delete(
-			location,
-			function(){
-				console.log('Successfully deleted location');
-				lc.fetchLocations();
-			},
-			function(error){
-				console.log(error.data.message);
-			}
-		);
-	};
-
-    lc.saveRoom = function(isValid){
-    	lc.roomAlerts = [];
-		if(isValid){
-			if(lc.roomState === 'create'){
-                var room = roomService.getEmptyRoom();
-                if(lc.roomInfo.building){
-                    room.roomName = lc.roomInfo.building+'-'+lc.roomInfo.name;
+            // edit location
+        lc.editSelected = function() {
+            
+            if (lc.selectedList.length > 1) {
+                lc.showToast("Please select only one item.");
+            } else if (lc.selectedList.length == 0) {
+                lc.showToast("Please select an item.");
+            } else {
+                  // edit location
+                if (Array.isArray(lc.selectedList[0].rooms)) {
+                    $mdDialog.show({
+                        templateUrl: "html/templates/locationTemplate.html",
+                        controller: "locationDialogCtrl",
+                        controllerAs: "ldCtrl",
+                        locals: { 
+                            location : lc.selectedList[0],
+                            state    : "edit" },
+                        bindToController: true,
+                        clickOutsideToClose: true
+                    }).then( function() {
+                        lc.showToast("Location updated.");
+                        lc.repull();
+                    }, function(){
+                        lc.showToast("Failed to update location.");
+                    });
+                } 
+                  // edit room
+                else {
+                    $mdDialog.show({
+                        templateUrl: "html/templates/roomTemplate.html",
+                        controller: "roomDialogCtrl",
+                        controllerAs: "ldCtrl",
+                        locals: { 
+                            room  : lc.selectedList[0],
+                            state : "edit" },
+                        bindToController: true,
+                        clickOutsideToClose: true
+                    }).then( function() {
+                        lc.showToast("Room updated.");
+                        lc.repull();
+                    }, function(){
+                        lc.showToast("Failed to update room.");
+                    });
                 }
-                else{
-                    room.roomName = lc.roomInfo.name;
-                }
+            }
+        };
 
-                var location = lc.roomInfo.location;
-                location.rooms.push(room);
-                locationService.update(
-                    location,
-                    function(){
-                        console.log('Created room successfully');
-                    },
-                    function(error){
-                        console.log(error.data.message);
+            // delete location
+        lc.deleteSelected = function() {
+
+            var summary = lc.categorizeSelected();
+
+            $mdDialog.show({
+                templateUrl: "html/templates/deleteTemplate.html",
+                controller: "deleteDialogCtrl",
+                controllerAs: "dCtrl",
+                locals: { 
+                    list   : lc.selectedList,
+                    summary: summary
+                 },
+                bindToController: true,
+                clickOutsideToClose: true
+            }).then( function() {
+                lc.showToast("Successfully deleted items.");
+                lc.repull();
+            }, function(){
+                lc.showToast("Failed to delete items.");
+            });
+        };
+
+            // counts the number of rooms and locations selected
+        lc.categorizeSelected = function() {
+            
+            var summary = { rooms: 0, locations: 0};
+            if (lc.selectedList.length > 0) {
+                lc.selectedList.forEach( function(item) {
+                    if (Array.isArray(item.rooms)) {
+                        summary.locations++;
+                    } else {
+                        summary.rooms++;
                     }
-                );
-			}
-			else if(lc.roomState === 'edit'){
-                var room = roomService.getEmptyRoom();
-                room.roomID = lc.roomInfo.roomID;
-                if(lc.roomInfo.building){
-                    room.roomName = lc.roomInfo.building+'-'+lc.roomInfo.name;
+                });
+            }
+            return summary;
+        };
+
+            // checks box if location/room is in selectedList
+        lc.exists = function(obj) {
+            return lc.selectedList.indexOf( obj ) > -1;
+        };
+
+            // adds/removes location/room from selectedList
+        lc.toggle = function(obj) {
+
+            var idx = lc.selectedList.indexOf(obj);
+            if (idx == -1) {
+                lc.selectedList.push(obj);
+            } else {
+                lc.selectedList.splice( idx, 1 );
+            }
+        };
+
+            // tests whether room list of given location is visible
+        lc.visible = function(location) {
+            
+            var element = $("#loc" + location.id)[0];
+            if (!element) {
+                return false;
+            } else {
+                var style = window.getComputedStyle(element);
+                if (style.display == "none") {
+                    return false;
+                } else {
+                    return true;
                 }
-                else{
-                    room.roomName = lc.roomInfo.name;
-                }
+            }
+        };
 
-                roomService.update(
-                	room,
-					function(){
-                		console.log('Room updated succesfully');
-                        lc.roomInfo = {};
-                		lc.fetchLocations();
-					},
-					function(error){
-						console.log(error.data.message);
-					}
-				);
-			}
-			lc.isCollapsed['addRoom'] = true;
-			lc.roomState = 'create';
-		}
-		else {
-			if(!lc.roomInfo.name){
-				lc.roomAlerts.push({type: 'alert-danger', message: 'Name is required'});
-			}
-			if(!lc.roomInfo.location){
-				lc.roomAlerts.push({type: 'alert-danger', message: 'Location is required'});
-			}
-		}
-	};
+            // repulls all locations
+        lc.repull = function() {
+            lc.locations = undefined;
+            lc.selectedList = [];
+            locationService.getAll( function(response) {
+                console.log("  (LC)  Retrieving all locations.")
+                lc.locations = response;
+            }, function(error) {
+                console.log("  (LC)  Failed to retrieve all locations with error:", error.data.message);
+                lc.showToast("Could not fetch locations.");
+            });
+        };
 
-    lc.editRoom = function(room){
-		lc.roomState = 'edit';
-		lc.isCollapsed['addRoom'] = false;
-		lc.roomInfo = {};
-		lc.roomInfo.roomID = room.roomID;
-		if(room.roomName.includes('-')){
-			var roomSplit = room.roomName.split('-');
-			lc.roomInfo.building = roomSplit[0];
-			lc.roomInfo.name = roomSplit[1];
-		}
-		else{
-			lc.roomInfo.name = room.roomName;
-		}
-	};
+          // data
+        lc.selectedList = [];
 
-    lc.deleteRoom = function(room){
-    	var resourceRoom = roomService.cloneRoom(room);
-    	roomService.delete(
-    		resourceRoom,
-			function(){
-    			console.log('Room successfully deleted');
-    			lc.fetchLocations();
-			},
-			function(error){
-				console.log(error.data.message);
-			}
-		);
-	};
+          // page initialization
+            // data gathering
+        locationService.getAll( function(response) {
+            console.log("  (LC)  Retrieving all locations.")
+            lc.locations = response;
+        }, function(error) {
+            console.log("  (LC)  Failed to retrieve all locations with error:", error.data.message);
+            lc.showToast("Could not fetch locations.");
+        });
 
-    lc.fetchLocations();
-
-});
+    });

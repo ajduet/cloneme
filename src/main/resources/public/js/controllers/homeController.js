@@ -1,51 +1,62 @@
 
     var assignforce = angular.module( "batchApp" );
 
-    assignforce.controller( "homeCtrl", function($scope, batchService, trainerService, locationService) {
-        console.log("Beginning dashboard controller.");
+    assignforce.controller( "homeCtrl", function( $scope, batchService, trainerService, locationService ) {
+        console.log("Beginning overview controller.");
         var hc = this;
 
           // functions
-            // calculate progress of batch as percentage
-        hc.calcProgress = function( startDate, endDate ) {
+            // calls showToast method of aCtrl
+        hc.showToast = function( message ) {
+            $scope.$parent.aCtrl.showToast( message );
+        };
 
-            var today = new Date().getTime();
-            var diff = endDate - startDate;
+            // determine length of progress indicators
+        hc.calcProgress = function( paramLow, paramHigh ) {
 
-            today -= startDate;
-            
-            var percent = (today * 100 / diff).toFixed(5);
-            if ( percent < 0 ) {
-                return "0%";
-            } else if ( percent > 100 ) {
-                return "100%";
+              // magnitude and type of parameters are used to determine mode
+                // length based on current time (batches)
+            if (paramLow > 1000000) {
+
+                var today = new Date().getTime();
+                var diff = paramHigh - paramLow;
+
+                today -= paramLow;
+                
+                var percent = (today * 100 / diff).toFixed(5);
+                if ( percent < 0 ) {
+                    return 0;
+                } else if ( percent > 100 ) {
+                    return 100;
+                } else {
+                    return (today * 100 / diff).toFixed(5);
+                }
+            } 
+                // length based on availability (trainers)
+            if (typeof paramLow == "string") {
+                if (paramLow.toLowerCase() == "available") {
+                    return 100;
+                } else if (paramLow.toLowerCase() == "unavailable") {
+                    return 0;
+                }
+            } 
+                // length based on simple division (locations)
+            if (paramLow / paramHigh > 1) {
+                return 100;
+            } else if (paramLow < 0) {
+                return 0;
             } else {
-                return "" + (today * 100 / diff).toFixed(5) + "%";
+                return paramLow / paramHigh;
             }
         };
 
-            // calulates and formats percentage
-        hc.calcPercent = function( low, high ){
-
-            if (low == 0) {
-                return "0%";
-            } else {
-                return "" + ( low * 100 / high ).toFixed(5) + "%";
-            }
-        };
-
-        hc.switchAvailable = function(unavailable) {
-
-            if (hc.checkAvailability(unavailable) == "Available") {
-                return "100%";
-            } else {
-                return "0%";
-            }
-        };
-
-            // checks given list of timespans to see if current date resides within any of them
+            // checks given dates and determines if trainer/room is currently available
         hc.checkAvailability = function(dates) {
             
+            if (!dates) {
+                return "Available";
+            }
+
             var availability = "Available";
             var now = new Date().getTime();
             dates.forEach( function(item) {
@@ -57,46 +68,62 @@
             return availability;
         };
 
+            // returns number of currently available rooms in location
+        hc.findRoomsAvailable = function(rooms) {
+            
+            if (!rooms) {
+                return 0;
+            }
+
+            var numAv = 0;
+            rooms.forEach(function(room) {
+               if (hc.checkAvailability(room.unavailable) == "Available") {
+                   numAv++;
+               }
+            });
+            return numAv;
+        };
+
           // data
-            // get all batches
-        hc.batches = [];
-        batchService.getAll(function(response) {
+        hc.batchOrder = "startDate";
+        hc.batchFilter = "All";
+
+        hc.trainerOrder = "firstName";
+        hc.trainerFilter = "All";
+        
+        hc.locationOrder = "name";
+        hc.locationFilter = "Current";
+
+        hc.filterMux = { Active  : { mode  : "active",
+                                     params: {} },
+                         Upcoming: { mode  : "upcoming",
+                                     params: { numWeeks: 2} },
+                         All     : { mode  : "none",
+                                     params: {} }
+        };
+
+          // page initialization
+            // data gathering
+        batchService.getAll( function(response) {
             console.log("  (HC)  Retrieving all batches.");
             hc.batches = response;
-        }, function() {
-            console.log("  (HC)  Error retrieving all batches.");
+        }, function(error) {
+            console.log("  (HC)  Failed to retrieve all batches with error", error.data.message);
+            hc.showToast("Could not fetch batches.");
         });
-        
-            // get all trainers 
-        hc.trainers = [];
-        trainerService.getAll(function(response) {
+
+        trainerService.getAll( function(response) {
             console.log("  (HC)  Retrieving all trainers.");
             hc.trainers = response;
-        }, function() {
-            console.log("  (HC)  Error retrieving all trainers.");
+        }, function(error) {
+            console.log("  (HC)  Failed to retrieve all trainers with error", error.data.message);
+            hc.showToast("Could not fetch trainers.");
         });
-
-            // get all locations 
-        hc.locations = [];
-        locationService.getAll(function(response) {
+        locationService.getAll( function(response) {
             console.log("  (HC)  Retrieving all locations.");
             hc.locations = response;
-        }, function() {
-            console.log("  (HC)  Error retrieving all locations.");
+        }, function(error) {
+            console.log("  (HC)  Failed to retrieve all location with error", error.data.message);
+            hc.showToast("Could not fetch locations.");
         });
-
-            // date filter presets
-        hc.filterPresets = { active  : { mode  : "active",
-                                         params: {} },
-                             upcoming: { mode  : "upcoming",
-                                         params: { numWeeks: 2} },
-                             none    : { mode  : "none",
-                                         params: {} }
-        };
-        
-            // radio button initial selections
-        hc.batchRadio = hc.filterPresets["active"];
-        hc.trainerRadio = hc.filterPresets["active"];
-        hc.locationRadio = hc.filterPresets["active"];
-
     });

@@ -36,13 +36,14 @@ public class Location implements Activatable{
 	
 	public Location(){}
 
-	public Location(int iD, String name, String city, String state, List<Room> rooms) {
+	public Location(int iD, String name, String city, String state, List<Room> rooms, Boolean active) {
 		super();
 		ID = iD;
 		this.name = name;
 		this.city = city;
 		this.state = state;
 		this.rooms = rooms;
+		this.active = active;
 	}
 
 	public int getID() {

@@ -4,7 +4,7 @@
 
 var app = angular.module("batchApp");
 
-app.controller("AuthCtrl", function($scope, $location, $window){
+app.controller("AuthCtrl", function($scope, $location, $window, $mdToast){
 
 	$scope.$on('$viewContentLoaded', function(){
 		if(!$window.sessionStorage.getItem('token')){
@@ -16,5 +16,8 @@ app.controller("AuthCtrl", function($scope, $location, $window){
             }
 		}
 	});
-
+    // global function available to all other controllers (as they are all children of authCtrl) to create toast messages
+    $scope.showToast = function( message ) {
+        $mdToast.show( $mdToast.simple().textContent( message ).action("OKAY").position("top right").highlightAction(true) );
+    };
 });

@@ -1,138 +1,213 @@
 
-    <div id="home">
+    <div>
 
-        <h1> Overview </h1>
+          <!-- Batches card -->
+        <md-card md-whiteframe="8">
 
-        <div class="batches radioOption">
-            <h3 style="margin-left: 2em"> Batches </h3>
-            
-            <form class="batchRadios radios">
-                <input ng-model="hCtrl.batchRadio" type="radio" name="batchRadios" id="activeBatchRadio" ng-value="{{hCtrl.filterPresets['active']}}">
-                <label for="activeBatchRadio"> Active </label> 
+            <md-toolbar layout="columns">
+
+                <div class="md-toolbar-tools">
+                    <span> {{ hCtrl.batchFilter }} Batches </span>
+                </div>
+
+                <span flex> </span>
+
+                <md-menu md-position-mode="target-right target">
+
+                    <md-button ng-click="$mdOpenMenu($event)" class="md-icon-button">
+                        <md-tooltip> Filter </md-tooltip>
+                        <md-icon md-menu-origin md-svg-icon="img/ic_filter_list_white_24px.svg"> </md-icon>
+                    </md-button>
+
+                    <md-menu-content width="4">
+                        <md-menu-item> <md-button ng-click="hCtrl.batchFilter = 'Active'"> In progress </md-button> </md-menu-item>
+                        <md-menu-item> <md-button ng-click="hCtrl.batchFilter = 'Upcoming'"> Beginning within two weeks </md-button> </md-menu-item>
+                        <md-menu-item> <md-button ng-click="hCtrl.batchFilter = 'All'"> All </md-button> </md-menu-item>
+                    </md-menu-content>
+
+                </md-menu>
+
+            </md-toolbar>
+
+            <md-content>
+
+                <md-table-container ng-if="hCtrl.batches != undefined">
+                    <table md-table ng-model="batchSelected">
+                        
+                        <thead md-head md-order="hCtrl.batchOrder">
+                            <tr md-row>
+                                <th md-column md-order-by="name"> Name </th>
+                                <th md-column md-order-by="curriculum.name"> Curriculum </th>
+                                <th md-column md-order-by="trainer.firstName"> Trainer(s) </th>
+                                <th md-column md-order-by="location.name"> Location </th>
+                                <th md-column md-order-by="startDate"> Start date </th>
+                                <th md-column md-order-by="endDate"> End date </th>
+                            </tr>
+                        </thead>
+
+                        <tbody md-body>
+                            <tr md-row ng-repeat-start="batch in (hCtrl.batches | timeMode:hCtrl.filterMux[hCtrl.batchFilter].mode:hCtrl.filterMux[hCtrl.batchFilter].params | orderBy:hCtrl.batchOrder) track by batch.id">
+                                <td md-cell> {{ batch.name }} </td>
+                                <td md-cell> {{ batch.curriculum.name }} </td>
+                                <td md-cell ng-if="batch.cotrainer == null"> {{ batch.trainer.firstName }} {{ batch.trainer.lastName }} </td>
+                                <td md-cell ng-if="batch.cotrainer != null"> {{ batch.trainer.firstName }} {{ batch.trainer.lastName }} / {{ batch.cotrainer.firstName }} {{ batch.cotrainer.lastName }} </td>
+                                <td md-cell> {{ batch.location.name }} </td>
+                                <td md-cell> {{ batch.startDate | date:'MMM. d, yyyy' }} </td>
+                                <td md-cell> {{ batch.endDate | date:'MMM. d, yyyy' }} </td>
+                            </tr>
+                            <tr ng-repeat-end>
+                                <td colspan="7" class="progressBar">
+                                    <md-progress-linear class="md-accent" style="height: 2px" md-mode="determinate" value="{{ hCtrl.calcProgress(batch.startDate, batch.endDate) }}"> </md-progress-linear>
+                                </td>
+                            </tr>
+                        </tr>
+                        </tbody>
+                        
+                    </table>
+                </md-table-container>
+
+                <div ng-if="hCtrl.batches == undefined" layout="column" layout-wrap layout-align="center center">
+                    <div flex="100"> &nbsp; </div>
+                    <md-progress-circular flex="100" md-mode="indeterminate"> </md-progress-circular>
+                    <div flex="100"> &nbsp; </div>
+                </div>
+
+            </md-content>
+
+        </md-card>
+    
+            <!-- Trainers card -->
+        <md-card md-whiteframe="8">
+
+            <md-toolbar layout="columns">
                 
-                <input ng-model="hCtrl.batchRadio" type="radio" name="batchRadios" id="upcomingBatchRadio" ng-value="{{hCtrl.filterPresets['upcoming']}}">
-                <label for="upcomingBatchRadio"> Upcoming </label> 
+                <div class="md-toolbar-tools">
+                    <span> {{ hCtrl.trainerFilter }} Trainers </span>
+                </div>
+
+                <span flex> </span>
+
+                <md-menu md-position-mode="target-right target">
+
+                    <md-button ng-click="$mdOpenMenu($event)" class="md-icon-button">
+                        <md-tooltip> Filter </md-tooltip>
+                        <md-icon md-menu-origin md-svg-icon="img/ic_filter_list_white_24px.svg"> </md-icon>
+                    </md-button>
+
+                    <md-menu-content width="4">
+                        <md-menu-item> <md-button ng-click="hCtrl.trainerFilter = 'Active'"> Available </md-button> </md-menu-item>
+                        <md-menu-item> <md-button ng-click="hCtrl.trainerFilter = 'All'"> All </md-button> </md-menu-item>
+                    </md-menu-content>
+
+                </md-menu>
+
+            </md-toolbar>
+
+            <md-content>
+
+                <md-table-container ng-if="hCtrl.trainers != undefined">
+                    <table md-table ng-model="trainerSelected">
+                        
+                        <thead md-head md-order="hCtrl.trainerOrder">
+                            <tr md-row>
+                                <th md-column md-order-by="firstName"> Name </th>
+                                <th md-column> Available </th>
+                            </tr>
+                        </thead>
+
+                        <tbody md-body>
+                            <tr md-row ng-repeat-start="trainer in (hCtrl.trainers | availableMode:hCtrl.filterMux[hCtrl.trainerFilter].mode:hCtrl.filterMux[hCtrl.trainerFilter].params | activeItem | orderBy:hCtrl.trainerOrder) track by trainer.trainerID">
+                                <td md-cell> {{ trainer.firstName }} {{ trainer.lastName }} </td>
+                                <td md-cell> {{ hCtrl.checkAvailability(trainer.unavailable) }} </td>
+                            </tr>
+                            <tr ng-repeat-end>
+                                <td colspan="2" class="progressBar">
+                                    <md-progress-linear class="md-accent" style="height: 2px" md-mode="determinate" value="{{ hCtrl.calcProgress( hCtrl.checkAvailability(trainer.unavailable) ) }}"> </md-progress-linear>
+                                </td>
+                            </tr>
+                        </tbody>
+                        
+                    </table>
+                </md-table-container>
+
+                <div ng-if="hCtrl.trainers == undefined" layout="column" layout-wrap layout-align="center center">
+                    <div flex="100"> &nbsp; </div>
+                    <md-progress-circular flex="100" md-mode="indeterminate"> </md-progress-circular>
+                    <div flex="100"> &nbsp; </div>
+                </div>
+
+            </md-content>
+        
+        </md-card>
+
+          <!-- Locations card -->
+        <md-card md-whiteframe="8">
+
+            <md-toolbar layout="columns">
                 
-                <input ng-model="hCtrl.batchRadio" type="radio" name="batchRadios" id="allBatchRadio" ng-value="{{hCtrl.filterPresets['none']}}">
-                <label for="allBatchRadio"> All </label> 
-            </form>
+                <div class="md-toolbar-tools">
+                    <span> {{ hCtrl.locationFilter }} Locations </span>
+                </div>
 
-            <div style="margin: 0px 2.5%; line-height: 30px;"> 
-                <table style="border-collapse: collapse; width: 100%;">
-                
-                    <thead>
-                        <tr class="activeBatchList">
-                            <th> Name </th>
-                            <th> Curriculum </th>
-                            <th> Trainer </th>
-                            <th> Cotrainer </th>
-                            <th> Location </th>
-                            <th> Start Date </th>
-                            <th> End Date </th>
-                        </tr>
-                    </thead>
+                <!--<span flex> </span>
 
-                    <tbody class="activeBatches">
-                        <tr class="activeBatchList" ng-repeat-start="batch in ( hCtrl.batches | timeMode:hCtrl.batchRadio.mode:hCtrl.batchRadio.params | orderBy:'startDate' ) track by batch.id">
-                            <td style="border-bottom: 0px solid black; position: relative; top: 1px"> {{ batch.name }} </td>
-                            <td style="border-bottom: 0px solid black; position: relative; top: 1px"> {{ batch.curriculum.name }} </td>
-                            <td style="border-bottom: 0px solid black; position: relative; top: 1px"> {{ batch.trainer.firstName }} {{ batch.trainer.lastName }} </td>
-                            <td style="border-bottom: 0px solid black; position: relative; top: 1px"> {{ batch.cotrainer.firstName }} {{ batch.cotrainer.lastName }} </td>
-                            <td style="border-bottom: 0px solid black; position: relative; top: 1px"> {{ batch.location.name }} </td>
-                            <td style="border-bottom: 0px solid black; position: relative; top: 1px"> {{ batch.startDate | date : 'MMMM d, yyyy' }} </td>
-                            <td style="border-bottom: 0px solid black; position: relative; top: 1px"> {{ batch.endDate | date : 'MMMM d, yyyy' }} </td>
-                        </tr>
-                        <tr ng-repeat-end>
-                            <td colspan="7" style="padding: 0px; border-bottom: 1px solid #DDD;" >
-                                <span style="display: block; height: 2px; background-color: #F26A25; width: {{ hCtrl.calcProgress(batch.startDate, batch.endDate) }}; position: relative; top: 0px;"> &nbsp; </span>
-                            </td>
-                        </tr>
-                    </tbody>
+                <md-menu md-position-mode="target-right target">
 
-                </table>
-            </div>
-        </div>
+                    <md-button ng-click="$mdOpenMenu($event)" class="md-icon-button">
+                        <md-tooltip> Filter </md-tooltip>
+                        <md-icon md-menu-origin md-svg-icon="img/ic_filter_list_white_24px.svg"> </md-icon>
+                    </md-button>
 
-        <div class="trainers radioOption">
-            <h3 style="margin-left: 2em"> Trainers </h3>
+                    <md-menu-content width="4">
+                        <md-menu-item> <md-button ng-click="hCtrl.locationFilter = 'Current'"> Current </md-button> </md-menu-item>
+                        <md-menu-item> <md-button ng-click="hCtrl.locationFilter = 'Upcoming'"> Upcoming </md-button> </md-menu-item>
+                    </md-menu-content>
 
-            <form class="trainerRadios radios">
-                <input ng-model="hCtrl.trainerRadio" type="radio" name="trainerRadios" id="availableTrainerRadio" ng-value="{{hCtrl.filterPresets['active']}}">
-                <label for="availableTrainerRadio"> Available </label> 
-                
-                <!--<input ng-model="hCtrl.trainerRadio" type="radio" name="trainerRadios" id="soonAvailableTrainerRadio" ng-value="{{hCtrl.filterPresets['upcoming']}}">
-                <label for="soonAvailableTrainerRadio"> Available Soon </label> -->
-                
-                <input ng-model="hCtrl.trainerRadio" type="radio" name="trainerRadios" id="allTrainerRadio" ng-value="{{hCtrl.filterPresets['none']}}">
-                <label for="allTrainerRadio"> All </label> 
-            </form>
+                </md-menu>-->
 
-            <div style="margin: 0px 2.5%; line-height: 30px;"> 
-                <table style="border-collapse: collapse; width: 100%;">
-                
-                    <thead>
-                        <tr class="trainersHead">
-                            <th> Name </th>
-                            <th> Status </th>
-                        </tr>
-                    </thead>
+            </md-toolbar>
 
-                    <tbody class="trainersBody">
-                        <tr class="trainersList" ng-repeat-start="trainer in ( hCtrl.trainers | availableMode:hCtrl.trainerRadio.mode:hCtrl.trainerRadio.params | orderBy:'firstName' ) track by trainer.trainerID">
-                            <td style="border-bottom: 0px solid black; position: relative; top: 1px"> {{ trainer.firstName }} {{ trainer.lastName }} </td>
-                            <td style="border-bottom: 0px solid black; position: relative; top: 1px"> {{ hCtrl.checkAvailability(trainer.unavailable) }} </td>
-                        </tr>
-                        <tr ng-repeat-end>
-                            <td colspan="2" style="padding: 0px; border-bottom: 1px solid #DDD;" >
-                                <span style="display: block; height: 2px; background-color: #F26A25; width: {{ hCtrl.switchAvailable(trainer.unavailable) }}; position: relative; top: 1px;"> &nbsp; </span>
-                            </td>
-                        </tr>
-                    </tbody>
+            <md-content>
 
-                </table>
-            </div>
-        </div>
+                <md-table-container ng-if="hCtrl.locations != undefined">
+                    <table md-table ng-model="locationSelected">
+                        
+                        <thead md-head md-order="hCtrl.locationOrder">
+                            <tr md-row>
+                                <th md-column md-order-by="name"> Name </th>
+                                <th md-column md-order-by="city"> City </th>
+                                <th md-column md-order-by="state"> State </th>
+                                <th md-column> Number of Rooms Available </th>
+                                <th md-column md-order-by="rooms.length"> Total Number of Rooms </th>
+                            </tr>
+                        </thead>
 
+                        <tbody md-body>
+                            <tr md-row ng-repeat-start="location in (hCtrl.locations | activeItem | orderBy:hCtrl.locationOrder) track by location.id">
+                                <td md-cell> {{ location.name }} </td>
+                                <td md-cell> {{ location.city }} </td>
+                                <td md-cell> {{ location.state }} </td>
+                                <td md-cell> {{ hCtrl.findRoomsAvailable(location.rooms | activeItem) }} </td>
+                                <td md-cell> {{ (location.rooms | activeItem).length }} </td>
+                            </tr>
+                            <tr ng-repeat-end>
+                                <td colspan="5" class="progressBar">
+                                    <md-progress-linear class="md-accent" style="height: 2px" md-mode="determinate" value="{{ hCtrl.findRoomsAvailable(location.rooms | activeItem) * 100 / location.rooms.length }}"> </md-progress-linear>
+                                </td>
+                            </tr>
+                        </tbody>
+                        
+                    </table>
+                </md-table-container>
 
-        <div class="locations radioOption">
-            <h3 style="margin-left: 2em"> Locations </h3>
+                <div ng-if="hCtrl.locations == undefined" layout="column" layout-wrap layout-align="center center">
+                    <div flex="100"> &nbsp; </div>
+                    <md-progress-circular flex="100" md-mode="indeterminate"> </md-progress-circular>
+                    <div flex="100"> &nbsp; </div>
+                </div>
 
-            <form class="locationRadios radios">
-                <!--<input ng-model="hCtrl.locationRadio" type="radio" name="locationRadios" id="availableLocationRadio" value="availableRoom">
-                <label for="soonAvailableLocationRadio"> Available </label> 
-                
-                <input ng-model="hCtrl.locationRadio" type="radio" name="locationRadios" id="soonAvailableLocationRadio" value="upcomingAvailability">
-                <label for="soonAvailableLocationRadio"> Available Soon </label> -->
-            </form>
+            </md-content>
+        
+        </md-card>
 
-            <div style="margin: 0px 2.5%; line-height: 30px;"> 
-                <table style="border-collapse: collapse; width: 100%;">
-                
-                    <thead>
-                        <tr class="locationsHead">
-                            <th> Name </th>
-                            <th> Location </th>
-                            <th> Number of Rooms Available </th>
-                            <th> Total Number of Rooms </th>
-                        </tr>
-                    </thead>
-
-                    <tbody class="locationsBody">
-                        <!--<tr class="locationsList" ng-repeat-start="location in ( hCtrl.locations | picker:hCtrl.locationRadio | orderBy:'name' ) track by location.id">-->
-                        <tr class="locationsList" ng-repeat-start="location in ( hCtrl.locations | orderBy:'name' ) track by location.id">
-                            <td style="border-bottom: 0px solid black; position: relative; top: 1px"> {{ location.name }} </td>
-                            <td style="border-bottom: 0px solid black; position: relative; top: 1px"> {{ location.city }}, {{ location.state }} </td>
-                            <td style="border-bottom: 0px solid black; position: relative; top: 1px"> {{ (location.rooms | availableMode:hCtrl.locationRadio.mode:hCtrl.locationRadio.params).length }} </td>
-                            <td style="border-bottom: 0px solid black; position: relative; top: 1px"> {{ location.rooms.length }} </td>
-                        </tr>
-                        <tr ng-repeat-end>
-                            <td colspan="4" style="padding: 0px; border-bottom: 1px solid #DDD;" >
-                                <span style="display: block; height: 2px; background-color: #F26A25; width: {{ hCtrl.calcPercent( (location.rooms | availableMode:hCtrl.locationRadio.mode:hCtrl.locationRadio.params).length, location.rooms.length) }}; position: relative; top: 0px;"> &nbsp; </span>
-                            </td>
-                        </tr>
-                    </tbody>
-
-                </table>
-            </div>
-        </div>
-    </div>    
+    </div>

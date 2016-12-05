@@ -39,7 +39,7 @@ public class LocationCtrl {
 		String state = in.getState();
 		List<Room> rooms = in.getRooms();
 		
-		Location out = new Location( ID, name, city, state, rooms );
+		Location out = new Location( ID, name, city, state, rooms, true );
 		out = locationService.saveItem( out );
 		
 		if (out == null) {
@@ -72,8 +72,9 @@ public class LocationCtrl {
 		String city = in.getCity();
 		String state = in.getState();
 		List<Room> rooms = in.getRooms();
+		Boolean active = in.getActive();
 		
-		Location out = new Location( ID, name, city, state, rooms );
+		Location out = new Location( ID, name, city, state, rooms, active );
 		out = locationService.saveItem( out );
 		
 		if (out == null) {

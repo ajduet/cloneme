@@ -1,0 +1,73 @@
+
+      /* Global variable declarations */
+    body {
+        --revOrange: #f26a25;
+    }
+
+      /* Custom element CSS */
+    .progressBar {
+        padding: 0px;
+    }
+
+    .progressBar span {
+        position: relative; 
+        top: 0px;
+        
+        height: 2px; 
+
+        display: block;         
+    }
+
+    .toastContainer {
+        overflow: hidden;
+    }
+
+    .roomList {
+        display: none;
+    }
+
+      /* ngMaterial customized CSS */
+    md-progress-linear .md-container .md-bar, md-progress-linear .md-container {
+        height: 2px;
+    }
+
+    .batchForm .layout-row {
+        padding: 0px 16px;
+    }
+
+    .md-datepicker-input-container {
+        /*width: 60%;*/
+    }
+
+    .md-toast-animating {
+        overflow: auto !important;
+    }
+    .md-top {
+        position: fixed;
+        top: 66px;
+    }
+
+    .md-right {
+        position: fixed;
+        right: 16px;
+    }
+
+    md-toolbar {
+        padding: 0px 16px;
+    }
+
+    md-radio-button {
+        margin-bottom: 0px;
+    }
+
+    md-list-item .md-list-item-inner > md-checkbox, md-list-item > md-checkbox {
+        margin-right: 7px;
+    }
+
+    md-input-container {
+        margin-bottom: 0px;
+    }
+
+    md-input-container md-select {
+        margin-bottom: 22px;
+    }

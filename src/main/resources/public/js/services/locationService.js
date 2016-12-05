@@ -2,7 +2,7 @@
 var app = angular.module("batchApp");
 
 app.service( "locationService", function($resource) {
-    var Location = $resource('api/v2/location/:id',{id: '@id'},{update:{method:'PUT', url:'api/v2/location'}});
+    var Location = $resource('/api/v2/location/:id',{id: '@id'},{update:{method:'PUT', url:'api/v2/location'}});
     var ls = this;
     
     ls.getEmptyLocation = function(){
