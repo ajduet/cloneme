@@ -22,18 +22,26 @@ app.controller("TimelineCtrl", function($scope, $window, batchService, calendarS
 	var batches;
 	var trainerNames;
 	
-	$scope.$on("timeline", function(event, data){
-		batches = data.batches;
-		trainerService.getAll(
-			function(trainerData){
-				trainerNames = trainerData.map(function(trainer){return trainer.firstName});
-				trainerNames.unshift('No trainer');
-				projectTimeline($window.innerWidth, tlc.minDate, tlc.maxDate, batches, $scope.$parent, calendarService.countWeeks, trainerNames);
-			},
-			function(error){
-				console.log(error.data.errorMessage);
-			}
-		);
+	$scope.$on("repullTimeline", function(event, data){
+		batchService.getAll( function(response) {
+            console.log("  (TLC) Retrieving all batches.")
+            tlc.batches = response;
+            if (tlc.trainers) {
+                projectTimeline($window.innerWidth, tlc.minDate, tlc.maxDate, tlc.batches, $scope.$parent, calendarService.countWeeks, tlc.trainers);
+            }
+        }, function(error) {
+            console.log("  (TLC) Failed to retrieve all batches with error:", error.data.message);
+        });
+
+        trainerService.getAll( function(response) {
+            console.log("  (TLC) Retrieving all trainers.")
+            tlc.trainers = response.map(function(trainer){return trainer.firstName});
+            if (tlc.batches) {
+                projectTimeline($window.innerWidth, tlc.minDate, tlc.maxDate, tlc.batches, $scope.$parent, calendarService.countWeeks, tlc.trainers);
+            }
+        }, function(error) {
+            console.log("  (TLC) Failed to retrieve all trainers with error:", error.data.message);
+        });
 	});
 
     batchService.getAll( function(response) {
@@ -43,7 +51,7 @@ app.controller("TimelineCtrl", function($scope, $window, batchService, calendarS
 			projectTimeline($window.innerWidth, tlc.minDate, tlc.maxDate, tlc.batches, $scope.$parent, calendarService.countWeeks, tlc.trainers);
         }
     }, function(error) {
-        console.log("  (TlC) Failed to retrieve all batches with error:", error.data.message);
+        console.log("  (TLC) Failed to retrieve all batches with error:", error.data.message);
     });
 
     trainerService.getAll( function(response) {
@@ -61,8 +69,8 @@ app.controller("TimelineCtrl", function($scope, $window, batchService, calendarS
 			return tlc.minDate;
 		},
 		function(){
-			if(batches !== undefined || trainerNames !== undefined){
-				projectTimeline($window.innerWidth, tlc.minDate, tlc.maxDate, batches, $scope.$parent, calendarService.countWeeks, trainerNames);
+			if(tlc.batches !== undefined || tlc.trainers !== undefined){
+				projectTimeline($window.innerWidth, tlc.minDate, tlc.maxDate, tlc.batches, $scope.$parent, calendarService.countWeeks, tlc.trainers);
 			}
 		}
 	);
@@ -73,15 +81,15 @@ app.controller("TimelineCtrl", function($scope, $window, batchService, calendarS
 			return tlc.maxDate
 		},
 		function(){
-			if(batches !== undefined || trainerNames !== undefined){
-				projectTimeline($window.innerWidth, tlc.minDate, tlc.maxDate, batches, $scope.$parent, calendarService.countWeeks, trainerNames);
+			if(tlc.batches !== undefined || tlc.trainers !== undefined){
+				projectTimeline($window.innerWidth, tlc.minDate, tlc.maxDate, tlc.batches, $scope.$parent, calendarService.countWeeks, tlc.trainers);
 			}
 		}
 	);
 });
 
 function projectTimeline(windowWidth, minDate, maxDate, timelineData, parentScope, numWeeks, trainerNames){
-	console.log("Drawing Timeline");
+	console.log("  (TLC) Drawing timeline.");
 	
 	//Timeline variables
 	var margin = {top: 30, right: 10, bottom: 30, left:75},
@@ -154,7 +162,9 @@ function projectTimeline(windowWidth, minDate, maxDate, timelineData, parentScop
 	var lanePadding = (xScale.range()[1]-xScale.range()[0])/2;
 	
 	//Create timeline
-	d3.select('svg').remove();
+    var svg = d3.select("#timeline");
+	// d3.select('svg').remove();
+    svg.selectAll("*").remove();
 	
 	var svg = d3.select('#timeline')
 		.append('svg')

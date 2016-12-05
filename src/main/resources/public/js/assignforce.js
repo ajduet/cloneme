@@ -37,19 +37,20 @@
         assignforce.config( function($mdThemingProvider) {
 
             var revOrangeMap = $mdThemingProvider.extendPalette("deep-orange", {
-                "500": "#f26a25",
-                "hue-2": "#f26a25"
+                "800": "#D9510D",
+                "500": "#F26925"
+            });
+
+            var revBlueMap = $mdThemingProvider.extendPalette("blue-grey", {
+                "A200": "#72A4C2",
+                "100" : "#C9DCE8"
             });
 
             $mdThemingProvider.definePalette("revOrange", revOrangeMap);
+            $mdThemingProvider.definePalette("revBlue", revBlueMap);
                 
-            // $mdThemingProvider.theme("default")
-            //     .primaryPalette("revOrange")
-            //     .accentPalette("revOrange");
-
             $mdThemingProvider.theme("default")
-                .primaryPalette("indigo")
-                .accentPalette("pink");
-
+                .primaryPalette("revOrange")
+                .accentPalette("revBlue");
         });
 

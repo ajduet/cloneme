@@ -135,6 +135,7 @@
             batchService.getAll( function(response) {
                 console.log("  (BC)  Retrieving all batches.")
                 bc.batches = response;
+                $scope.$broadcast("repullTimeline");
             }, function(error) {
                 console.log("  (BC)  Failed to retrieve all batches with error:", error.data.message);
                 bc.showToast( "Could not fetch batches.");
@@ -161,6 +162,7 @@
         };
 
         bc.delete = function() {
+            // batch delete only deletes a single item right now
             // if (bc.batchesSelected.length > 0) {
             //     bc.batchesSelected.forEach( function(batch){
                     
@@ -174,6 +176,8 @@
                     console.log("  (BC)  Failed to delete batch.");
                     bc.showToast("Failed to delete batch.");
                 });
+            } else {
+                bc.showToast("Please select one item.");
             }
         };
 
@@ -225,7 +229,7 @@
         bc.weeksSpan = "spans 0 weeks";
         bc.batchOrder = "startDate";
 
-        // bc.batches = [];
+        bc.batch = batchService.getEmptyBatch();
         bc.batchesSelected = [];
 
             // state information
@@ -240,7 +244,7 @@
           // page initialization
             // data gathering
         batchService.getAll( function(response) {
-            console.log("  (BC)  Retrieving all batches.")
+            console.log("  (BC)  Retrieving all batches.");
             bc.batches = response;
         }, function(error) {
             console.log("  (BC)  Failed to retrieve all batches with error:", error.data.message);
@@ -248,7 +252,7 @@
         });
 
         curriculumService.getAll( function(response) {
-            console.log("  (BC)  Retrieving all curricula.")
+            console.log("  (BC)  Retrieving all curricula.");
             bc.curricula = response;
         }, function(error) {
             console.log("  (BC)  Failed to retrieve all curricula with error:", error.data.message);
@@ -256,7 +260,7 @@
         });
 
         // skillService.getAll( function(response) {
-        //     console.log("  (BC)  Retrieving all skills.")
+        //     console.log("  (BC)  Retrieving all skills.");
         //     bc.skills = response;
         // }, function(error) {
         //     console.log("  (BC)  Failed to retrieve all skills with error:", error.data.message);
@@ -264,7 +268,7 @@
         // });
 
         trainerService.getAll( function(response) {
-            console.log("  (BC)  Retrieving all trainers.")
+            console.log("  (BC)  Retrieving all trainers.");
             bc.trainers = response;
         }, function(error) {
             console.log("  (BC)  Failed to retrieve all trainers with error:", error.data.message);
@@ -272,7 +276,7 @@
         });
 
         locationService.getAll( function(response) {
-            console.log("  (BC)  Retrieving all locations.")
+            console.log("  (BC)  Retrieving all locations.");
             bc.locations = response;
         }, function(error) {
             console.log("  (BC)  Failed to retrieve all locations with error:", error.data.message);

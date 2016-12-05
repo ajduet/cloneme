@@ -149,7 +149,7 @@
                     <span> {{ hCtrl.locationFilter }} Locations </span>
                 </div>
 
-                <span flex> </span>
+                <!--<span flex> </span>
 
                 <md-menu md-position-mode="target-right target">
 
@@ -163,7 +163,7 @@
                         <md-menu-item> <md-button ng-click="hCtrl.locationFilter = 'Upcoming'"> Upcoming </md-button> </md-menu-item>
                     </md-menu-content>
 
-                </md-menu>
+                </md-menu>-->
 
             </md-toolbar>
 
@@ -187,12 +187,12 @@
                                 <td md-cell> {{ location.name }} </td>
                                 <td md-cell> {{ location.city }} </td>
                                 <td md-cell> {{ location.state }} </td>
-                                <td md-cell> {{ hCtrl.findRoomsAvailable(location.rooms) }} </td>
-                                <td md-cell> {{ location.rooms.length }} </td>
+                                <td md-cell> {{ hCtrl.findRoomsAvailable(location.rooms | activeItem) }} </td>
+                                <td md-cell> {{ (location.rooms | activeItem).length }} </td>
                             </tr>
                             <tr ng-repeat-end>
                                 <td colspan="5" class="progressBar">
-                                    <md-progress-linear class="md-accent" style="height: 2px" md-mode="determinate" value="{{ hCtrl.findRoomsAvailable(location.rooms) * 100 / location.rooms.length }}"> </md-progress-linear>
+                                    <md-progress-linear class="md-accent" style="height: 2px" md-mode="determinate" value="{{ hCtrl.findRoomsAvailable(location.rooms | activeItem) * 100 / location.rooms.length }}"> </md-progress-linear>
                                 </td>
                             </tr>
                         </tbody>
