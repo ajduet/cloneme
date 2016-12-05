@@ -128,6 +128,21 @@
             }
         };
 
+            // convert object-based batch from batch list into ID-based batch for form
+        cbc.convertIncoming = function(batchFull) {
+            var batchID = {};
+            batchID.id = batchFull.id;
+            batchID.name = batchFull.name;
+            batchID.curriculum = (batchFull.curriculum) ? batchFull.curriculum.id : undefined;
+            batchID.trainer = (batchFull.trainer) ? batchFull.trainer.trainerID : undefined;
+            batchID.cotrainer = (batchFull.cotrainer) ? batchFull.cotrainer.trainerID : undefined;
+            batchID.location = batchFull.location.id;
+            batchID.room = (batchFull.room) ? batchFull.room.roomID : undefined;
+            batchID.startDate = batchFull.startDate;
+            batchID.endDate = batchFull.endDate;
+            return batchID;
+        };
+
             // initialize fields
         cbc.initialize = function(incomingBatch) {
 
@@ -149,13 +164,14 @@
                       // required 
                     cbc.batch.name = incomingBatch.name;
                     cbc.batch.location = incomingBatch.location.id;
+
                       // no required
-                    if (cbc.batch.curriculum) { cbc.batch.curriculum = incomingBatch.curriculum.id; }
-                    if (cbc.batch.trainer)    { cbc.batch.trainer    = incomingBatch.trainer.trainerID; }
-                    if (cbc.batch.cotrainer)  { cbc.batch.cotrainer  = incomingBatch.cotrainer.trainerID; }
-                    if (cbc.batch.startDate)  { cbc.batch.room       = incomingBatch.room.roomID; }
-                    if (cbc.batch.curriculum) { cbc.batch.startDate  = incomingBatch.startDate; }
-                    if (cbc.batch.endDate)    { cbc.batch.endDate    = incomingBatch.endDate; }
+                    cbc.batch.curriculum = (incomingBatch.curriculum) ? incomingBatch.curriculum.id       : undefined;
+                    cbc.batch.trainer    = (incomingBatch.trainer)    ? incomingBatch.trainer.trainerID   : undefined;
+                    cbc.batch.cotrainer  = (incomingBatch.cotrainer)  ? incomingBatch.cotrainer.trainerID : undefined;
+                    cbc.batch.room       = (incomingBatch.room)       ? incomingBatch.room.roomID         : undefined;
+                    cbc.batch.startDate  = (incomingBatch.startDate)  ? incomingBatch.startDate           : undefined;
+                    cbc.batch.endDate    = (incomingBatch.endDate)    ? incomingBatch.endDate             : undefined;
 
                     cbc.updateWeeks();
 
@@ -193,7 +209,11 @@
             // listens for an event "state" to be broadcasted to change states to the supplied state and populates fields grom given batch 
         $scope.$on( "state", function( event, data ){
             console.log("In event");
+            //var converted = cbc.convertIncoming(data.batch);
+            //console.log(converted);
+            console.log(data.batch);
             cbc.changeState(data.state, data.batch);
+            // cbc.changeState(data.state, converted);
         });
 
             // initialize page
