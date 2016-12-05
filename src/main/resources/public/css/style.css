@@ -5622,6 +5622,12 @@ font-family:Futura Bk;
         padding: 2px;
     }
 
+    #batchReset {
+        position: relative;
+        top: -35px;
+        padding: 2px;
+    }
+
     body {
         --revOrange: #F26A25;
         --revDark: #D9510D;

@@ -1,5 +1,5 @@
 
-    var assignforce = angular.module( "batchApp" );
+ var assignforce = angular.module( "batchApp" );
 
     assignforce.controller( "locationCtrl", function( $scope, $filter, $mdDialog, locationService ) {
         console.log("Beginning location controller.");

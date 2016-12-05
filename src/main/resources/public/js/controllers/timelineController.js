@@ -21,7 +21,6 @@ app.controller("TimelineCtrl", function($scope, $window, batchService, calendarS
 	//Project timeline when data changes
 	var batches;
 	var trainerNames;
-	
 	$scope.$on("repullTimeline", function(event, data){
 		batchService.getAll( function(response) {
             console.log("  (TLC) Retrieving all batches.")
@@ -81,15 +80,14 @@ app.controller("TimelineCtrl", function($scope, $window, batchService, calendarS
 			return tlc.maxDate
 		},
 		function(){
-			if(tlc.batches !== undefined || tlc.trainers !== undefined){
-				projectTimeline($window.innerWidth, tlc.minDate, tlc.maxDate, tlc.batches, $scope.$parent, calendarService.countWeeks, tlc.trainers);
-			}
+			if(tlc.batches !== undefined || tlc.trainers !== undefined) {
+                projectTimeline($window.innerWidth, tlc.minDate, tlc.maxDate, tlc.batches, $scope.$parent, calendarService.countWeeks, tlc.trainers);
+            }
 		}
 	);
 });
 
 function projectTimeline(windowWidth, minDate, maxDate, timelineData, parentScope, numWeeks, trainerNames){
-	console.log("  (TLC) Drawing timeline.");
 	
 	//Timeline variables
 	var margin = {top: 30, right: 10, bottom: 30, left:75},
