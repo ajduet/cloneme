@@ -30,7 +30,8 @@
             </md-toolbar>
 
             <md-content>
-                <md-table-container>
+
+                <md-table-container ng-if="hCtrl.batches != undefined">
                     <table md-table ng-model="batchSelected">
                         
                         <thead md-head md-order="hCtrl.batchOrder">
@@ -64,6 +65,13 @@
                         
                     </table>
                 </md-table-container>
+
+                <div ng-if="hCtrl.batches == undefined" layout="column" layout-wrap layout-align="center center">
+                    <div flex="100"> &nbsp; </div>
+                    <md-progress-circular flex="100" md-mode="indeterminate"> </md-progress-circular>
+                    <div flex="100"> &nbsp; </div>
+                </div>
+
             </md-content>
 
         </md-card>
@@ -96,7 +104,8 @@
             </md-toolbar>
 
             <md-content>
-                <md-table-container>
+
+                <md-table-container ng-if="hCtrl.trainers != undefined">
                     <table md-table ng-model="trainerSelected">
                         
                         <thead md-head md-order="hCtrl.trainerOrder">
@@ -120,6 +129,13 @@
                         
                     </table>
                 </md-table-container>
+
+                <div ng-if="hCtrl.trainers == undefined" layout="column" layout-wrap layout-align="center center">
+                    <div flex="100"> &nbsp; </div>
+                    <md-progress-circular flex="100" md-mode="indeterminate"> </md-progress-circular>
+                    <div flex="100"> &nbsp; </div>
+                </div>
+
             </md-content>
         
         </md-card>
@@ -152,7 +168,8 @@
             </md-toolbar>
 
             <md-content>
-                <md-table-container>
+
+                <md-table-container ng-if="hCtrl.locations != undefined">
                     <table md-table ng-model="locationSelected">
                         
                         <thead md-head md-order="hCtrl.locationOrder">
@@ -182,6 +199,13 @@
                         
                     </table>
                 </md-table-container>
+
+                <div ng-if="hCtrl.locations == undefined" layout="column" layout-wrap layout-align="center center">
+                    <div flex="100"> &nbsp; </div>
+                    <md-progress-circular flex="100" md-mode="indeterminate"> </md-progress-circular>
+                    <div flex="100"> &nbsp; </div>
+                </div>
+
             </md-content>
         
         </md-card>

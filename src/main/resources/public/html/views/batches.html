@@ -10,7 +10,7 @@
           <!-- Create/edit batch -->
         <md-content>
 
-            <form class="batchForm" novalidate>
+            <form class="batchForm" name="batchForm" ng-submit="bCtrl.saveBatch(batchForm.$valid)" novalidate>
 
                 <md-toolbar class="md-primary md-hue-2" layout="columns" layout-align="center center">
                     
@@ -20,7 +20,7 @@
 
                     <div flex> </div>
 
-                    <md-button type="submit" class="md-icon-button" ng-click="bCtrl.saveBatch()">
+                    <md-button type="submit" class="md-icon-button">
                         <md-tooltip> {{ bCtrl.stateMux[bCtrl.state].submit }} </md-tooltip>
                         <md-icon md-svg-src="img/ic_done_white_24px.svg"></md-icon>
                     </md-button>
@@ -147,46 +147,56 @@
                 
             </md-toolbar>
 
-            <md-table-container>
-                <table md-table ng-model="batchSelected">
-                    
-                    <thead md-head md-order="bCtrl.batchOrder">
-                        <tr md-row>
-                            <th md-column md-checkbox-column> 
-                                <md-checkbox ng-click="bCtrl.toggleAll()" ng-checked="bCtrl.allSelected()"> </md-checkbox> 
-                            </th>
-                            <th md-column md-order-by="name"> Name </th>
-                            <th md-column md-order-by="curriculum.name"> Curriculum </th>
-                            <th md-column md-order-by="trainer.firstName"> Trainer(s) </th>
-                            <th md-column md-order-by="location.name"> Location </th>
-                            <th md-column md-order-by="startDate"> Start date </th>
-                            <th md-column md-order-by="endDate"> End date </th>
-                        </tr>
-                    </thead>
+            <div ng-if="bCtrl.batches != undefined">
 
-                    <tbody md-body>
-                        <tr md-row ng-repeat-start="batch in (bCtrl.batches | orderBy:bCtrl.batchOrder) track by batch.id">
-                            <td md-cell> 
-                                <md-checkbox md-no-ink ng-checked="bCtrl.exists(batch)" ng-click="bCtrl.toggle(batch)"> </md-checkbox> 
-                            </td>
-                            <td md-cell> {{ batch.name }} </td>
-                            <td md-cell> {{ batch.curriculum.name }} </td>
-                            <td md-cell ng-if="batch.cotrainer == null"> {{ batch.trainer.firstName }} {{ batch.trainer.lastName }} </td>
-                            <td md-cell ng-if="batch.cotrainer != null"> {{ batch.trainer.firstName }} {{ batch.trainer.lastName }} / {{ batch.cotrainer.firstName }} {{ batch.cotrainer.lastName }} </td>
-                            <td md-cell> {{ batch.location.name }} </td>
-                            <td md-cell> {{ batch.startDate | date:'MMM. d, yyyy' }} </td>
-                            <td md-cell> {{ batch.endDate | date:'MMM. d, yyyy' }} </td>
+                <md-table-container>
+                    <table md-table ng-model="batchSelected">
+                        
+                        <thead md-head md-order="bCtrl.batchOrder">
+                            <tr md-row>
+                                <th md-column md-checkbox-column> 
+                                    <md-checkbox ng-click="bCtrl.toggleAll()" ng-checked="bCtrl.allSelected()"> </md-checkbox> 
+                                </th>
+                                <th md-column md-order-by="name"> Name </th>
+                                <th md-column md-order-by="curriculum.name"> Curriculum </th>
+                                <th md-column md-order-by="trainer.firstName"> Trainer(s) </th>
+                                <th md-column md-order-by="location.name"> Location </th>
+                                <th md-column md-order-by="startDate"> Start date </th>
+                                <th md-column md-order-by="endDate"> End date </th>
+                            </tr>
+                        </thead>
+
+                        <tbody md-body>
+                            <tr md-row ng-repeat-start="batch in (bCtrl.batches | orderBy:bCtrl.batchOrder) track by batch.id">
+                                <td md-cell> 
+                                    <md-checkbox md-no-ink ng-checked="bCtrl.exists(batch)" ng-click="bCtrl.toggle(batch)"> </md-checkbox> 
+                                </td>
+                                <td md-cell> {{ batch.name }} </td>
+                                <td md-cell> {{ batch.curriculum.name }} </td>
+                                <td md-cell ng-if="batch.cotrainer == null"> {{ batch.trainer.firstName }} {{ batch.trainer.lastName }} </td>
+                                <td md-cell ng-if="batch.cotrainer != null"> {{ batch.trainer.firstName }} {{ batch.trainer.lastName }} / {{ batch.cotrainer.firstName }} {{ batch.cotrainer.lastName }} </td>
+                                <td md-cell> {{ batch.location.name }} </td>
+                                <td md-cell> {{ batch.startDate | date:'MMM. d, yyyy' }} </td>
+                                <td md-cell> {{ batch.endDate | date:'MMM. d, yyyy' }} </td>
+                            </tr>
+                            <tr ng-repeat-end>
+                                <td colspan="8" class="progressBar">
+                                    <md-progress-linear class="md-accent" style="height: 2px" md-mode="determinate" value="{{ bCtrl.calcProgress(batch.startDate, batch.endDate) }}"> </md-progress-linear>
+                                </td>
+                            </tr>
                         </tr>
-                        <tr ng-repeat-end>
-                            <td colspan="8" class="progressBar">
-                                <md-progress-linear class="md-accent" style="height: 2px" md-mode="determinate" value="{{ bCtrl.calcProgress(batch.startDate, batch.endDate) }}"> </md-progress-linear>
-                            </td>
-                        </tr>
-                    </tr>
-                    </tbody>
-                    
-                </table>
-            </md-table-container>
+                        </tbody>
+                        
+                    </table>
+                </md-table-container>
+            
+            </div>
+
+            <div ng-if="bCtrl.batches == undefined" layout="column" layout-wrap layout-align="center center">
+                <div flex="100"> &nbsp; </div>
+                <md-progress-circular flex="100" md-mode="indeterminate"> </md-progress-circular>
+                <div flex="100"> &nbsp; </div>
+            </div>
 
         </md-content> 
     

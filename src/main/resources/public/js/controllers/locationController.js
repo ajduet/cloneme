@@ -1,7 +1,7 @@
 
     var assignforce = angular.module( "batchApp" );
 
-    assignforce.controller( "locationCtrl", function( $scope, locationService ) {
+    assignforce.controller( "locationCtrl", function( $scope, $mdDialog, locationService ) {
         console.log("Beginning location controller.");
         var lc = this;
 
@@ -13,8 +13,21 @@
 
             // adds location
         lc.addLocation = function() {
-            lc.showToast("Add location.");
-              // bring up location addition dialog or whatever
+            $mdDialog.show({
+                templateUrl: "html/templates/locationTemplate.html",
+                controller: "locationDialogCtrl",
+                controllerAs: "ldCtrl",
+                locals: { 
+                    location: { name: "" },
+                    state   : "create" },
+                bindToController: true,
+                clickOutsideToClose: true
+            }).then( function() {
+                lc.showToast("Location created.");
+                lc.repull();
+            }, function(){
+                lc.showToast("Failed to create location.");
+            });
         };
 
             // opens room list for location
@@ -56,15 +69,47 @@
 
             // edit location
         lc.editSelected = function() {
-            // lc.showToast("Edit.");
+            
             if (lc.selectedList.length > 1) {
                 lc.showToast("Please select only one item.");
+            } else if (lc.selectedList.length == 0) {
+                lc.showToast("Please select an item.");
             } else {
-                // bring up location/room editting dialog or whatever
-                if (Array.isArray(ls.selectedList[0].rooms)) {
-                    lc.showToast("Editting location", ls.selectedList[0].name);
-                } else {
-                    lc.showToast("Editting room", ls.selectedList[0].roomName);
+                  // edit location
+                if (Array.isArray(lc.selectedList[0].rooms)) {
+                    $mdDialog.show({
+                        templateUrl: "html/templates/locationTemplate.html",
+                        controller: "locationDialogCtrl",
+                        controllerAs: "ldCtrl",
+                        locals: { 
+                            location: lc.selectedList[0],
+                            state   : "edit" },
+                        bindToController: true,
+                        clickOutsideToClose: true
+                    }).then( function() {
+                        lc.showToast("Location updated.");
+                        lc.repull();
+                    }, function(){
+                        lc.showToast("Failed to update location.");
+                    });
+                } 
+                  // edit room
+                else {
+                    $mdDialog.show({
+                        templateUrl: "html/templates/roomTemplate.html",
+                        controller: "roomDialogCtrl",
+                        controllerAs: "ldCtrl",
+                        locals: { 
+                            room: lc.selectedList[0],
+                            state   : "edit" },
+                        bindToController: true,
+                        clickOutsideToClose: true
+                    }).then( function() {
+                        lc.showToast("Room updated.");
+                        lc.repull();
+                    }, function(){
+                        lc.showToast("Failed to update room.");
+                    });
                 }
             }
         };
@@ -110,6 +155,7 @@
             }
         };
 
+            // tests whether room list of given location is visible
         lc.visible = function(location) {
             
             var element = $("#loc" + location.id)[0];
@@ -125,6 +171,19 @@
             }
         };
 
+            // repulls all locations
+        lc.repull = function() {
+            lc.locations = undefined;
+            lc.selectedList = [];
+            locationService.getAll( function(response) {
+                console.log("  (LC)  Retrieving all locations.")
+                lc.locations = response;
+            }, function(error) {
+                console.log("  (LC)  Failed to retrieve all locations with error:", error.data.message);
+                lc.showToast("Could not fetch locations.");
+            });
+        };
+
           // data
         lc.selectedList = [];
 
@@ -135,7 +194,7 @@
             lc.locations = response;
         }, function(error) {
             console.log("  (LC)  Failed to retrieve all locations with error:", error.data.message);
-            lc.showToast( "Could not fetch locations.");
+            lc.showToast("Could not fetch locations.");
         });
 
     });

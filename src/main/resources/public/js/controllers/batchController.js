@@ -135,15 +135,19 @@
         };
 
             // saves/updates batch
-        bc.saveBatch = function() {
-            console.log("Saving batch.");
+        bc.saveBatch = function(isValid) {
+            if (isValid) {
+                console.log("Saving batch.");
+            } else {
+                console.log("Invalid form.");
+            }
         };
 
           // data
         bc.weeksSpan = "spans 0 weeks";
         bc.batchOrder = "startDate";
 
-        bc.batches = [];
+        // bc.batches = [];
         bc.batchesSelected = [];
 
             // state information
@@ -157,7 +161,6 @@
 
           // page initialization
             // data gathering
-
         batchService.getAll( function(response) {
             console.log("  (BC)  Retrieving all batches.")
             bc.batches = response;
