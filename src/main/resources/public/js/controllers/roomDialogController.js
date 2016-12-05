@@ -15,25 +15,23 @@
         rdc.save = function(isValid) {
 
             if (isValid) {
+                
                 if (rdc.building) {
-                    rdc.room.roomName = rdc.building + "-" + rdc.room.roomName;
-                }
-                if (rdc.state == "edit") {
-                    rdc.swapRoom( rdc.room );
-                    locationService.update( rdc.location, function(){
-                        $mdDialog.hide();
-                    }, function(){
-                        $mdDialog.cancel();
-                    });
-                } else if (rdc.state == "create") {
-                    rdc.location.rooms.push( rdc.room );
-                    locationService.create( rdc.location, function(){
-                        $mdDialog.hide();
-                    }, function(){
-                        $mdDialog.cancel();
-                    });
+                    rdc.room.roomName = rdc.building + " - " + rdc.room.roomName;
                 }
                 
+                if (rdc.state == "edit") {
+                    rdc.swapRoom( rdc.room );
+                } else if (rdc.state == "create") {
+                    rdc.location.rooms.push( rdc.room );
+                }
+
+                locationService.update( rdc.location, function(){
+                    $mdDialog.hide();
+                }, function(){
+                    $mdDialog.cancel();
+                });
+            
             }
         };
 
@@ -70,7 +68,7 @@
 
           // data
         if (rdc.room.roomName.split("-").length > 1) {
-            rdc.building = rdc.room.roomName.split("-")[0];
+            rdc.building = rdc.room.roomName.split("-")[0].trim();
             rdc.room.roomName = rdc.room.roomName.split("-")[1].trim();
         } else {
             rdc.building = "";
@@ -81,10 +79,10 @@
         locationService.getAll( function(response) {
             console.log("  (RDC) Retrieving all locations.")
             rdc.locations = response;
-            rdc.findLocationFromRoom();
             if (rdc.state == "create") {
                 rdc.title = "Add new room to " + rdc.location.name;
             } else if (rdc.state == "edit") {
+                rdc.findLocationFromRoom();
                 rdc.title = "Edit " + rdc.room.roomName + " at " + rdc.location.name;
             }
         }, function(error) {

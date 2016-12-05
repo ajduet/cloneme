@@ -35,7 +35,7 @@
 
             <md-list ng-if="lCtrl.locations != undefined">
 
-                <md-list-item class="md-2-line locListItem" md-ink-ripple ng-repeat-start="location in lCtrl.locations track by location.id" ng-click="lCtrl.openLocation(location)" layout-align="center center">
+                <md-list-item class="md-2-line locListItem" md-ink-ripple ng-repeat-start="location in lCtrl.locations | activeItem track by location.id" ng-click="lCtrl.openLocation(location)" layout-align="center center">
 
                     <md-icon md-svg-icon="img/ic_business_black_48px.svg"> </md-icon>
                     <div class="md-list-item-text" layout="column">
@@ -50,7 +50,7 @@
                 </md-list-item>
 
                 <md-list id="{{ 'loc'.concat(location.id) }}" class="roomList">
-                    <md-list-item ng-repeat="room in location.rooms | orderBy:'roomName'" ng-click="lCtrl.toggle(room)" layout-align="center center">
+                    <md-list-item ng-repeat="room in location.rooms | activeItem | orderBy:'roomName'" ng-click="lCtrl.toggle(room)" layout-align="center center">
 
                         <div flex="5"> </div>
 

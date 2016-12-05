@@ -1,7 +1,7 @@
 
     var assignforce = angular.module( "batchApp" );
 
-    assignforce.controller( "locationCtrl", function( $scope, $mdDialog, locationService ) {
+    assignforce.controller( "locationCtrl", function( $scope, $filter, $mdDialog, locationService ) {
         console.log("Beginning location controller.");
         var lc = this;
 
@@ -18,8 +18,8 @@
                 controller: "locationDialogCtrl",
                 controllerAs: "ldCtrl",
                 locals: { 
-                    location: { name: "" },
-                    state   : "create" },
+                    location : { name: "" },
+                    state    : "create" },
                 bindToController: true,
                 clickOutsideToClose: true
             }).then( function() {
@@ -32,9 +32,7 @@
 
             // opens room list for location
         lc.openLocation = function(location) {
-            // lc.showToast("Open " + location.name + ".");
-
-            if (location.rooms.length > 0) {
+            if ( $filter("activeItem")(location.rooms).length > 0 ) {
                 var id = "#loc" + location.id;
                 $(id).slideToggle( lc.removeRooms(location) );
             }
@@ -42,7 +40,6 @@
 
             // add room to location
         lc.addRoom = function() {
-            // lc.showToast("Add room.");
             if (lc.selectedList.length > 1) {
                 lc.showToast("Please select only a location.");
             } 
@@ -50,8 +47,22 @@
             else if (!Array.isArray(lc.selectedList[0].rooms)) {
                 lc.showToast("Please select a location.");
             } else {
-                // bring up room addition dialog or whatever
-                lc.showToast("Adding room to location", lc.selectedList[0].name);
+                $mdDialog.show({
+                    templateUrl: "html/templates/roomTemplate.html",
+                    controller: "roomDialogCtrl",
+                    controllerAs: "ldCtrl",
+                    locals: { 
+                        location : lc.selectedList[0],
+                        room     : { roomName: "" },
+                        state    : "create" },
+                    bindToController: true,
+                    clickOutsideToClose: true
+                }).then( function() {
+                    lc.showToast("Room updated.");
+                    lc.repull();
+                }, function(){
+                    lc.showToast("Failed to update room.");
+                });
             }
         };
 
@@ -82,8 +93,8 @@
                         controller: "locationDialogCtrl",
                         controllerAs: "ldCtrl",
                         locals: { 
-                            location: lc.selectedList[0],
-                            state   : "edit" },
+                            location : lc.selectedList[0],
+                            state    : "edit" },
                         bindToController: true,
                         clickOutsideToClose: true
                     }).then( function() {
@@ -100,8 +111,8 @@
                         controller: "roomDialogCtrl",
                         controllerAs: "ldCtrl",
                         locals: { 
-                            room: lc.selectedList[0],
-                            state   : "edit" },
+                            room  : lc.selectedList[0],
+                            state : "edit" },
                         bindToController: true,
                         clickOutsideToClose: true
                     }).then( function() {
@@ -116,11 +127,25 @@
 
             // delete location
         lc.deleteSelected = function() {
-            // lc.showToast("Delete.");
-              // bring up deletion confirmation dialog with summation of locations/rooms to be deleted
+
             var summary = lc.categorizeSelected();
-            console.log(summary);
-            lc.showToast("Delete " + summary.locations + " location(s) and " + summary.rooms + " room(s)?");
+
+            $mdDialog.show({
+                templateUrl: "html/templates/deleteTemplate.html",
+                controller: "deleteDialogCtrl",
+                controllerAs: "dCtrl",
+                locals: { 
+                    list   : lc.selectedList,
+                    summary: summary
+                 },
+                bindToController: true,
+                clickOutsideToClose: true
+            }).then( function() {
+                lc.showToast("Successfully deleted items.");
+                lc.repull();
+            }, function(){
+                lc.showToast("Failed to delete items.");
+            });
         };
 
             // counts the number of rooms and locations selected

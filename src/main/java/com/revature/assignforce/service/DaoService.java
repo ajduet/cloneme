@@ -21,8 +21,8 @@ public abstract class DaoService<T, ID extends Serializable>{
 		return repo.findOne(id);
 	}
 
-	public void deleteItem(T sample) {
-		repo.delete(sample);
+	public void deleteItem(ID id){
+		repo.delete(id);
 	}
 
 	public List<T> getAllItems() {

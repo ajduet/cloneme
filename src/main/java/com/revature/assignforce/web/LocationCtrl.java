@@ -2,6 +2,7 @@ package com.revature.assignforce.web;
 
 import java.util.List;
 
+import com.revature.assignforce.service.ActivatableObjectDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,7 @@ import com.revature.assignforce.service.DaoService;
 public class LocationCtrl {
 	
 	@Autowired
-	DaoService<Location, Integer> locationService;
+	ActivatableObjectDaoService<Location, Integer> locationService;
 	
 	  // CREATE
 		// creating new location object from information passed from location data transfer object
@@ -38,7 +39,7 @@ public class LocationCtrl {
 		String state = in.getState();
 		List<Room> rooms = in.getRooms();
 		
-		Location out = new Location( ID, name, city, state, rooms );
+		Location out = new Location( ID, name, city, state, rooms, true );
 		out = locationService.saveItem( out );
 		
 		if (out == null) {
@@ -71,8 +72,9 @@ public class LocationCtrl {
 		String city = in.getCity();
 		String state = in.getState();
 		List<Room> rooms = in.getRooms();
+		Boolean active = in.getActive();
 		
-		Location out = new Location( ID, name, city, state, rooms );
+		Location out = new Location( ID, name, city, state, rooms, active );
 		out = locationService.saveItem( out );
 		
 		if (out == null) {
@@ -87,9 +89,8 @@ public class LocationCtrl {
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Object deleteLocation( @PathVariable("id") int ID ) {
 		
-		Location delete = locationService.getOneItem(ID);
-		locationService.deleteItem(delete);
-		return new ResponseEntity<Location>(delete, HttpStatus.OK);
+		locationService.deleteItem(ID);
+		return new ResponseEntity<Object>(null, HttpStatus.OK);
 	}
 	
 	  // GET ALL

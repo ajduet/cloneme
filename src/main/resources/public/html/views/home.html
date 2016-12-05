@@ -116,7 +116,7 @@
                         </thead>
 
                         <tbody md-body>
-                            <tr md-row ng-repeat-start="trainer in (hCtrl.trainers | availableMode:hCtrl.filterMux[hCtrl.trainerFilter].mode:hCtrl.filterMux[hCtrl.trainerFilter].params | orderBy:hCtrl.trainerOrder) track by trainer.trainerID">
+                            <tr md-row ng-repeat-start="trainer in (hCtrl.trainers | availableMode:hCtrl.filterMux[hCtrl.trainerFilter].mode:hCtrl.filterMux[hCtrl.trainerFilter].params | activeItem | orderBy:hCtrl.trainerOrder) track by trainer.trainerID">
                                 <td md-cell> {{ trainer.firstName }} {{ trainer.lastName }} </td>
                                 <td md-cell> {{ hCtrl.checkAvailability(trainer.unavailable) }} </td>
                             </tr>
@@ -183,7 +183,7 @@
                         </thead>
 
                         <tbody md-body>
-                            <tr md-row ng-repeat-start="location in (hCtrl.locations | orderBy:hCtrl.locationOrder) track by location.id">
+                            <tr md-row ng-repeat-start="location in (hCtrl.locations | activeItem | orderBy:hCtrl.locationOrder) track by location.id">
                                 <td md-cell> {{ location.name }} </td>
                                 <td md-cell> {{ location.city }} </td>
                                 <td md-cell> {{ location.state }} </td>

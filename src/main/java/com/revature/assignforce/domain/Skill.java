@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "SKILL")
-public class Skill {
+public class Skill implements Activatable{
 
 	@Id
 	@Column(name = "ID")
@@ -21,6 +21,9 @@ public class Skill {
 	
 	@Column(name = "NAME", unique=true, nullable=false)
 	private String Name;
+
+	@Column(name="active", insertable = false)
+	private Boolean active;
 
 	public Skill(){}
 	
@@ -44,6 +47,14 @@ public class Skill {
 
 	public void setName(String name) {
 		Name = name;
+	}
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
 	}
 
 	@Override

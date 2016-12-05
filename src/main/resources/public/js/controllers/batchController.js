@@ -15,7 +15,22 @@
         bc.changeState = function( newState, incomingBatch ) { 
             console.log("  (BC)  Changing to state [" + newState + "] from [" + bc.state + "].");
             bc.state = newState;
-            // bc.initialize(incomingBatch); 
+
+            if (newState == "create") {
+                bc.batch = batchService.getEmptyBatch();
+            } else {
+                bc.batch.name = incomingBatch.name;
+                bc.batch.curriculum = (incomingBatch.curriculum) ? incomingBatch.curriculum.id : undefined;
+                
+                bc.batch.trainer = (incomingBatch.trainer) ? incomingBatch.trainer.trainerID : undefined;
+                bc.batch.cotrainer = (incomingBatch.cotrainer) ? incomingBatch.cotrainer.trainerID : undefined;
+                
+                bc.batch.location = incomingBatch.location.id;
+                bc.batch.room = (incomingBatch.room) ? incomingBatch.room.roomID : undefined;
+                
+                bc.batch.startDate = (incomingBatch.startDate) ? new Date(incomingBatch.startDate) : undefined;
+                bc.batch.endDate = (incomingBatch.endDate) ? new Date(incomingBatch.endDate) : undefined;
+            }
         };
 
             // select end date based on start date
@@ -77,13 +92,9 @@
 
             // resets form
         bc.resetForm = function() {
-            batchService.getEmptyBatch( function(response) {
-                console.log("  (BC)  Resetting form.");
-                bc.batch = response;
-            }, function(error) {
-                console.log("  (BC)  Failed to reset form with error:", error.data.message);
-                bc.showToast( "Could not reset form.");
-            });
+            console.log("  (BC)  Restting form.");
+            bc.batchesSelected = [];
+            bc.changeState( "create", null );
         };
 
             // table checkbox functions
@@ -117,29 +128,96 @@
             }
         };
 
+            // repull batches
+        bc.repull = function() {
+            bc.batchesSelected = [];
+            bc.changeState( "create", null );
+            batchService.getAll( function(response) {
+                console.log("  (BC)  Retrieving all batches.")
+                bc.batches = response;
+            }, function(error) {
+                console.log("  (BC)  Failed to retrieve all batches with error:", error.data.message);
+                bc.showToast( "Could not fetch batches.");
+            });
+        };
+
             // batch table button functions
         bc.edit = function() {
-
             if (bc.batchesSelected.length != 1) {
                 bc.showToast("Please select a single batch.");
+            } else {
+                bc.batch = bc.batchesSelected[0];
+                bc.changeState( "edit", bc.batchesSelected[0] );
             }
         };
 
         bc.clone = function() {
-            bc.showToast( "Test toast." );
-            // console.log($scope);
+            if (bc.batchesSelected.length != 1) {
+                bc.showToast("Please select a single batch.");
+            } else {
+                bc.batch = bc.batchesSelected[0];
+                bc.changeState( "clone", bc.batchesSelected[0] );
+            }
         };
 
         bc.delete = function() {
-
+            // if (bc.batchesSelected.length > 0) {
+            //     bc.batchesSelected.forEach( function(batch){
+                    
+            //     });
+            // }
+            if (bc.batchesSelected.length == 1) {
+                batchService.delete( bc.batchesSelected[0], function(){
+                    bc.showToast("Batch deleted.");
+                    bc.repull();
+                }, function(error){
+                    console.log("  (BC)  Failed to delete batch.");
+                    bc.showToast("Failed to delete batch.");
+                });
+            }
         };
 
             // saves/updates batch
         bc.saveBatch = function(isValid) {
+            
             if (isValid) {
-                console.log("Saving batch.");
+                switch(bc.state) {
+                    case "create":
+                        batchService.create( bc.batch, function(response){
+                            bc.showToast("Batch saved.");
+                            bc.repull();
+                        }, function(error){
+                            console.log("  (BC)  Failed to save batch with error:", error.data.message);
+                            bc.showToast("Failed to save batch.");
+                        });
+                        break;
+                    
+                    case "edit":
+                        batchService.update( bc.batch, function(response){
+                            bc.showToast("Batch updated.");
+                            bc.repull();
+                        }, function(error){
+                            console.log("  (BC)  Failed to update batch with error:", error.data.message);
+                            bc.showToast("Failed to update batch.");
+                        });
+                        break;
+                    
+                    case "clone":
+                        bc.batch.id = undefined;
+                        batchService.create( bc.batch, function(response){
+                            bc.showToast("Batch cloned.");
+                            bc.repull();
+                        }, function(error){
+                            console.log("  (BC)  Failed to clone batch with error:", error.data.message);
+                            bc.showToast("Failed to clone batch.");
+                        });
+                        break;
+                    
+                    default:
+                        break;
+                }
             } else {
-                console.log("Invalid form.");
+                bc.showToast("Batch form is incomplete.");
             }
         };
 

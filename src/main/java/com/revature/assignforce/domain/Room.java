@@ -2,24 +2,16 @@ package com.revature.assignforce.domain;
 
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 
 @Entity
 @Table(name = "ROOM")
-public class Room {
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Room implements Activatable{
 	
 	@Id
 	@Column(name = "ID")
@@ -32,8 +24,15 @@ public class Room {
 	
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "ROOM_UNAVAILABILITY_JT", joinColumns = @JoinColumn(name = "ROOM_ID"), inverseJoinColumns = @JoinColumn(name = "UNAVAILABLE_ID"))
-	@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id") 
+	@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
 	private List<Unavailable> unavailable;
+
+	@OneToMany(mappedBy = "room")
+	@JsonIgnore
+	private List<Batch>batches;
+	@Column(name="active", insertable = false)
+	private Boolean active;
+
 	
 	public Room(){}
 	
@@ -66,6 +65,22 @@ public class Room {
 
 	public void setUnavailable(List<Unavailable> unavailable) {
 		this.unavailable = unavailable;
+	}
+
+	public List<Batch> getBatches() {
+		return batches;
+	}
+
+	public void setBatches(List<Batch> batches) {
+		this.batches = batches;
+	}
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
 	}
 
 	@Override

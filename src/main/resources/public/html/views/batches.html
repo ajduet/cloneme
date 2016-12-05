@@ -198,6 +198,46 @@
                 <div flex="100"> &nbsp; </div>
             </div>
 
-        </md-content> 
+        </md-content>
+
+        <md-content>
+
+            <md-toolbar class="md-primary md-hue-2" layout="columns" layout-align="center center">
+                <div class="md-toolbar-tools">
+                    <span> Batch timeline </span>
+                </div>
+            </md-toolbar>
+
+            <div ng-controller="TimelineCtrl as tlCtrl">
+
+                <div ng-if="(tlCtrl.batches != undefined) && (tlCtrl.trainers != undefined)">
+                    <div class="batchView">
+                        <div class="md-padding" layout="columns">
+                            <md-input-container flex="none">
+                                <label> Start Date </label>
+                                <md-datepicker ng-model="tlCtrl.minDate" md-current-view="year" md-open-on-focus md-hide-icons="calendar"> </md-datepicker>
+                            </md-input-container>
+                            
+                            <div flex> </div>
+
+                            <md-input-container flex="none">
+                                <label> End Date </label>
+                                <md-datepicker ng-model="tlCtrl.maxDate" md-current-view="year" md-open-on-focus md-hide-icons="calendar"> </md-datepicker>
+                            </md-input-container>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="timeline"></div>
+                </div>
+                
+                <div ng-if="(tlCtrl.batches == undefined) || (tlCtrl.trainers == undefined)" layout="column" layout-wrap layout-align="center center">
+                    <div flex="100"> &nbsp; </div>
+                    <md-progress-circular flex="100" md-mode="indeterminate"> </md-progress-circular>
+                    <div flex="100"> &nbsp; </div>
+                </div>
+                
+            </div>
+
+        </md-content>
     
     </md-card>

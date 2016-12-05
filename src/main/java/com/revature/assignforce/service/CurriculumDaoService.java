@@ -7,6 +7,6 @@ import com.revature.assignforce.domain.Curriculum;
 
 @Transactional
 @Service
-public class CurriculumDaoService extends DaoService<Curriculum, Integer> {
+public class CurriculumDaoService extends ActivatableObjectDaoService<Curriculum, Integer> {
 
 }

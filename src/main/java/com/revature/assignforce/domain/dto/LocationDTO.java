@@ -11,7 +11,10 @@ public class LocationDTO {
 	private String city;
 	private String state;
 	private List<Room> rooms;
-	
+	private Boolean active;
+
+	public Boolean getActive() { return active; }
+	public void setActive(Boolean active) { this.active = active; }
 	public int getID() {
 		return ID;
 	}

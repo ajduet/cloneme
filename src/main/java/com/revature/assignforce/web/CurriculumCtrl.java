@@ -2,6 +2,7 @@ package com.revature.assignforce.web;
 
 import java.util.List;
 
+import com.revature.assignforce.service.ActivatableObjectDaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,7 @@ import com.revature.assignforce.service.DaoService;
 public class CurriculumCtrl {
 
 	@Autowired
-	DaoService<Curriculum, Integer> currService;
+	ActivatableObjectDaoService<Curriculum, Integer> currService;
 
 	  // CREATE
 		// creating new curriculum object from information passed from curriculum data transfer object
@@ -83,9 +84,8 @@ public class CurriculumCtrl {
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Object deleteCurriculum( @PathVariable("id") int ID ) {
 
-		Curriculum delete = currService.getOneItem(ID);
-		currService.deleteItem(delete);
-		return new ResponseEntity<Curriculum>(delete, HttpStatus.OK);
+		currService.deleteItem(ID);
+		return new ResponseEntity<Object>(null, HttpStatus.OK);
 	}
 	
 	  // GET ALL

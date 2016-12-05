@@ -67,3 +67,7 @@
     md-input-container {
         margin-bottom: 0px;
     }
+
+    md-input-container md-select {
+        margin-bottom: 22px;
+    }

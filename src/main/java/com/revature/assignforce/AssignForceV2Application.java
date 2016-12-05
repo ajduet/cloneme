@@ -16,4 +16,5 @@ public class AssignForceV2Application {
 	public static void main(String[] args) {
 		SpringApplication.run(AssignForceV2Application.class, args);
 	}
+
 }
